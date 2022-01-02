@@ -1,0 +1,75 @@
+ & 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon           <== rum on powersehell admin
+
+
+image->container
+ 
+check docker status sudo systemctl status docker
+
+##  sudo docker pull ubuntu
+       ubuntu image will be pulled from docker server
+
+##  check images available in system
+   sudo docker images
+## Run image   it=interactive d= deamon(for background)
+   sudo docker run -it -d {image-name}     -p {host port no}:{img port no} if any server is installed inside image it will map its port to on our host port {port no}
+
+## status of container
+
+   sudo docker ps <== add -a to get all images details
+## stop container
+  sudo docker stop --ID--   <== id get from ps command
+
+## connect to container running
+  first run the image
+  then execute
+
+## docker run --name "container_name" --rm -i {iamge name}
+	for using docker bind mount  , it is dynamic
+	sudo docker run -it -v {dir address}:/{map point inside container} -d {img-name}  // for using , enter to bash of image and use command "cd {map point inside container}"
+ 										{map point inside container} can be any name like app eg /home/file:/app
+
+## docker volume
+	sudo docker volume create {vol-name}
+	sudo docker volume ls  <== list all valume list , rm for remove
+   
+   for using docker volume
+
+	sudo docker run -it --mount source={name_of_volume},target={path to vol from container} -d {vol_name}     // path to vol from container=/app	
+
+
+
+## Execute container for use
+	
+	  sudo docker exec -it {id} bash   <==id from ps
+
+# delete container from system
+ 
+  sudo docker rm -f {ID}        -f if container is still running
+  sudo docker container prune   <== delete all containers at once
+  sudo docker rm -f $(sudo docker ps -a -q)   nested command for removing all containers
+
+## remove image from system  
+
+  sudo docker rm  {imageID}   get imgID from sudo docker images ,
+
+## saving changes made in container 
+
+  sudo docker commit {container id} {new-img-name}   img-name for storing with new name [save as rahulagrawal99/test_repo/img_name]
+   check commit by sudo docker images
+
+## login to docker hub
+
+	sudo docker login
+
+## push image to docker 
+
+	sudo docker push {img-name}:{tag}   
+
+## build from dockerfile
+
+	sudo docker build . -t dockerfile
+        sudo docker run -it -p 84:80 -d dockerfile
+
+## COMPOSE 
+
+    run multiple docker containers at once

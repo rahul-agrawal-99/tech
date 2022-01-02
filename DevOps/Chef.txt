@@ -1,0 +1,95 @@
+
+******************************************************************************************************************************************************************************************
+										Configuration management
+******************************************************************************************************************************************************************************************
+
+	Configuration management is a systems engineering process for establishing and maintaining consistency of a product's performance, functional, and physical attributes with its 		requirements, design, and operational information throughout its life
+
+Pull Vs Push Based Configuration Management Tool
+
+	Pull :  nodes pull the configuration information from the server ,agent or client is installed on every node.    (e.g.  Chef & Puppet )
+		 its always the agent/client that initiates communication, not the main server.
+		 This agent/client will:
+				1.at regular intervals, get the configuration from the server
+				2.compare the configuration received from the server with the current configuration of the node
+				3.if there is any mis-match, take the steps required to match the configuration of the node with the configuration received from the server
+
+	Push :  main server (where the configuration data is stored) pushes the configuration to the node    
+		it is the main server that initiates communication, not the nodes. Which means that an agent/client may or may not be installed on each node.
+
+		(e.g. Ansible ,doesn’t need an agent to be installed on the nodes) 
+		(e.g. SaltStack is an example of a push based configuration management tool that needs an agent (minion) to be installed on the nodes)
+
+
+	Use-Case : largely static infrastructure will benefit more from Push Based Configuration Management, while an extremely dynamic infrastructure will find Pull Based Configuration 			more suitable or just use Pull for initial configuration setup and Push for application deployment
+
+
+******************************************************************************************************************************************************************************************
+										About Chef
+******************************************************************************************************************************************************************************************
+
+//* Important Terms  *//
+
+*Infrastructure as code (IAC) simply means that managing infrastructure by writing code (Automating infrastructure) rather than using manual processes. It can also be termed asprogrammable 		infrastructure.	
+*Idempotence means that applying an operation once or applying it multiple times has the same effect. Examples: Multiplication by zero , 
+	in chef , client only pulls code or part of code that is not on node instead getting everything from start
+
+
+	
+	-Chef is a tool used for Configuration Management and is closely competing with Puppet ,developed by Opscode 
+	-Chef is an automation tool that provides a way to define infrastructure as code. Chef uses a pure-Ruby, domain-specific language (DSL) for writing system configurations. Below are 		the types of automation done by Chef, irrespective of the size of infrastructure:
+			.Infrastructure configuration
+			.Application deployment 
+		.Configurations are managed across your network
+	-Like Puppet which has a Master-Slave architecture even Chef has a Client-Server architecture. But Chef has an extra component called Workstation
+	-chef is made using  Ruby and Erlang , Recipes is written in Ruby
+	- user writes "recipes" that describe how Chef manages server applications and utilities (such as Apache HTTP Server, MySQL, or Hadoop) and how they are to be configured
+	- recipes (set of recipes iscookbook) describe a series of resources that should be in a particular state ,various resources can be configured to specific versions of software to 		run and can ensure that software is installed in the correct order based on dependencies ,Chef makes sure each resource is properly configured and corrects any resources 				that are not in the desired state
+		Key Components of a Cookbook
+			Recipes
+			Metadata
+			Attributes
+			Resources
+			Templates
+			Libraries
+			Anything else that helps to create a system
+
+	/* Chef Architecture :
+
+	contain 3 parts   1] Nodes   2] chef server   3]  Workstation 
+
+		-/ Nodes : Slave servers that needs to be configured by chef server , chef client and ohai(like database) is installed here.
+	
+			* Ohai is a tool for collecting system configuration data, which it then provides to Chef Infra Client to use in cookbooks
+			* Chef Infra Client is an agent that runs locally on every node that is under management by Chef Infra Server. When Chef Infra Client runs, it performs all of the 				steps required for bringing a node into the expected state , it does following
+					.Registering and authenticating the node with Chef Infra Server
+					.Synchronizing cookbooks from the Chef Infra Server to the node
+					.Compiling the resource collection by loading each of the required cookbooks, including recipes, attributes, and all other dependencies
+					.Taking the appropriate and required actions to configure the node based on recipes and attributes
+					.Reporting summary information on the run to Chef Automate
+			* Knife is a command-line tool that provides an interface between a local chef-repo and the Chef Infra Server , it manage Nodes , Cookbooks and recipes ,Roles, 				Environments, and Data Bags , uses it for uploading cookbooks and managing other aspects of Chef.
+
+		-/ chef server :  Cookbook is stored here , can be local or remote , knife is used to communicate with nodes
+
+		-/ Workstation : Actual cookbook/set of codes is written and tested here , knife is used to push code to server
+
+				Supermarket : contains configuration pre-written/cookbook codes
+
+	- bootstrap is process of connecting nodes to server
+
+	/* Chef Modes :
+
+			1.  In client/server mode, the Chef client sends various attributes about the node to the Chef server. The server uses Elasticsearch to index these attributes and 				provides an API for clients to query this information. Chef recipes can query these attributes and use the resulting data to help configure the node.
+			2. chef-solo , runs locally and allows to provision guest machines using Chef cookbooks without the complication of any Chef client and server configuration. It 				helps to execute cookbooks on a self-created server
+
+
+
+
+
+
+
+******************************************************************************************************************************************************************************************
+										About Chef
+******************************************************************************************************************************************************************************************
+
+

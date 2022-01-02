@@ -1,0 +1,25 @@
+A hypervisor (or virtual machine monitor, VMM, virtualizer) is a kind of emulator; it is computer software, firmware or hardware that creates and runs virtual machines. 
+A computer on which a hypervisor runs one or more virtual machines is called a host machine, and each virtual machine is called a guest machine
+
+firmware is a specific class of computer software that provides the low-level control for a device's specific hardware.
+Firmware refers to software that has been permanently installed in a machine, device, or microchip, usually by the manufacturer
+Software is most often meant to describe a program or piece of data that is meant to be viewed, changed or otherwise interacted with most often by the user.  Firmware is a term for a piece of software that is stored on a hardware device in order to make it run properly.
+Firmware is low-level operations, whereas the OS is high-level interfaces. Firmware is used for a single purpose, but the OS is used for general purposes, which allows any kind of software to run on multiple types of hardware
+
+Vmaware names its hypervisor as VMware ESXi (elastic sky) (formerly ESX)  an enterprise-class, type-1 , it is tool from a suite of vmware known as vsphere
+
+microsoft uses hyperV
+
+Oracle VM VirtualBox is a so-called hosted hypervisor, sometimes referred to as a type 2 hypervisor. Whereas a bare-metal or type 1 hypervisor would run directly on the hardware, Oracle VM VirtualBox requires an existing OS to be installed.
+
+tyeps of hypervisor :
+
+1] type1 also knows bare metal / native used by enterprices , it is a firmware and more secure
+	directly placed on hardware without any os , on top of it virtual machines are created and on vm , os is installed , it acts as own os
+	host -> type1 hypervisor -> VM -> guest os
+	e.g. vmware ESXi , Hyper-V , xenserver
+
+2] type2 also known as hosted used for learning , testing purpoes , it is a software
+	run on top of the operating system (OS) of the host machine
+	host -> host OS -> type2 hypervisor -> VM -> guest OS
+	e.g vmware workstation

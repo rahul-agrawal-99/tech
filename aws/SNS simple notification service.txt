@@ -1,0 +1,41 @@
+push notification servise provided by aws which is fully managed automatically and flexibly
+
+sending msg using various protocols like pop , imap , http to clients or subscribers(can be aws id  or not in aws)
+
+msg will be delivered immediately to large chunk of users
+
+pay as you go model ,no upfronnt cost
+
+copies of messags stored in multiple AZ's in same region 
+
+used while auto scaling where we get msg after scaling
+
+subscriber can be Lambda , SQS , HTTP/S , Email , SMS , Email/JSON
+
+msg is stored in sns topic by publisher
+
+diff topic can have diff set of subscribers with varios protocols
+
+each topic has unique name (not globally and max 256 char)and every topic is logical access point and communication channel , ARN is provided to each topic
+
+topic creator can give publisher access to others also , can be mutltiple publishers
+
+creator - > publisher -> msg -> topic -> send to all mentioned set of subscriber's 
+
+publisher can send msg through ssl to subscriber's 
+
+sns support 1. amazon messenging 2. apple push notification 3. google cloud messeging 4 . baidu cloud push notifications for android
+
+when publisher publishes the notifiacation sns send identical copies to releted topic subscribers
+
+alternatives for sns => amazon kinesis data stream , apache kafka , amazon managed queue service , twilio , pusher
+
+billing 
+for every publish action 
+64 KB per request i.e. for 256 KB msg considerd as 4 requests
+mobile push notification = 0.5$/million requests
+SMS depends on country
+Email = 2$/ 100,000
+HTTP 0.6$/1Million
+SQS and LAMBDA Calls are free but charged for respective servise
+data transfer per month

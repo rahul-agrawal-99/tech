@@ -1,0 +1,4 @@
+sudo apt-get update -y
+sudo apt-get install python3 -y
+sudo apt-get install apache2 -y
+sudo apt install gcc -y

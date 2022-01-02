@@ -1,0 +1,82 @@
+
+
+also known as serverless computing , it is Function as a Service , it can pull or push service
+
+bill only when code executed , measured in multiple of 100's miliseconds 
+all the backend part managed by aws 
+AWS provides :
+	auto scaling
+	maintainance 
+	os
+	server
+	availability 
+	monitering
+	security patches
+	firewall
+	running user code
+	logs on cloudwatch
+	no charge when code is only stored
+	
+
+AWS Lambda natively supports Java, Go, PowerShell, Node. js, C#, Python, and Ruby code, and provides a Runtime API which allows you to use any additional programming languages to author your functions.
+
+lifcycle of lambda code
+	authore the code
+	deploy on lambda
+	moniter and troubleshoot the code
+
+Event can be
+	new/update object  in s3 bucket or dynamo db table
+	request on api gateway
+	using sdk
+	using kinesis
+	
+
+
+*code in lambda has triggers/ event source , if that happnes then only the code will be executed (if an event happes the only trigger is called)
+*downstream resource is  just like log that is being wriiten inside dynamoDB after trigger happes , called directly by function itself
+*1000 parallel lamda function can have runtime by default ,3008MB  maximum size of memory that can be alloted to lambda function with min as 128MB
+*function larger than 1536 MB will be allocated multiple cpu threads
+*user can set max. execution time as 900sec(15min) , by default it is 3 sec , this also  prevent indefinite / infinte timeout  , after timeout it will terminate function
+*Lambda can be given with IAM role get access to use/view other aws services , services that can be access = redshift , s3 ,DynamoDB, RDS , also can access services in other vpc
+* also can access private VPC
+
+
+
+diff types of invocation methods for Lambda function
+
+1. synchronous (push)  -- it waits for responce of invoked code for processing event, it executes immediately after getting lambda invoke api call , invokation flag set to "RequestResponce"
+		supported services = elastic load balancer , cognito , cloudfront , api gateway ,lex  kinesis data  firehose
+2. Asynchronous (event)  -- it doesnt wait for responce to execute event , queue is maintained , only request reached queue is getting confirmed to lambda that is sennding request
+		supported services = S3  , SNS , SES(email)  , cloudwatch logs and event ,config , codecommit , cloudformation
+3. pull based invoke   -- used for streaming services like kinesis here lambda pulls event and triggers itself
+		supported services  = kinesis , SQS , dynamodb stream
+
+
+
+
+***********************************************************************************************************************************************************************************
+
+creating use case e.g to create event on s3 and function that will get data and puts their information in dynamodb
+
+1] creating IAM role for lambda services as full access for dynamodb
+2] creating lambda function from scratch as using created role and runtime language like python 3.6
+3] write function code according to use case
+4] create s3 bucket  and dynamodb table with same table name and partition key name as in function code
+5] create trigger in lambda console as selecting s3 and appropriate bucket name with event type as put ,post , delete , crete or all
+      function code example :
+
+import boto3
+from uuid import uuid4
+def lambda_handler(event, context):
+    s3 = boto3.client("s3")
+    dynamodb = boto3.resource('dynamodb')
+    for record in event['Records']:
+        bucket_name = record['s3']['bucket']['name']
+        object_key = record['s3']['object']['key']
+        size = record['s3']['object'].get('size', -1)
+        event_name = record ['eventName']
+        event_time = record['eventTime']
+        dynamoTable = dynamodb.Table('newtable')   #same as yours
+        dynamoTable.put_item(
+            Item={'unique': str(uuid4()), 'Bucket': bucket_name, 'Object': object_key,'Size': size, 'Event': event_name, 'EventTime': event_time})   # unique as partion key of table

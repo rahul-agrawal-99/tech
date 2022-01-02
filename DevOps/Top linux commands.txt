@@ -1,0 +1,377 @@
+*******************************************************************************************************************************************************************************************
+										Common Commands
+*******************************************************************************************************************************************************************************************
+  hidden files contains "." as prefix like .filename , files and directories can be hidden , just use . before naming it  , e.g mkdir .dir  or cat > .file
+get sudo access use : sudo su 
+exit from sudo 
+
+#mkdir dirname = make new dir named as dirname  -- for multiple use  => mkdir d1 d2 d3
+		e.g. mkdir dir1/dir2     to make dir2 inside dir1 
+
+#rmdir dirn = remove/delete dir named dirn
+	rmdir -p dir1/dir2  remove both parent and child dir at once
+	rmdir -rf dir it will delete main as well as child dir even if it is not empty
+
+#cd dirname = change dir to dirname
+	cd / to get back to root dir
+	cd .. = change to previous parent dir
+	cd ~ goto home directory from currnt
+	cd - goto previous working dir 
+	cd ~usernmae Change to another user's home directory
+
+# pwd = get currnt dir location from root  (print working dir)
+
+#ls = list files inside dir
+	ls - a = list all files including hidden 
+	ls -l = list along with details
+	ls -l --block-size=M  --list with size shown in megabyates  , also K can be used
+
+#history = to see previous typed commands from beginning 
+
+** to move use mv instead of cp
+# cp [copy file ]   e.g cp rahul t1/newrahul  => it will copy file rahul and paste it in dir t1 as newrahul name 
+	to copy full dir:
+		 cp -R dir1 dir2/main/  --it will paste whole dir with its content to newmentioned location{sudo access require , use "/"at last in dest location to copy inside}
+
+# rename file => just use mv command followed by source and destination dir as same e.g. mv file newfilename or mv dir1 firstdir
+
+# remove file = rm filename   or rm -rf filename to remove forcefully or rm -rf * to delete all at one
+
+
+
+
+****************************** other commands
+
+hostname => get linux name
+hostname -i => get current ip
+cat etc/os-release => get details about linux os and version   or use cat etc/os-re*     
+
+
+package installers
+yum (yellowdog updaters modified)  which is used by red hat like distros , used for RPM distros only   while APT is used by debian family 
+
+YUM or DNF(Dandified yum is the next generation version of yum) Users :
+RedHat Enterprise Linux.
+Fedora.
+CentOS.
+Oracle Enterprise Linux.
+Scientific.
+CERN.
+
+APT used by :
+Debian
+Ubuntu
+Lubuntu
+Xubuntu
+Kubuntu
+Linux Mint
+Knoppix
+Deepin
+
+
+e.g   to install apache server
+yum install httpd -y   or sudo apt-get install apache2        -- both works same but has diff naming or approach
+
+e.g. to remove apache server    (remove only deleted binaried not config files)
+yum remove httpd -y   or	 sudo apt-get remove apache2     --- for apt to remove configuration or data files of the package  use apt-get remove --purge packagename   
+
+e.g to strat apache server 
+sudo systemctl start apache2 (sudo systemctl status apache2  -- for status) or  systemctl start httpd (systemctl status httpd) or service httpd start/status/stop
+
+which packagename   --> provide path about packagename if installed
+
+echo "text"   -- echo back text    also to create file us echo "text" > filename --it will create a file and text will be inserted in this file or echo "" >>  to append
+
+grep txt filepath   -- it will search txt in file which is located at file path 
+
+sort filename -- it will print file content in sorted order
+
+head filenmae -- it will print 1st 10 lines from file , also tail for last 10 lines 
+
+tree  -- it will display the current folder structure in attractive way   requires installation , not a default command
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*******************************************************************************************************************************************************************************************
+										Editor Commands
+*******************************************************************************************************************************************************************************************
+
+
+
+
+
+
+1] CAT
+
+concatenate, used to join file , it is used to create , copy file , file cant be edited once created using cat
+another version of cat is tac which outputs the file in descending order
+> => means redirect output to file name mentioned 
+
+1. create file => cat > file.txt    -- here user can give inputs to file but only at the time of creation , ctrl + d to save and exit
+2. view text in file => cat file.txt  -- only show contents inside file 
+3. append data in file => cat >> file.txt -- it will append enterd input to file but it cant modify existing contentinside file
+4. copy data from2 files => cat file1 file2 > fileall   -- it will copy the data inside file1 and file2 in order and placed it in fileall file
+5. copy file => cat file1 > file2   -- it will create file2 with all contents from file2
+
+2] TOUCH 
+
+it is used to create/modify timestamp of one or more files at a time
+
+timestamp :   to view timestamp use command " stat file_name "
+	1. Access Time = last time a file is being accessed
+	2. Modify time = last time file is being modified
+	3. Change time = last time metadata regarding file is being changed 
+
+1. create files = touch filename1 filename2
+2. change timestamp ALL = touch filename  -- filename should be existed before calling touch  , it will update all timesatamp to current system time
+3. change timestamp Particular = touch -a filename  -- for modify only access time 
+				touch -m filenmae  -- for modify only Modify time , change time automatically get updated for both 
+
+3] VI 
+ it is program text editor , complex than nano but powerful than nano , it is available in all linux distro's
+
+1. create file => vi filename -- it will create new file if not exist with edit file screen , to insert input , first press "i" to allow input , then start writing , 
+					to get quite from editing press "ESC" to get in command mode , and the press ":" with following options
+					1. :w = save  
+					2. :wq or :zz = save and exit  
+					3. :q! = quite without saving    
+					 ----------------   command mode keys  ---------------------------------------
+					"h" Move left one character      "j" Move down one line		"k" Move up one line 	"l" Move right one character
+					"x" to delete 1 char  "dd"  Delete an entire line	"yy" copy current line text  	 	"p" paste yy content to below cursor new line
+					"o" Open a new line under the current line             "O" Open a new line above the current line
+					"A"  Append to the end of the line and get into insert mode     "a" move cursor 1 position right and get in insert mode
+					"I" move cursor to start of line and switch to insert      "i"	switch directly to insert
+					"b"	Go to the beginning of the word.    "e"	Go to the end of the word.  -- in both cases switch to insert
+					"G"  goto last line      "XG" goto to line no. X  e.g. 4G      "gg"  goto first line	  -- no switch in all cases
+					
+
+
+
+
+4] NANO 
+simple and easy text editor but not available in all linux		
+
+create / edit file = nano filename -- it will get in editor mode use ctrl+ <key> to perform actions e.g. ctrl + x to exit from editor
+
+
+
+
+
+*******************************************************************************************************************************************************************************************
+										User releted Commands
+*******************************************************************************************************************************************************************************************
+ 
+		whoami   -- check current user account
+
+
+1] Add new user
+				-- if user is being created directly without group , then automatically group will be created as same name as user ,but user cant associated with group 					without gpasswd 
+	useradd username   --to create or use adduser username 
+
+			The commands adduser and useradd are used to create such Users. The main difference is that adduser sets up user folders, directories, and other necessary functions 			easily, whereas useradd creates a new user without adding the directories as mentioned above and settings	
+
+	cat /etc/passwd		-- cheack last line of output to confirm user creation
+
+	after adding user with adduser command , set password to that user with "sudo passwd username"
+	to switch to diff user use "su username" along with password , 
+	to check actual all user created use "cd /home" and list 
+
+2] to create group
+
+	groupadd grpname
+	cat /etc/group   -- last line to confirm group created successfully
+
+	To add singleuser in group 
+		gpasswd -a username groupname  -- user and group should be created before executing this 
+	To add multiple user in group 
+		gpasswd -M username1,user2,user3 groupname  -- user and group should be created before executing this 
+
+*******************************************************************************************************************************************************************************************
+										Permission/Access releted Commands
+*******************************************************************************************************************************************************************************************
+ root has every access to all files by default and any user cant change it , root and owner of file/dir has still access to file/dir even after removing all rwx permissions
+ * note , even permission set to --- , then still root can read/modify but owner cant read/modify until root or owner changes access of file/dir
+
+1] file modes 
+“r” is for read, “w” is for write, and “x” is for execute
+
+permission matrix
+7 = all rights
+6 = read and write
+5 = read and execute
+4 = read only
+3 = execute and write
+2 = write only
+1 = execute only
+0 = no rights
+
+		A file info is given by after "ls -l"
+
+-rw-rw-r-- 1 avenger avenger   377 Dec 26 13:06 rahul
+drwxrwxr-x 4 avenger avenger  4096 Dec 27 12:07 t1
+
+	
+	Identify TYPE
+		        -:  file , e.g -rw-rw-r--   (only for 1st char)
+			d: it is directory  , e.g. drwxrwxr-x
+			c: Character device
+			b: Block device
+			s: socket
+			p: pipe
+			D: Door
+			l: symbolic link etc.
+	Identify Allowd Opreations 
+		next three characters shows that "owner" can perform which of opearations on file 
+		another next three characters shown file permissions for "group"
+
+					 owner    group   size  date/time  file/dir name
+for  e.g                    drwxrwxr-x 4 avenger avenger  4096 Dec 27 12:07 t1
+
+     drwxrwxr-x    =>      d		rwx		rwx		r-x
+			file/dir     owner rights    groupuser rights   other's rights	
+	4 => permission matrix
+
+****tip
+
+/*/For files:
+Read is the ability to view the contents of a file.
+Write is the ability to edit or delete a file.
+Execute is the ability to run a file as an executable program.
+
+/*/For directories:
+Read is the ability to read the contents of a directory.
+Write is the ability to write into the directory, like creating files and sub-directories inside a directory.
+Execute is the ability to cd into the directory and to view the metadata of the files inside the directory using ls command.
+
+2]  Change file access mode (using chmod[change mode])
+
+using numeric values
+  to give access as following use according to permission matrix
+
+		 rwx = 7 = all rights
+		 rw- = 6= read and write
+		 r-x = 5= read and execute
+		 r-- = 4 = read only
+		 -wx  =3= execute and write
+		 -w-  = 2 = write only
+		 --x = 1= execute only
+		 ---  = 0= no rights
+  3 consecutive numbers for users as =>  owner(u)    group-where-owner-belong(g)     other-users(o)
+	e.g  chmod 755 filename/dirname
+			** best practice , use descending only like 760 not 572 or 510 not 572
+
+Using Alphabates and Signs with help of UGO 
+
+	the minus sign (-), which means “remove these permissions”
+	the plus sign (+), which means “add these permissions”
+	the equals sign (=), which means “change the permissions to exactly these”
+
+	e.g.
+		chmod +x file/dir     -- give execute persmission to all 3 types  , also chmod a+x file/dir can be used for  simplicity a for all
+		chmod -r file/dir     -- remove read permission from all 3 types 
+		 chmod ug+w file/dir  -- give w access to owner(u) and group(g)
+		chmod u-wx,o-rwx file/dir
+		chmod u=rwx,g=rw,o=rw file/dir   -- same as 766
+
+
+                                  
+3] Change OWNER of file/dir (root has access to change owner and group of all files/dir available , it can make/remove anyone owner to another )
+
+	chown is used 
+e.g.
+	chown username file/dir-name
+
+4] Change GROUP of file/dir
+
+	chgrp username file/dir-name
+ 			e.g.   chgrp avenger file2
+	
+
+
+
+
+
+
+*******************************************************************************************************************************************************************************************
+										Files releted Commands
+*******************************************************************************************************************************************************************************************
+ 
+
+1] link (symbolic link is a shortcut file for any directory or file , file not being copied but when soft file will be called it will redirecr to original path ) 
+
+
+			symbol link file has arrow logo indicats that it is shortcut file
+	hardlink (src and dest are interlinked , any change in dest reflects same in src and vice-versa  ,hard link not allowed for directory)
+		ln src dest  -- it will create hardlink
+			e.g ln newrahul tt/eg --for file      
+
+
+	softlink
+		ln -s Source_File_Path Symbolic_Link_Path  --  Symbolic_Link_Path could be dir or direct file name but same file with this name should not be there at calling ln 
+
+		to override file name use
+			ln -sf srcfile destfile
+
+	remove link 
+	  using rm
+		rm Symbolic_Link_Path   -- it will not affect original file
+
+	  using  unlink
+		unlink testfilelink  -- it will remove all links if exist to original file testfilelink but symbol link file remains there but it is broken now
+
+	find broken file
+		 find Directory_Path -xtype l    -- it will find broken file inside Directory_Path
+			--“-xtype” is used to define the type of file we are searching for, and “l” denotes that we are looking for the broken symbolic links
+	delete broken file 
+		 find Directory_Path -xtype l -delete
+
+
+2] create archiver
+	Tar(tape archiver) is an archiver, meaning it would archive multiple files into a single file but without compression. Gzip which handles the . gz extension is the compression tool 		that is used to reduce the disk space used by the file
+
+	tar    -- used to group the mutile files/dir to acts as single file for easy maintainance and sharability , not compressed 
+	e.g.
+		tar -cvf name-of-archive.tar /path/to/directory-or-file
+				-c: Create an archive.  use x if extract 
+				-z: Compress the archive with gzip. use -cvzf to use it
+				-v: Display progress in the terminal while creating the archive, also known as “verbose” mode. The v is always optional in these commands, but it’s helpful.
+				-f: Allows you to specify the filename of the archive.
+
+	gzip    -- compress the file , need tar file always
+		gzip file.tar  -- it will create file.tar.gz which is compressed 
+			OR
+		tar -cvzf name-of-archive.tar.gz /path/to/directory-or-file   --directly convert to gz
+
+3] extract archive
+
+	if .gz or .tar.gz   -- uncompress
+		use      gunzip archivename.tar.gz
+	if only .tar
+		use      tar -xvf ar.tar
+
+
+4] download files 
+
+	 Wget isn't installed by default on some editions , to check use wget --version  , if error use sudo apt-get install wget
+	it also retries even connection fails , also works in background
+
+	use =>   wget url 
+
+
+	
+
+

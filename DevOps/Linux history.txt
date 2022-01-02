@@ -1,0 +1,35 @@
+Bell labs started project for OS in 1964 and then dropped at 1969
+but employees from this project continued by them  and they released OS called UNICS (UNiplexed Information Computing System) and later it called as UNIX
+employees are  Ken Thompson and Dennis Ritchie(later developed C language)
+UNICS was open source and free to all 
+
+in 1975 , UNICS 6 much popular
+
+later other companies developed thier own version of unix like
+ibm made AIX
+sunsystem made sun solaris
+apple made mac
+hp made ux
+all above called as flavour of unix
+
+
+linux made by linus Torvalds , it is like unix but linux is made from scratch by following open source MINIX
+in around 1992 , there was free software movement , as linux is a kernal then GNU softwares are being made on linux so it become so popular
+GNU is an extensive collection of free software, which can be used as an operating system or can be used in parts with other operating systems
+some famous linux distributions are ubuntu , red hat , fedora , debian   || linux distributions/OS = linux kernal + set of free softwares
+
+*POST = power on self test
+
+linux directory structure :
+
+/ => top level directory like c drive 
+/home => home dir for other users   e.g /home/user_name  will be home dir for user
+/root => home dir for root user
+/boot => os required files are placed in this dir , dont modify
+/etc =>(editable text configuartion ) it contains all configuration files 
+/var => application software packages are installed by default here , logs and chache also stored here
+/bin => user level commands stored here by default , binary executables essential for entire os like ls , vi , ss , every user has seperate bin and sbin
+/sbin => system binary , admin/ root level commands are stored here like arp , ifconfig
+/opt => optional spplication software packages 
+/dev => info of devices and drivers are stored here
+/proc => managed by linux to keep track of running processes

@@ -1,0 +1,135 @@
+
+
+install aws cli msi installer
+
+check installation using : aws --version
+
+configure cli : 
+type fllowing command
+
+       aws configure
+
+then it will ask credential like e.g.
+
+PS C:\Users\Rahul Agrawal> aws configure
+AWS Access Key ID [None]: AKIASKCKEKHHOKIL****     <-- get it from security credential option
+AWS Secret Access Key [None]: ZgVeQzCl34XNLSUhaLeq0t3NZAPbXIaa1FP*****
+Default region name [None]: us-west-2
+Default output format [None]: json
+
+
+
+
+get current working region 
+
+	aws ec2 describe-availability-zones --output text --query 'AvailabilityZones[0].[RegionName]'
+   OR
+	aws configure get region
+
+***********************************************************************************************************************************************************
+								Instance 
+*************************************************************************************************************************************************************
+
+#####   to get all availble instances details 
+
+   aws ec2 describe-tags --output table
+
+
+
+
+#####   launch instance through CLI
+
+1] get Image ID (careful to see region as it is region specific)   e.g ami-0fb653ca2d3203ac1
+
+
+
+Run following command
+--instance-type only t2.micro is free tier eligible
+--associate-public-ip-address    mention to get public ip4 address
+--user-data provide a txt file with commands that will be executed right after instance is being created 
+
+aws ec2 run-instances --image-id <value> --instance-type <value> --security-group-ids <value> --subnet-id <value> --key-name <value> --user-data file://<file-name>
+OR
+aws ec2 run-instances --image-id <ami-id> --count 1 --instance-type t2.micro 
+                      --key-name <Keypair-name> --security-group-ids <SecurityGroupId> 
+                      --subnet-id <SubnetId> 
+OR
+aws ec2 run-instances --image-id ami-f0b11187 --key-name your-ssh-key-name --instance-type t2.micro --network-interfaces '[ { "DeviceIndex": 0, "Groups": ["sg-123456"], "SubnetId": "subnet-123456", "DeleteOnTermination": true, "AssociatePublicIpAddress": true } ]'
+
+
+e.g. 
+for Ubuntu Server 20.04 LTS 
+aws ec2 run-instances --image-id ami-0fb653ca2d3203ac1 --count 1 --instance-type t2.micro --key-name rahulkeyaws --security-group-ids sg-0d84ace398a5fc2f0 --subnet-id subnet-057dc061ea33925f9
+e.g.
+aws ec2 run-instances --image-id ami-0fb653ca2d3203ac1 --count 1 --instance-type t2.micro --key-name rahulkeyaws --security-group-ids sg-0d84ace398a5fc2f0 --subnet-id subnet-057dc061ea33925f9 --associate-public-ip-address 
+
+
+
+
+#####   to terminate instances
+	aws ec2 terminate-instances --instance-ids "<id>" "<id2>"
+
+***********************************************************************************************************************************************************
+								IAM
+*************************************************************************************************************************************************************
+
+
+aws iam list-users --output table            <-- return available created user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************************************************************************************************************************
+									S3
+*************************************************************************************************************************************************************
+s3-bucket-id = bucketname  -- as it is unique throughout globally
+
+to list all availble buckets on acoount
+	aws s3 ls
+
+to look objects inside bucket 
+	aws s3 ls s3://<s3-bucket-id>
+
+to remove bucket 
+	aws s3 rb s3://<bucketname>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************

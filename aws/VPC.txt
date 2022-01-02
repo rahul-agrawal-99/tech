@@ -1,0 +1,188 @@
+A stateful firewall inspects everything inside data packets, the characteristics of the data, and its channels of communication. Stateful firewalls examine the behavior of data packets, and if anything seems off, they can filter out the suspicious data. Also, a stateful firewall can track how the data behaves, cataloging patterns of behavior. 
+
+Stateless firewalls make use of a data packet's source, destination, and other parameters to figure out whether the data presents a threat. These parameters have to be entered by either an administrator or the manufacturer via rules they set beforehand. If a data packet goes outside the parameters of what is considered acceptable, the stateless firewall protocol will identify the threat and then restrict or block the data housing it.
+*****************************************************************************************************************************************************************************************
+
+asn = autonomous system number
+vpc            = vitrual private cloud  (Region specific)   limit 5 vpc/region by default , it is logically isolated from rest of the cloud ,200 subnets per VPC.
+vpc wizard     = pre configured vpc templates by aws
+peering connection = direct connection between 2 vpc
+NAT GAteway    = instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. high cost
+NAT instance   = access internet with using another instance without having public ip address , lower cost than gateway
+virtual private gateway = vpn like , setup vpn gateway at aws side with route table entry as dest= client's cidr and target as vpg and in clients side setup gateway then it will allow as 			like 2 vpc peering connection , communaication is encrypted used for connecting data center or offices to aws , also can be utilized as hub that is connects 2 or more 				clients datacenter whrer as aws acts as HUB , You cannot create an AWS Managed VPN connection between two VPCs.
+security group = instance level firewall ,  you can assign up to five security groups to the instance , it is stateful firewall , it has only allow for protocols , if not allow then it is 
+			implicite deny . best practise : use inbound rule for private instance that is from only a security group as source with only needy protocols and no outbound rule
+network ACL   = subnet level firewall  (access control list (ACL) contains rules that grant or deny access to certain digital environments) , it is stateless firewall , it has rules in 		order it has allow as well as deny explicite , lower the order to get priority , e.g. order 100 allows but order 150 deny then it will allow explicitly 
+vpc endpoint  = A VPC endpoint enables connections between a virtual private cloud (VPC) and supported services, without requiring that you use an internet gateway, NAT device, VPN 				connection, or AWS Direct Connect connection. Therefore, your VPC is not exposed to the public internet. it has 3 types i.e. 
+		1)interface endpoint=an elastic network interface serves as an entry point for traffic destined to a service that is owned by AWS or owned by an AWS customer ,billed for 					hourly usage and data processing charges , uses dns to redirect traffic , defined using security group
+		2)Gateway Load Balancer endpoints = It serves as an entry point to intercept traffic and route it to a network or security service that you've configured using a Gateway 					Load Balancer ,billed for hourly usage and data processing charges.
+		3)gateway endpoint =A gateway endpoint is a gateway that is a target for a route in your route table used for traffic destined to either Amazon S3 or DynamoDB.
+					There is no charge for using gateway endpoints.Amazon S3 supports both gateway endpoints and interface endpoints.
+AWS Client VPN = it is a managed client-based VPN service that enables you to securely access your AWS resources and resources in your on-premises network. With Client VPN, you can access 			your resources from any location using an OpenVPN-based VPN client.
+AWS Direct Connect = here we have to make connction to aws direct connct location and customer office via high speed cable physically .AWS Direct Connect can reduce network costs, increase 				bandwidth throughput, and provide a more consistent network experience than internet-based connections. it is router to router rather than vpg that it is network to 				network 
+AWS Transit gateway = makes processes of connecting multiple vpc's easier, here we estabilish a transit gateway that acts as hub and connects multiple vpc(from diff region) with one subnet 		from each az customer connects directly to transit gateway using VPG or direct connect
+site to site vpn = You can enable access to your remote network from your VPC by creating an AWS Site-to-Site VPN (Site-to-Site VPN) connection, and configuring routing to pass traffic 		through the connection , Site-to-Site VPN connection is either an AWS Classic VPN or an AWS VPN. $0.05 per Site-to-Site VPN connection per hour , after this user can communicate 	with directly private ip ,Managed entirely by you
+Direct Connect Gateway –	DGW builds upon VGW capabilities adding the ability to connect VPCs in one region to a Direct Connect in another region. CIDR addresses cannot overlap. In 					addition, traffic will not route from VPC-A to the Direct Connect Gateway and to VPC-B. Traffic will have to route from the 
+						VPC-A —> Direct Connect —-> Data Centre Router —-> Direct Connect —> VPC-B.
+Virtual Private Gateway – The introduction of the VGW introduced the ability to let multiple VPCs, in the same region, on the same account, share a Direct Connect. Prior to this, you’d need 				a Direct Connect Private Virtual Interface (VIF) for each VPC, establishing a 1:1 correlation, which didn’t scale well both in terms of cost and 				administrative overhead
+Transit Gateway  - TGW coupled with AWS Resource Access Manager will allow you to use a single Transit Gateway across multiple AWS accounts, however, it’s still limited to a single region. 			In addition, CIDR overlap is permitted with the addition of multiple route tables. Being able to leverage multiple route tables on TGW delivers a VRF type of 			capability that allows you to isolate routing domains to enforce traffic segmentation. A significant advantage of the TGW is you can route between VPCs without your 				data having to hairpin over the VPN to your on-premises router and back in to AWS as observed with VGW and DGW.
+
+
+*****************************************************************************************************************************************************************************************
+
+ subnet is associated with az within vpc so it az specific and we can launch virtual machine with using one of the subnet of vpc.
+multiple subnet can be created for 1 az but 1 subnet cant be used for multiple az's
+cidr rules = 
+1] betwenn 16 and 28
+2] should not overlap with existing one associated with same vpc
+3] could not modify later so use bigger for more flexibilty
+4] availble ip = total possible - 5    -- reserved by aws i.e 1st four and last
+0.0: Network address.
+0.1: Reserved by AWS for the VPC router.
+0.2: Reserved by AWS. The IP address of the DNS server is the base of the VPC network range plus two. ...
+0.3: Reserved by AWS for future use.
+0.255: Network broadcast address.
+5] recommended to use RFC 1918 defined private ranges only i.e 10 & 172.16 to 172.32  & 192.168.0 to 192.168.255
+6] vpc peering requires non-overlapping CIDR blocks
+
+
+*****************************************************************************************************************************************************************************************
+there is logical router is maintained . we can configure it in routing  table . also we have to  maintain internet getway.
+
+for creating subnet , we have to mention a ip block with cidr so that whenever a ec2 instance get launched , it get private address from ip block range .
+
+steps 
+
+1] create vpc in specfic refion by entering name and cidr range  . choose bigger cidr block as we need to assign only those to subnets
+2] (not mandotory) in action->Edit DNS hostnames -> enable   , to enble assigning dns names to instances 
+3] create a new subnet by giving name and cidr block . CIDR Address should be within CIDR Address from VPC. also cant assign same or greater than given CIDR Address to vpc
+e.g for vpc with 192.168.0.0/16 we can assign cidr range like 192.168.128.0/17  or 192.168.0.0/24 but not  192.168.0.0/16 as it is same and not also 10.0.2.0/24 as it is not 
+           within 192.168.0.0/16 
+     also vpc with 10.0.1.0/24 , subnet cant be assigned with 10.1.0.0/24 or 10.1.0.0/16 or 10.0.1.0/16
+4] crate route table (by default there will be route table will be crated at the time of creation of vpc with main == yes) create new one always (for user created it is main == no)
+5] go to <Route table ID> - > subnet association and then associated subnet that we are attaching to this router/ routing table (if we choose subnet with existing route table associated                                                                           then it deassign explicitly from exsisting subnet and assigned to newer route table)
+    tip : create diff route table for private and public subnets. 
+	A route table can be associated with multiple subnets. However, a subnet can only be associated with one route table at a time. Any subnet not explicitly associated with a table is 		implicitly associated with the main route table by default.
+6] create internet gateway and then attach to the vpc 
+7] add internet gateway to public route table as route table-> routes -> edit routes and add route as destination = 0.0.0.0/0 and target = internet gateway and select created internet          gateway
+8] (not mandotory) creating NAT gateway to access private subnet instances , select name and choose public subnet and also an elastic ip is required . after that in private route table update it as 0.0.0.0/0 and target as NAT gateway
+9] add security group as it is vpc specific . here we have specify inbound as well as outboud rules
+
+
+*****************************************************************************************************************************************************************************************
+
+
+Make a VPC Peering connection between 2 VPC (also possible for diff. account or region )
+it allows 2 instances to communicate via aws global network without going on internet , it can use private ip address to do it , it does not support transitive peering that is if A->B ,
+ B->C but it is not possible to connect A to C without direct connection i.e. follows mesh topology 
+to overcome complexity aws transit gateway i used
+
+steps to make peering connection betn vpca and vpb
+
+1] craete vpca and vpcb with subnet and route table (internet gateway is not needed) check cidr block of both vpc before connection
+2] go to vpc->peering connection , select peering connection name and requester vpc as vpc that is selecting for made connction and for another vpc , we have 2 option , 1 is choose vpc from 	same account or diff. account  , 2 is same region or  diff region .then paste the another vpc id that we want for peering connction as acceptor
+
+3]  go to vpc dashboard of acceptor and in peering connection , there will be a connction request , so then go to action and accept the connection.
+ 	best practise is to make diff security group for both the vpc where vpca security group has only all traffic allowed from cidr block of vpcb and do same for vpcb
+4] update route table for both vpc's subnet as destination = cidr of other vpc with target as peering connction id 
+
+
+*****************************************************************************************************************************************************************************************
+
+Creating VPC endpoint (access aws services with private ip)
+
+1] create vpc with subnet and routing table , then go to "endpoint" , choose a  service with available endpint 
+	e.g. S3 has gateway(free) or interface(paid) endpoint
+2] select created vpc and appropriate route table that is associated with subnet that is being used for launching machine
+3] route is being added automatically after creating in selected route table
+4] for s3 , change bucket policy to allow only from vpc endpoint so that it cant be accessible without an instance that is within subnet that is assoicated with route table which is mentioned while craeting endpoint , it will also block bucket access via management console so to remove bucket , enter in instance " aws s3 rb s3://<bucket-name> --force"
+5] after deleting endpoint , entry in route table is also seleted automatically
+
+A transit gateway enables you to attach VPCs and VPN connections in the same Region and route traffic between them. A transit gateway works across AWS accounts, and you can use AWS RAM to share your transit gateway with other accounts.
+
+AWS Direct Connect bypasses the public Internet and establishes a secure, dedicated connection from your infrastructure into AWS.
+
+*****************************************************************************************************************************************************************************************
+creating NAT Instanse 
+
+it will help instances in private subnets to communicate over internet using nat instance that is created in only public instance , it only allows outbound traffic
+it is cheaper than nat gateway but not provide as high throughput as nat gateway , both only works not ipv4 to use ipv6 we should use egress-only internet gateway that is a horizontally 	scaled, redundant, and highly available VPC component that allows outbound communication over IPv6 from instances in your VPC to the internet, and prevents the internet from 	initiating an IPv6 connection with your instances.
+
+steps to use :
+
+1] create vpc -> create public and private subnet -> associate public subnet with IG 
+2] choose "NAT" AMI From Community AMI option while launching a Instance (e.g amzn-ami-vpc-nat-2018.03.0.20210319.0-x86_64-ebs) with SG as SSh and All ICMP ip4 targeted to anywhere , in Public Subnet with public ip enabled
+3] create instance in private subnet without public ip and with SG as SSh and All ICMP ip4 targeted to anywhere
+4] access the nat instance , get root user access with all update and then create a file as <any-name>.pem and paste the key pair used while creating private instance
+5] enter commnd in nat instance to get access of private instance
+	i] chmod 700 <any-name>.pem       (chmod 700 file Protects a file against any access from other users, while the issuing user still has full access.)
+	ii] ssh -i <any-name>.pem dns-name       (for amz linux dns name is  ec2-user@<private-ip>  )
+6] in a default route table(main == yes)  , add origin as 0.0.0.0/0 with target as instance -> <id-nat-instance>
+7] disable "change source/dest check" which is in action -> networking of nat instance
+ 
+
+*****************************************************************************************************************************************************************************************
+
+site to site vpn demo with 2 vpc in diff regions
+
+1] create vpn in 2 diff region with all basics (r1(aws host) and r2(client's own network))  -- without overlapping cidr
+2] launch an instance in r2 with public ip  and SG with all TCP , SSh and ICMP allowed source to anywhere or may be r1's subnet cidr (to do more securely , not for ssh)
+3] in r1 , create VPG and attach to vpc of r1
+4] also create customer gateway in r1 with static routing (dynamic if using BGP) , IP Address will be public ip of instance in r2 , leave other fiels as blank
+5] create site-to-site vpn in r1 with target as VPG and select created VPG before , select existing customer gateway with id , routing as static with IP Prefixes as cidr of r2's vpc
+6] download configuration configuration file after status of created s2s vpn as available  as vendor = generic
+7]  in created route table of r1 ,  select route propagtion option and edit as tick the propagtion option infront of VPG-ID which is created just before and save
+8] get root access of instance in r2 and execute following commands
+	i] install openswan using yum install openswan or sudo apt-get install strongswan as openswan is not available for ubuntu
+	ii] open /etc/ipsec.conf using any editor and uncomment "include /etc/ipsec.d/*.conf" if not , save and exit
+    	iii] open  /etc/sysctl.conf using any editor and paste following commands without any comment and in new line for every command
+ 		 net.ipv4.ip_forward = 1
+		 net.ipv4.conf.all.accept_redirects = 0
+		 net.ipv4.conf.all.send_redirects = 0
+	     save the 
+	iv] service network restart
+	v] get following details from that downlaoded file at step 6 
+		1. customer gateway from outside ip address as q1
+		2. virtual private gateway from outside ip address as q2
+		3. r1's subnet's cidr as q3 and r2's subnet cidr as q4
+		4. pre-shared key from Internet Key Exchange Configuration as q5
+	replace q's in following commands
+------                                                                       dont copy "-"
+		conn Tunnel1
+        authby=secret
+        auto=start
+        left=%defaultroute
+        leftid=q1
+        right=q2
+        type=tunnel
+        ikelifetime=8h
+        keylife=1h
+        phase2alg=aes128-sha1;modp1024
+        ike=aes128-sha1;modp1024
+        keyingtries=%forever
+        keyexchange=ike
+        leftsubnet=q4
+        rightsubnet=q3
+        dpddelay=10
+        dpdtimeout=30
+        dpdaction=restart_by_peer
+-----
+	vi] open /etc/ipsec.d/aws-vpn.conf with any text editor and paste above lines and save exit
+	vii] open /etc/ipsec.d/aws-vpn.secrets with text editor and paste after editing q's letter from step 8.V 
+			                                    * keep blank space and quotation marks (") as it is.
+			q1 q2: PSK "q5"
+
+			paste and save exit
+	viii] starting ipsec services by following 3 commands
+  
+			     chkconfig ipsec on
+          		     service ipsec start
+           	             service ipsec status
+							-- at the end , if status get active then it is success
+
+9] at the end , in r1's site-to-site vpn if in Tunnel details -> if any of the link has status as UP then it is successfully connected
+10]  to verify connection , launch instance in r1 with SG with all TCP , SSh and ICMP allowed source to anywhere and ping the private ip of r2's instance , if ping sucessful then all set
+
+
+
+

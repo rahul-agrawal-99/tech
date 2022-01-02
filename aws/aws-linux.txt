@@ -1,0 +1,20 @@
+for Amazon Linux 2 AMI
+
+
+
+login as ec2-user
+
+update all packages : yum update
+
+"sudo su -"  get root access
+
+yum is used to install packages
+e.g.  yum install -y mysql     -y to yes by default 
+
+
+to conect mysql datavbase use 
+
+mysql -h <endpoint> -u <mastername> -p <databasename>
+e.g. mysql -h database-1.cjuig3idfd6f.us-east-2.rds.amazonaws.com -u admin -p rahuldb
+
+
