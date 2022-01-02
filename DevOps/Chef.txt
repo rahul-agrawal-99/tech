@@ -40,19 +40,35 @@ Pull Vs Push Based Configuration Management Tool
 	-Chef is an automation tool that provides a way to define infrastructure as code. Chef uses a pure-Ruby, domain-specific language (DSL) for writing system configurations. Below are 		the types of automation done by Chef, irrespective of the size of infrastructure:
 			.Infrastructure configuration
 			.Application deployment 
-		.Configurations are managed across your network
+			.Configurations are managed across your network
 	-Like Puppet which has a Master-Slave architecture even Chef has a Client-Server architecture. But Chef has an extra component called Workstation
 	-chef is made using  Ruby and Erlang , Recipes is written in Ruby
 	- user writes "recipes" that describe how Chef manages server applications and utilities (such as Apache HTTP Server, MySQL, or Hadoop) and how they are to be configured
-	- recipes (set of recipes iscookbook) describe a series of resources that should be in a particular state ,various resources can be configured to specific versions of software to 		run and can ensure that software is installed in the correct order based on dependencies ,Chef makes sure each resource is properly configured and corrects any resources 				that are not in the desired state
-		Key Components of a Cookbook
-			Recipes
-			Metadata
-			Attributes
-			Resources
-			Templates
-			Libraries
-			Anything else that helps to create a system
+	- recipes (set of recipes iscookbook) describe a series of resources that should be in a particular state ,various resources can be configured to specific versions of software to 		   run and can ensure that software is installed in the correct order based on dependencies ,Chef makes sure each resource is properly configured and corrects any resources 				that are not in the desired state
+
+		Key Components of a Cookbook (helps to create a system at node ) , all below are dir's except metadata which is ruby file
+
+			Recipes  => contains code which tells about which file and package is to create/modify
+			Metadata(metadata.rb) => This file contains information about the cookbook such as the cookbook name, description, and version.
+			Attributes  => key-value pair , key stores in ohai and used by files , server can update value for key and so client updates correspondingly
+			Resources => abstract approach for defining a set of actions and (for each action) a set of properties and validation parameters.
+			Templates =>  template is a file written in markup language that uses Ruby statements to solve complex configuration scenarios.
+			Libraries => library allows the use of arbitrary Ruby code in a cookbook, either as a way to extend the Chef Infra Client language or to implement a new class.
+			Files =>  resource that tells a cookbook how to distribute files, including by node, by platform, or by file version.
+			ohai => Custom Ohai plugins can be written to load additional information about your nodes to be used in recipes. This requires Chef Infra Server 12.18.14 or later.
+	
+	- it only updates if node client founds that server has diff. config , if only 1 char is changed it only pulls that change not the whole file
+
+
+	Types of Attributes :   (priority increases in order , automatic has highest , attributes can be defined in node , cookbook , role , env)
+	
+
+		1] default  : default attribute is automatically reset at the start of every Chef Infra Client run 
+		2] force_default : ensure that an attribute defined in a cookbook (by an attribute file/recipe) takes precedence over a default attribute ,set by a role or an environment
+		3] normal  : normal attribute is a setting that persists in the node object , higher precedance than default
+		4] override :  automatically reset at the start of every Chef Infra Client run , most often specified in a recipe but can be in  attribute file/role, and/or for environment
+		5] force_override : force_override attribute to ensure that an attribute defined in a cookbook takes precedence over an override
+		6] automatic : contains data that is identified by Ohai at the beginning of every Chef Infra Client run. An automatic attribute cannot be modified
 
 	/* Chef Architecture :
 
@@ -84,12 +100,167 @@ Pull Vs Push Based Configuration Management Tool
 
 
 
+													     recipe1
+								CHEF Workstation ---> configured N cookbooks -> recipe2
+									|				     recipeN
+									|
+								  CHEF Server Infra   --- > cookbook Stored 
+									|				     
+									|
+								      NODES -----> CHef client  (pull config from server)   
+											|
+										     ohai Database (contains all system config and files about node)
 
-
-
+						*all 3 above can be installed and used in 1 computer directly for testing
 
 ******************************************************************************************************************************************************************************************
-										About Chef
+										install and using Chef
 ******************************************************************************************************************************************************************************************
+
+
+For RED HAT linux distros :
+
+	-Get download workstation url from web , create new working dir 
+	
+	-use command : wget URL    ---- it will download rpm(redhat package manager) file
+
+	-install RPM package : yum install ch* -y           --- installing chef workstation
+
+	-check installation : which chef    OR chef -v
+
+	-create new dir for storing cookbooks , cd to this dir
+
+	-Creating CookBook
+
+		chef generate cookbook COOKBOOK_NAME    ---it will generate dir named COOKBOOK_NAME which contains files => 1.chefignore   2.LICENSE    3.Policyfile.rb  4.recipes
+			*tip : use tree package to better visulize the file structure
+
+	-Creating Recipes 
+
+		chef generate recipe RECIPE_NAME      --- it will generate ruby(.rb) file named as RECIPE_NAME inside COOKBOOK_NAME/recipes 
+
+	-Modify the Recipe
+
+		open created recipe in vi editior : vi COOKBOOK_NAME/recipes/RECIPE_NAME.rb     ---it is ruby file use .rb always
+		after opening it is alreadt written with cookbook and recipe name with copyright notice, if not it is error
+
+		below copyright type :	    ***without any # and with newline for every line	
+						*** dont add space after :  , e.g. action :create  OR action :install
+
+		    For creating and inserting in file  (with filname as myfile)
+			
+				file '/myfile' do
+				content 'Welcome to chef'
+				action :create
+				owner 'root'
+				group 'root'
+				end
+			
+			Using Attributes (no space before : if it is in " " and no space after : if outside " ")
+					**here contant of file contain vaiable values set using attributes , it will take values directly from node ohai 
+
+					file '/basicinfo' do
+ 					content "This is to get Attributes
+					 HOSTNAME: #{node['hostname']}
+					 IPADDRESS: #{node['ipaddress']}
+					 CPU: #{node['cpu']['0']['mhz']}
+					 MEMORY: #{node['memory']['total']}"
+					 owner 'root'
+					 group 'root'
+					action :create
+					end
+
+
+
+										Default attribute in node object in recipe
+											node.default['apache']['dir'] = '/etc/apache2'
+
+										Normal attribute set in a recipe
+											node.normal['apache']['dir'] = '/etc/apache2'
+
+										Override attribute in a node object (from a recipe)
+											node.override['apache']['dir'] = '/etc/apache2'
+
+		    For installing package   (httpd package)
+
+	
+			package 'tree' do
+			action :install
+			end
+
+		    For performing Action on package  (e.g. running httpd server)
+
+			service 'httpd' do
+			action [:enable, :start]
+			end
+
+		    For using direct linux commands 
+
+			
+
+
+
+	-use cat to see if it is coorect like e.g.
+			****************************************************
+				# Cookbook:: testrahul
+				# Recipe:: reciperahul
+				#
+				# Copyright:: 2022, The Authors, All Rights Reserved.
+
+				file '/myfile' do
+				content 'Welcome to chef'
+				action :create
+				end
+			**************************************************
+
+	-Execute the written code :
+
+		  Checking syntax
+			 chef exec ruby -c  COOKBOOK_NAME/recipes/RECIPE_NAME.rb    --if no error , it will ouput as "Syntax OK"
+
+		  Running :
+			chef-client -zr "recipe[COOKBOOK_NAME::RECIPE_NAME]"     ---e.g.  chef-client -zr "recipe[testrahul::reciperahul]" , it will give execued lines in green color
+
+		  check run :
+			see if files/package is created or modified according to config in rb file
+
+		  recheck :
+			if we run that recipe again , this time it will only outputs uptodate not overwritten as file is not modified so far
+
+	-to get info about ohai 
+	
+		type : ohai     ---to get all config about ohai
+
+		OR  ohai NAME    --- it will display only about NAME . e.g. ohai hostname , ohai memory , ohai cpu
+	
+		OR   to get only specific info use : ohai NAME/INDEX      --- e.g ohai memory/total , ohai memory/cached , ohai cpu/0/mhz
+
+			 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
 
 

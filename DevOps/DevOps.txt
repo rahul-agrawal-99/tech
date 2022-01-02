@@ -10,6 +10,27 @@ DevOps Lifecycle :
 |--------------------<----------------------------------------------------<-------------|
 
 
+
+Tools used :
+
+plan -> Jira , kanban ,  Wordpres, Atlassso Wiki, Trello, Zendesk
+configure -> chef , puppet , ansibl e.saltstake
+code -> IDE , Git for versioning
+build ->  Meaven , Gradle
+test ->  Selenium, Junit
+QA -> 
+integrate ->  Jenkins
+Deploy ->  docker , kubernates
+operate ->  
+maintain -> Prometheus, Datadog, Grafana, Nagios, Zaabix, NewRelic
+
+
+
+
+
+
+
+
 Devops stages :
 
 1) Continuous Development
