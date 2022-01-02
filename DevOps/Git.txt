@@ -253,7 +253,10 @@ upstream is from where you clone the repository, and downstream is any project t
 	git push URL_REF_NAME  BRANCH_NAME    --- in this case URL_REF_NAME = orgin   and default branch is BRANCH_NAME = main  *before it was master
 						e.g.  git push origin master  
 	OR
-	git push URL_REF_NAME <tagname>   
+	git push URL_REF_NAME <tagname>  
+	OR
+
+	git push https://<GITHUB_ACCESS_TOKEN>@github.com/<GITHUB_USERNAME>/<REPOSITORY_NAME>.git          ----using access token 
 	
 # pull latest copy from remote server (git pull does a git fetch followed by a git merge   means pull changes working space like all the coding files updates with remote)
 

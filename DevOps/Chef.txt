@@ -33,7 +33,9 @@ Pull Vs Push Based Configuration Management Tool
 *Infrastructure as code (IAC) simply means that managing infrastructure by writing code (Automating infrastructure) rather than using manual processes. It can also be termed asprogrammable 		infrastructure.	
 *Idempotence means that applying an operation once or applying it multiple times has the same effect. Examples: Multiplication by zero , 
 	in chef , client only pulls code or part of code that is not on node instead getting everything from start
-
+*convergance is process where chef client pulls only necessary changes to get in desired state as mentioned in recipe , achieve using chef-client -zr
+*Run-list defines all of the information necessary for Chef to configure a node into the desired state. A run-list is a ordered list of roles and/or recipes that are run in the exact 	order 		defined in the run-list; if a recipe appears more than once in the run-list, Chef Infra Client will not run it twice 
+	processed as , chef-client -zr followed by multiple pairs of  "[cookbook::recipe]" , only limit is 1 recipe from 1 cookbook
 
 	
 	-Chef is a tool used for Configuration Management and is closely competing with Puppet ,developed by Opscode 
@@ -70,7 +72,7 @@ Pull Vs Push Based Configuration Management Tool
 		5] force_override : force_override attribute to ensure that an attribute defined in a cookbook takes precedence over an override
 		6] automatic : contains data that is identified by Ohai at the beginning of every Chef Infra Client run. An automatic attribute cannot be modified
 
-	/* Chef Architecture :
+//* Chef Architecture  *// 
 
 	contain 3 parts   1] Nodes   2] chef server   3]  Workstation 
 
@@ -100,6 +102,9 @@ Pull Vs Push Based Configuration Management Tool
 
 
 
+
+			///  Chef Architecture 
+
 													     recipe1
 								CHEF Workstation ---> configured N cookbooks -> recipe2
 									|				     recipeN
@@ -113,8 +118,34 @@ Pull Vs Push Based Configuration Management Tool
 
 						*all 3 above can be installed and used in 1 computer directly for testing
 
+
+
+			/// Cookbook Architecture  (cookbooks are stored in chef-repo folder of workstation for bootstrap )
+
+			After creating Cookbook , following files will be created inside dir named as cookbook name :
+
+				CHANGELOG.md      ==> This file is used to list changes made in each version of the  cookbook.
+				LICENSE        
+				README.md
+				chefignore        ==>  Put files/directories that should be ignored in file when uploading
+				metadata.rb       ==> conatins info about cookbook  
+				recipes           ==> contains by default 1 recipe named as "default.rb" , user can create new recipe with new name
+				kitchen.yml       ==> This file is used to list changes made in each version of the 2newcook cookbook.
+				Policyfile.rb     ==>  Describe how you want Chef Infra Client to build your system.
+				test              ==>    dir conating ruby file has Chef InSpec test for recipe 
+
+
+
+				ONE COOKBOOK --->   multiple recipe 
+									* recipe can call another recipes from "same cookbook"  
+
+				To include recipe in another recipe use:  ' include_recipe "COOKBOOK::RECIPE" '   , for multiple use same with newline
+
+
+
+
 ******************************************************************************************************************************************************************************************
-										install and using Chef
+										install and using Chef locally
 ******************************************************************************************************************************************************************************************
 
 
@@ -135,29 +166,52 @@ For RED HAT linux distros :
 		chef generate cookbook COOKBOOK_NAME    ---it will generate dir named COOKBOOK_NAME which contains files => 1.chefignore   2.LICENSE    3.Policyfile.rb  4.recipes
 			*tip : use tree package to better visulize the file structure
 
-	-Creating Recipes 
+	-Creating Recipes (needs current dir to COOKBOOK_NAME always ) 
+					---------------------------------------------------------------------------
+					|          chef generate recipe RECIPE_NAME				   |       --- only inside cookbook dir
+					---------------------------------------------------------------------------
 
-		chef generate recipe RECIPE_NAME      --- it will generate ruby(.rb) file named as RECIPE_NAME inside COOKBOOK_NAME/recipes 
+							      --- it will generate ruby(.rb) file named as RECIPE_NAME inside COOKBOOK_NAME/recipes 
 
-	-Modify the Recipe
+	
+					---------------------------------------------------------------------------
+					|           ***      Modify the Recipe  **				   |
+					---------------------------------------------------------------------------
 
-		open created recipe in vi editior : vi COOKBOOK_NAME/recipes/RECIPE_NAME.rb     ---it is ruby file use .rb always
+
+		open created recipe in vi editior : 
+	
+					vi COOKBOOK_NAME/recipes/RECIPE_NAME.rb     ---it is ruby file use .rb always
+
 		after opening it is alreadt written with cookbook and recipe name with copyright notice, if not it is error
 
 		below copyright type :	    ***without any # and with newline for every line	
 						*** dont add space after :  , e.g. action :create  OR action :install
 
-		    For creating and inserting in file  (with filname as myfile)
+					---------------------------------------------------------------------------
+					|	               Code syntax For Recipe				  |
+					---------------------------------------------------------------------------
+					|	 For creating and inserting in file  (with filname as myfile)	  |
+					---------------------------------------------------------------------------
+
+		    
 			
-				file '/myfile' do
-				content 'Welcome to chef'
-				action :create
-				owner 'root'
-				group 'root'
-				end
+								file '/myfile' do
+								content 'Welcome to chef'
+								action :create
+								owner 'root'
+								group 'root'
+								end
+
+						in simple way   :    file "filename"
+
+					---------------------------------------------------------------------------
+					|	      Using Attributes						  |
+					---------------------------------------------------------------------------
 			
-			Using Attributes (no space before : if it is in " " and no space after : if outside " ")
-					**here contant of file contain vaiable values set using attributes , it will take values directly from node ohai 
+			 (no space before : if it is in " " and no space after : if outside " ")
+					
+		**here contant of file contain vaiable values set using attributes , it will take values directly from node ohai 
 
 					file '/basicinfo' do
  					content "This is to get Attributes
@@ -181,45 +235,109 @@ For RED HAT linux distros :
 										Override attribute in a node object (from a recipe)
 											node.override['apache']['dir'] = '/etc/apache2'
 
-		    For installing package   (httpd package)
+
+
+					---------------------------------------------------------------------------
+					|	                installing package				  |
+					---------------------------------------------------------------------------
+
+		                                    e.g.  (httpd package)
 
 	
-			package 'tree' do
-			action :install
-			end
+						package 'tree' do
+						action :install
+						end
 
-		    For performing Action on package  (e.g. running httpd server)
+					---------------------------------------------------------------------------
+					|	                    performing Action on package		  |
+					---------------------------------------------------------------------------
+
+		    For   (e.g. running httpd server)
 
 			service 'httpd' do
 			action [:enable, :start]
 			end
 
-		    For using direct linux commands 
+					---------------------------------------------------------------------------
+					|		using direct linux commands				  |   Runs command every time when recipe is called
+					---------------------------------------------------------------------------
+			Write command in between EOH
 
+	  
+execute  "run a script" do
+command <<-EOH
+mkdir /rahul
+touch /file
+echo "content" >> file
+EOH
+end
+
+
+					---------------------------------------------------------------------------
+					|		Create user and group   				  |   
+					---------------------------------------------------------------------------
+				Password is in hashed format  , group should be created first if user want to add in group
+
+CREATE GROUP 
 			
+group "GROUPNAME" do
+gid  INT/CHAR  
+action :craete
+end 
+
+CREATE USER   (simple method  :     "	user "USERNAME"	")
+
+user 'USERNAME' do
+  comment 'A random user'
+  uid 1234
+  gid 'groupname'
+  password '$1$JJsvHslasdfjVEroftprNn4JHtDi'
+action :ACTIONS
+end
 
 
+ 			for user : ACTIONS can be done : 1. create  2. modify   3.  lock  4. remove  5.  lock   6.  unlock
 
-	-use cat to see if it is coorect like e.g.
-			****************************************************
-				# Cookbook:: testrahul
-				# Recipe:: reciperahul
-				#
-				# Copyright:: 2022, The Authors, All Rights Reserved.
 
-				file '/myfile' do
-				content 'Welcome to chef'
-				action :create
-				end
-			**************************************************
+ADD USER IN GROUP  (if append != true causes override of group members)
+
+group "GRPNAME" do
+action :create
+member 'USER1'
+append true
+end
 
 	-Execute the written code :
 
 		  Checking syntax
-			 chef exec ruby -c  COOKBOOK_NAME/recipes/RECIPE_NAME.rb    --if no error , it will ouput as "Syntax OK"
+					---------------------------------------------------------------------------
+					|	    chef exec ruby -c  COOKBOOK_NAME/recipes/RECIPE_NAME.rb	   |
+					---------------------------------------------------------------------------
+			     												--if no error , it will ouput as "Syntax OK"
 
 		  Running :
-			chef-client -zr "recipe[COOKBOOK_NAME::RECIPE_NAME]"     ---e.g.  chef-client -zr "recipe[testrahul::reciperahul]" , it will give execued lines in green color
+Always					---------------------------------------------------------------------------
+PWD = ../cookbookname			|	chef-client -zr "recipe[COOKBOOK_NAME::RECIPE_NAME]" 		   |    IF recipe name is not given , default.rb will be considered 
+					---------------------------------------------------------------------------
+			    							---e.g.  chef-client -zr "recipe[testrahul::reciperahul]" , it will give execued lines in green color
+
+
+
+					-z, --local-mode                           : Run the Chef Infra Client in local mode
+					-r OR --runlist RUN_LIST_ITEM              : Permanently replace the current run-list with the specified run-list items.
+					-o  OR --override-runlist RUN_LIST_ITEM    : not clear the list of cookbooks (and related files) that is cached on the node.
+
+			For more detils ,      " https://docs.chef.io/ctl_chef_client/#options  "
+
+		TO RUN MULTIPLE RECIPE :
+
+			steps :
+				 if from 1 cookbook , muliple recipe are to be run then link all to the default and run default
+				OR
+				 Run without any extra space in between  
+						chef-client -zr "recipe[C1::default],recipe[C2::recipe_another],recipe[C3::default]" 
+
+
 
 		  check run :
 			see if files/package is created or modified according to config in rb file
@@ -240,6 +358,63 @@ For RED HAT linux distros :
 
 
 
+******************************************************************************************************************************************************************************************
+										 Bootstraping
+******************************************************************************************************************************************************************************************
+
+
+
+create organization at chef.io and download its starter kit for organization  , get it in linux system using WinSCP nmaed as chef-repo
+
+To check Auth : in chef-repo/config.rb  , check chef_server_url    OR just type knife ssl check
+
+Launch New instance for node with configuration as       #!/bin/bash   ,  sudo su  , yum update -y   
+
+save the node's pem file in chef-repo of workstation , and get the private ip of node
+
+change dir to chef-repo and type following command
+
+	knife bootstrap PRIAVTE_IP --ssh-user ec2-user --sudo -i PEM_KEYFILE_NAME -N NAME_FOR_NODE
+
+check node is connected or not using :   chef node list
+
+Move all the cookbooks to chef-repo/cookbooks
+
+to upload cookbook to server(chef.io) use , knife cookbook upload COOKBOOK_NAME         ----COOKBOOK_NAME should be in chef-repo/cookbook (it is uploaded on policies on chef.io)
+
+to get available cookbooks that are uploaded use , knife cookbook list
+
+set cookbook and recipe for a node using , knife node run_list set NODE_NAME "recipe[COOKBOOK::RECIPE_NAME]"  , check on server node/runlist on chef.io
+
+get su access of node and run :  chef-client     ---- it pull its pre-setted recipe by workstation and get in the state mentioned in recipe
+							if recipe is updated then upload it again and then run chef-client again on node
+
+to automate client process , do :
+				 open etc/crontab and append line  :    * * * * * root chef-client  
+									---- single space between every char  , it will run this cmd in every minute
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+
+
+To make automated process without accessing instance :
+
+	luanch instace with advance ci=onfiguration setting and add following command
+
+#!/bin/bash
+sudo su
+yum update -y
+echo "* * * * * root chef-client" >> /etc/crontab
+
+	in workstaion , add node with private ip and pe file using knife bootstrap , set node for cookbook::recipe using knife node run_list
+
+
+ 
 
 
 
