@@ -44,7 +44,7 @@ Notes:
 	git  config  --global  user.name	"rahul"
 				key 		value       stored in config file  (key should be always in entity.type format , value should be in " ")
 
-		key e.g. => user.name , user.name , user2.name , user7.alive
+		key e.g. => user.name , user.email   --- both are need to set in order to commit
 
 # to see config file 
 	
@@ -59,7 +59,8 @@ Notes:
 
 	git config --global alias.add-commit '!git add -A && git commit'      ---- after that just use git add-commit -m "MSG"
 
-# Git File Structure
+# Git File Structure
+
 	/Objects  Commits are stored in the form of hash , contains folder named as first 2 char from commit id and in it has a file named as remaining commits char
 	Blob is an abbreviation for “binary large object”. When we git add a file such as example_file.txt , git creates a blob object containing the contents
 
