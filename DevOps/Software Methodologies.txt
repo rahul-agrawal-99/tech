@@ -1,0 +1,195 @@
+
+
+******************************************************************************************************************************************************************************************
+										WaterFall
+******************************************************************************************************************************************************************************************
+
+
+
+					---------------------------------------------------------------------------
+					|           		stages in a Waterfall process			   |
+					---------------------------------------------------------------------------
+
+
+Requirements
+The Waterfall methodology depends on the belief that all project requirements can be gathered and understood upfront. The project manager does their best to get a detailed understanding of the project sponsor’s requirements. Written requirements, usually contained in a single document, are used to describe each stage of the project, including the costs, assumptions, risks, dependencies, success metrics, and timelines for completion. 
+
+
+Design
+Here, software developers design a technical solution to the problems set out by the product requirements, including scenarios, layouts, and data models. First, a higher-level or logical design is created that describes the purpose and scope of the project, the general traffic flow of each component, and the integration points. Once this is complete, it is transformed into a physical design using specific hardware and software technologies. 
+
+
+Implementation
+Once the design is complete, technical implementation starts. This might be the shortest phase of the Waterfall process, because painstaking research and design have already been done. In this phase, programmers code applications based on project requirements and specifications, with some testing and implementation taking place as well. If significant changes are required during this stage, this may mean going back to the design phase.  
+
+
+Verification or testing
+Before a product can be released to customers, testing needs to be done to ensure the product has no errors and all of the requirements have been completed, ensuring a good user experience with the software. The testing team will turn to the design documents, personas, and user case scenarios supplied by the product manager to create their test cases. 
+
+
+Deployment and maintenance
+Once the software has been deployed in the market or released to customers, the maintenance phase begins. As defects are found and change requests come in from users, a team will be assigned to take care of updates and release new versions of the software.
+
+
+
+ 				// * uses the Waterfall model  *//
+
+The Waterfall process is adopted by project managers who are faced with development projects that:
+
+		1.Don’t have ambiguous requirements.
+
+		2.Offer a clear picture of how things will proceed from the outset.
+
+		3.Have clients who seem unlikely to change the scope of the project once it is underway.
+
+******************************************************************************************************************************************************************************************
+										Agile 
+******************************************************************************************************************************************************************************************
+
+	The Agile methodology is a way to manage a project by breaking it up into several phases. It involves constant collaboration with stakeholders and continuous improvement at every 	stage. Once the work begins, teams cycle through a process of planning, executing, and evaluating. Continuous collaboration is vital, both with team members and project stakeholders
+
+
+					---------------------------------------------------------------------------
+					|           Key components of Agile project management			   |
+					---------------------------------------------------------------------------
+
+
+//* User stories
+		Put simply, a user story is a high-level definition of a work request. It contains just enough information so the team can produce a reasonable estimate of the effort required to accomplish the request. This short, simple description is written from the user’s perspective and focuses on outlining what your client wants (their goals) and why. 
+
+
+//*Sprints
+	Sprints are a short iteration, usually between one to three weeks to complete, where teams work on tasks determined in the sprint planning meeting. As you move forward, the idea is to continuously repeat these sprints until your product is feature ready. Once the sprint is over, you review the product see what is and isn’t working, make adjustments, and begin another sprint to improve the product or service.
+
+
+//*Stand-up meetings
+		Daily stand-up meetings (under 10 minutes), also known as “daily Scrum meetings,” are a great way to ensure everyone is on track and informed. These daily interactions are known as “stand up” because the participants are required to stay standing, helping to keep the meetings short and to the point.
+
+
+//*Agile board
+An Agile board helps your team track the progress of your project. This can be a whiteboard with sticky notes, a simple Kanban board, or a function within your project management software.
+
+
+//*Backlog
+	As project requests are added through your intake system, they become outstanding stories in the backlog. During Agile planning sessions, your team will estimate story points to each task. During sprint planning, stories in the backlog are moved into the sprint to be completed during the iteration. Managing your backlog is a vital role for project managers in an Agile environment.
+
+
+					---------------------------------------------------------------------------
+					|                            Agile team roles   			   |
+					---------------------------------------------------------------------------
+
+
+Scrum Master. 
+	The Scrum Master ensures that each sprint stays on track and helps to remove or resolve any issues or challenges that may come up. They are the team’s advocate.
+
+Product owner.
+	 The role of the product owner is to define the goals of each sprint, manage and prioritize the team backlog, and be the voice of the customer or internal stakeholder.
+
+Team members.
+	 The people on this team are the ones who execute the work in each sprint. These teams, usually of three to seven people, can be composed of different specialties and strengths, or 			they can be teams of people with the same job roles.
+
+Stakeholders.
+	 This is an informational role only. The stakeholders should be kept up-to-date on the product and sprint goals, have the opportunity to review and approve work during a sprint, and 	provide feedback during the sprint retrospective.
+
+
+					---------------------------------------------------------------------------
+					|                        steps in the Agile methodology   		   |
+					---------------------------------------------------------------------------
+
+
+1. Project planning
+Like with any project, before beginning your team should understand the end goal, the value to the organization or client, and how it will be achieved.
+You can develop a project scope here, but remember that the purpose of using Agile project management is to be able to address changes and additions to the project easily, so the project scope shouldn’t be seen as unchangeable.
+
+
+
+2. Product roadmap creation
+A roadmap is a breakdown of the features that will make up the final product. This is a crucial component of the planning stage of Agile, because your team will build these individual features during each sprint.
+At this point, you will also develop a product backlog, which is a list of all the features and deliverables that will make up the final product. When you plan sprints later on, your team will pull tasks from this backlog.
+
+
+
+3. Release planning
+In traditional waterfall project management, there is one implementation date that comes after an entire project has been developed. When using Agile, however, your project uses shorter development cycles (called sprints) with features released at the end of each cycle.
+Before kicking off the project, you’ll make a high-level plan for feature releases and at the beginning of each sprint, you’ll revisit and reassess the release plan for that feature.
+
+
+
+4. Sprint planning
+Before each sprint begins, the stakeholders need to hold a sprint planning meeting to determine what will be accomplished by each person during that sprint, how it will be achieved, and assess the task load. It’s important to share the load evenly among team members so they can accomplish their assigned tasks during the sprint.
+You’ll also need to visually document your workflow for team transparency, shared understanding within the team, and identifying and removing bottlenecks.
+
+
+5. Daily stand-ups
+To help your team accomplish their tasks during each sprint and assess whether any changes need to be made, hold short daily stand-up meetings. During these meetings, each team member will briefly talk about what they accomplished the day before and what they will be working on that day.
+These daily meetings should be only 15 minutes long. They aren’t meant to be extended problem-solving sessions or a chance to talk about general news items. Some teams will even hold these meetings standing up to keep it brief.
+
+
+
+6. Sprint review and retrospective
+After the end of each sprint, your team will hold two meetings: first, you will hold a sprint review with the project stakeholders to show them the finished product. This is an important part of keeping open communication with stakeholders. An in-person or video conference meeting allows both groups to build a relationship and discuss product issues that arise.
+
+
+******************************************************************************************************************************************************************************************
+										Scrum
+******************************************************************************************************************************************************************************************
+
+A PM methodology in which a small team is led by a Scrum master, whose main job is to clear away all obstacles to completing work. Work is done in short cycles called sprints, but the team meets daily to discuss current tasks and roadblocks.
+
+Scrum is an agile development methodology used in the development of Software based on an iterative and incremental processes.  Scrum is adaptable, fast, flexible and effective agile framework that is designed to deliver value to the customer throughout the development of the project.
+
+Scrum is a framework within which people can address complex adaptive problems while productively and creatively delivering products of the highest possible value.
+
+
+					---------------------------------------------------------------------------
+					|                        Pillers Of Scrum 		   		   |
+					---------------------------------------------------------------------------
+
+Transparency
+		-By transparency, we mean everybody in the agile team must have a good view of the Scrum objectives and their positions and duties as individuals. How do you know you have a 			high degree of openness inside your team
+		-Firstly, an agile team should have a shared language. Everyone should know what their goal is and what needs to be achieved to accomplish that goal, from the Scrum Master 			to the Product Creator, members of the team and shareholders.
+		-The team needs to agree with a common concept of what was done. 
+
+Inspection
+		-Scrum objects need to be tested regularly and advance against a target for identifying unwanted variances. Scrum analysis should be performed using scrum tasks such as: 
+		-Usage of a standard Scrum board as well as other facts to make plain to all the project’s current status 
+		-Collecting consumer and other stakeholder input during the Build Epic(s)
+		-Build inventory backlog prioritized and carry out release preparation processes 
+		-Service proprietor review and authorization of the deliverables 
+		-The Show and Confirm Sprint consumer
+
+
+Adaptation
+		-When an auditor decides that one or more parts of a procedure are deviating beyond reasonable boundaries, and the resultant product is inappropriate, the system or the 			manufactured content must be changed. To mitigate any variance, the improvement must be made immediately.
+
+
+					---------------------------------------------------------------------------
+					|                        Scrum team Roles 		   		   |
+					---------------------------------------------------------------------------
+
+
+Scrum master: 
+		The person who leads the team guiding them to comply with the rules and processes of the methodology. Scrum master manages the reduction of impediments of the project and 		works with the Product Owner to maximize the ROI. The Scrum Master is in charge of keeping Scrum up to date, providing coaching, mentoring and training to the teams in case 		it needs it.
+
+
+Product owner (PO):
+		 Is the representative of the stakeholders and customers who use the software. They focus on the business part and is responsible for the ROI of the project. They Translate 		the vision of the project to the team, validate the benefits in stories to be incorporated into the Product Backlog and prioritize them on a regular basis.
+
+
+  Team:
+		 A group of professionals with the necessary technical knowledge who develop the project jointly carrying out the stories they commit to at the start of each sprint.
+
+
+******************************************************************************************************************************************************************************************
+										Kanban
+******************************************************************************************************************************************************************************************
+
+
+A visual approach to project management where teams create physical representations of their tasks, often using sticky notes on whiteboards (or online apps). Tasks are moved through predetermined stages to track progress and identify common roadblocks.
+
+
+******************************************************************************************************************************************************************************************
+										Extreme Project Management (XPM)
+******************************************************************************************************************************************************************************************
+
+A PM methodology where the project plan, budget, and final deliverable can be changed to fit evolving needs, no matter how far along the project is.

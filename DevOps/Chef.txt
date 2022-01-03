@@ -248,6 +248,13 @@ For RED HAT linux distros :
 						action :install
 						end
 
+install multiple packages
+
+%w(PACKGE_NAME1 PACKGE_NAME2 PACKGE_NAME3 PACKGE_NAME4) .each do |p|
+package p do
+action :install 
+end 
+end
 					---------------------------------------------------------------------------
 					|	                    performing Action on package		  |
 					---------------------------------------------------------------------------
@@ -257,6 +264,7 @@ For RED HAT linux distros :
 			service 'httpd' do
 			action [:enable, :start]
 			end
+
 
 					---------------------------------------------------------------------------
 					|		using direct linux commands				  |   Runs command every time when recipe is called
@@ -445,6 +453,8 @@ To delete node from server:
 name "ROOL_NAME"
 discription "ANYTHING"
 run_list "recipe[COOK::RECIPE],recipe[C2::recipe_another]"
+
+*** run_list "recipe[COOK]"        < ==  set all recipes inside cookbook COOK to role
 
 	get back to chef-repo to upload role to server:
 
