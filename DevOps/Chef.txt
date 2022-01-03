@@ -120,7 +120,7 @@ Pull Vs Push Based Configuration Management Tool
 
 
 
-			/// Cookbook Architecture  (cookbooks are stored in chef-repo folder of workstation for bootstrap )
+			/// Cookbook Architecture  (cookbooks are stored in chef-repo/cookbooks folder of workstation for bootstrap )
 
 			After creating Cookbook , following files will be created inside dir named as cookbook name :
 
@@ -374,17 +374,24 @@ save the node's pem file in chef-repo of workstation , and get the private ip of
 
 change dir to chef-repo and type following command
 
-	knife bootstrap PRIAVTE_IP --ssh-user ec2-user --sudo -i PEM_KEYFILE_NAME -N NAME_FOR_NODE
+			knife bootstrap PRIAVTE_IP --ssh-user ec2-user --sudo -i PEM_KEYFILE_NAME -N NAME_FOR_NODE
 
-check node is connected or not using :   chef node list
+check node is connected or not using :   
+					chef node list
 
 Move all the cookbooks to chef-repo/cookbooks
 
-to upload cookbook to server(chef.io) use , knife cookbook upload COOKBOOK_NAME         ----COOKBOOK_NAME should be in chef-repo/cookbook (it is uploaded on policies on chef.io)
+to upload cookbook to server(chef.io) use , 
+			
+			knife cookbook upload COOKBOOK_NAME         ----COOKBOOK_NAME should be in chef-repo/cookbook (it is uploaded on policies on chef.io)
 
-to get available cookbooks that are uploaded use , knife cookbook list
+to get available cookbooks that are uploaded use ,
+			
+			 knife cookbook list
 
-set cookbook and recipe for a node using , knife node run_list set NODE_NAME "recipe[COOKBOOK::RECIPE_NAME]"  , check on server node/runlist on chef.io
+set cookbook and recipe for a node using , 
+
+				knife node run_list set NODE_NAME "recipe[COOKBOOK::RECIPE_NAME]"  , check on server node/runlist on chef.io
 
 get su access of node and run :  chef-client     ---- it pull its pre-setted recipe by workstation and get in the state mentioned in recipe
 							if recipe is updated then upload it again and then run chef-client again on node
@@ -413,7 +420,47 @@ echo "* * * * * root chef-client" >> /etc/crontab
 
 	in workstaion , add node with private ip and pe file using knife bootstrap , set node for cookbook::recipe using knife node run_list
 
+To delete cookbook from server: (command is same for node , cookbook from upload,delete)
 
+			knife cookbook delete COOKBOOK_NAME
+
+
+To delete node from server:
+
+			knife node delete NODE_NAME    ---also delete client as chef makes nodes as clients automatically (knide client delete NODE_NAME )
+
+
+
+
+    			///  Using Role for node (instead of directly attaching recipe , attach role for use it efficiently and lower the overhead)
+			     **just diff. is attach role instead of recipe to node using runlist so that in future we have to just update role , it saves from rum runlist everytime on node
+
+
+	Create a Role :
+
+			cd to chef-Repo/Role                     --- there will be starter.rb
+		
+			create a role and open it using nano/vi like       nano ROLE_NAME.rb  and add follwing line
+
+name "ROOL_NAME"
+discription "ANYTHING"
+run_list "recipe[COOK::RECIPE],recipe[C2::recipe_another]"
+
+	get back to chef-repo to upload role to server:
+
+					knife role from file roles/ROLE_ANME.rb                 ----use knife role list  to confirm available roles on server
+
+	connect the nodes to server using knife bootstrap  , it will craete client
+
+	attach the role to node available on server using : knife node run_list set NODE_NAME "role[ROLE_NAME]"        ----run everytime for every node
+
+	it will fetch the recipes mentioned in cookbook eveytime running chef-client command
+
+	everytime when recipe is newly added , first upload cookbook and then edit the role and upload the role , if recipe is only modified just upload cookbook 
+
+	
+
+					
  
 
 
