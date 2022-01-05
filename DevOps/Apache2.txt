@@ -1,0 +1,31 @@
+
+
+
+Install Apache2 Webserver :
+
+ apt install apache2
+
+see status of server :  systemctl status apache2	OR     systemctl status httpd
+
+start apche2 service :   systemctl start apache2.service
+
+Stop : systemctl stop apache2.service
+
+
+*************************  CentOS/RHEL (Red Hat) Linux 
+
+Install Apache2 Webserver :
+
+yum install httpd
+
+
+service httpd status
+
+## Start command ##
+systemctl start httpd.service
+
+## Stop command ##
+systemctl stop httpd.service
+
+## Restart command ##
+systemctl restart httpd.service

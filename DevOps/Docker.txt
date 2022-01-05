@@ -1,23 +1,414 @@
- & 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon           <== rum on powersehell admin
+
+ & 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon           <== run on powersehell admin for windows if getting error and luanch docker desktop
 
 
-image->container
+******************************************************************************************************************************************************************************************
+										About Docker
+******************************************************************************************************************************************************************************************
+
+
+Hypervisor : 
+	A hypervisor, also known as a virtual machine monitor or VMM, is software that creates and runs virtual machines (VMs). A hypervisor allows one host computer to support multiple 	guest VMs by virtually sharing its resources, such as memory and processing
+
+	There are two main hypervisor types, referred to as “Type 1” (or “bare metal”) and “Type 2” (or “hosted”). 
+
+		A type 1 hypervisor acts like a lightweight operating system and runs directly on the host’s hardware
+
+		type 2 hypervisor runs as a software layer on an operating system, like other computer programs
+
+	Containers and hypervisors are both involved in making applications faster and more efficient, but they achieve this in different ways. 
+
+
+Hypervisors: (works on/AS OS) (e.g. ESXi(vmware) , Nitro(aws) , Xen(aws) )
+
+-Allow an operating system to run independently from the underlying hardware through the use of virtual machines.
+-Share virtual computing, storage and memory resources.
+-Can run multiple operating systems on top of one server (bare-metal hypervisor) or installed on top of one standard operating system and isolated from it (hosted hypervisor).
+-hypervisors are used to create and run virtual machines (VMs), which each have their own complete operating systems
+-has limit of creating vm i.e. hardware
+-vm requires OS to be installed on top of it ,also it can't get more resources if needed , bounded to allocated resources at creation
+
+
+Containers: (works on OS , lightweight ) (e.g. Docker engine)
+
+-Allow applications to run independently of an operating system. 
+-Can run on any operating system—all they need is a container engine to run. 
+-Are extremely portable since in a container, an application has everything it needs to run. 
+-containers package up just an app and its related services. This makes them more lightweight and portable than VMs, so they are often used for fast and flexible application development and 	movement.
+-no limit until hardware , hardware can be used dynamically  , container directly interacts to os for get resources
+-no os installation as Image contains all the necessory files including OS files to run the container 
+- it has only required os files rather than full os which is in vm so conatiner is lightweight
+
+
+
+					---------------------------------------------------------------------------
+Docker Is PaaS				|           			Docker engine			         |     ( March 20, 2013  Initial Release Date , Made using GO language)
+					---------------------------------------------------------------------------
+
+	Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. 
+
+	Containers are isolated from one another and bundle their own software, libraries and configuration files; they can communicate with each other through well-defined channels. 
+
+	Docker Engine natively runs on  linux distributions but we can install docker on any OS .
+
+	Container is Running state of Image , Image can not be changed container can be modified
+
+	Docker makes os on image using most of the required files from bare metal os and some of from docker hub , because of this it is lightweight
+	
+	Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image
+
+	Docker daemon is a service that runs on your host operating system. It currently only runs on Linux because it depends on a number of Linux kernel features , part of Docker Engine
+
+	Image can be get from 1. Docker hub  2. Docker Hub  3. From container
+
+Advatages Of Docker:
+
+	1.Lightweight , low cost in terms Resources
+	2. No resource pre-allocation , Container can get resources as per need directlt from host OS
+	3. CI efficiency , one can use same container for every stage of devolopment until change in software code
+	4. decrease deployment to seconds
+	5.makes sure that applications that are running on containers are completely segregated and isolated from each other
+	6.using X11 forwarding by which we can make it possible to run a graphical interface inside a Docker container but it is limited 
+
+Limitations Of Docker ;
+
+	1. not possible , container self-registration, and self-inspects, copying files from the host to the container
+	2. Not a Cross Platform  , same os needed where image is created like image from ubuntu cant run explicitely on centos
+	3.Containers don’t run at bare-metal speeds
+	4. application designed to run in a Docker container on Windows, then it can’t run on Linux or vice versa
+	5. for applications that require rich interfaces, Docker is not a good solution
+	6. Same OS should be in development and testing to run as explicitly otherwise to launch container requires addtional files
+
+
+ // * Docker Hub 
+
+	it is a service provided by Docker for finding and sharing container images with your team. Docker Hub provides the following major features: Repositories: Push and pull container images. Teams & Organizations: Manage access to private repositories of container images
+
+
+
+Container Lifecycle 
+
+	1. created from Image , everytime new container will be lauched for image , if container is launching from image first time , it should be run not start
+	2. status up if started or getting accessed
+	3. status exited if leave/stop the container , data inside conatiner is kept as it is until rm command
+	4. can get container data back after starting and attaching exited container if it in ps -a
+	5. to start conatiner  , it should previously run and in -a list
+
+
+
+******************************************************************************************************************************************************************************************
+										Docker Commands
+******************************************************************************************************************************************************************************************
+			Docker can run nested commands using  $ ,    e.g.   docker stop $ (docker ps -q)   , ps -q will list id  and stop will stop at once
+
+
+	Install Docker 
+
+					---------------------------------------------------------------------------
+					|              sudo apt-get docker OR yum install docker		  |          -- after installing check Version using docker -v
+					---------------------------------------------------------------------------
+
+				docker info ( works on linux/win)     OR      service docker status        ---- to check docker is running or not (status of docker) (only works on linux)
+
+
+				service docker start      ----to start service , for linux
+
+
+	
+	check images available in system  (if has root mod then use with sudo )
+ 
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+	Get available Docker container list which are current running or up
+
+					---------------------------------------------------------------------------
+					|           		docker ps   					   |   --ps = process list  , -q will list only conatiner ID
+					---------------------------------------------------------------------------
+
+						docker ps -a          means all (both stopped and running) containers
+
+	Search image on docker hub
+					---------------------------------------------------------------------------
+					|           		docker search IMAGE_NAME			   |
+					---------------------------------------------------------------------------
+
+	
+	Pull/Download Image from Hub  (Use with sudo for Linux )
+
+					---------------------------------------------------------------------------
+					|           		docker pull IMAGE_NAME				   |
+					---------------------------------------------------------------------------
+
+	
+	Chnage name/Tag of the Image
+
+				---------------------------------------------------------------------------
+				|      docker image tag OLD_IMAGE_NAME:OLD_TAG TARGET_IMAGE_NAME:NEW_TAG   |    ---it will create new image with new name and tag but with same image_id
+				---------------------------------------------------------------------------
+	
+	e.g 		docker image tag im1:latest imagenew:newtag       OR       docker image tag abc imagenew:v45    --- abc is first 3 chars of image id and neg tag is v45
+
+
+
+	get Image history 
+
+					---------------------------------------------------------------------------
+					|           		docker history IMAGE_NAME 			   |
+					---------------------------------------------------------------------------
+
+
+	delete Image  
+
+					---------------------------------------------------------------------------
+					|           		docker image rm IMAGE_NAME			   |    ----use -f to delete forcefully
+					---------------------------------------------------------------------------
+
+				docker image prune -a       ----it will delete all images without atleast 1 container associated
+		
+
+
+
+
+				*********************************************************************************************************
+									RUN CONTAINER FROM IMAGE
+				*********************************************************************************************************
+
+	Run the Image that is avilable loacally after docker images command , if not available it will first download then run (image_id also can be used instead of name)
+
+					---------------------------------------------------------------------------
+					|           		docker run -it -d IMAGE_NAME			   |      ---- i =interactive,t= with terminal mode ,d=deamon(for background)
+					---------------------------------------------------------------------------
+					if -d is used , container will not be launched but get started at background unlike without -d where user get directly inside container after runnig	
+
+
+	Run container from image with naming
+
+				docker run -it --name NAME IAMGE_NAME
+
+	Run image and get in that conatiner
+	
+				docker run -it IMAGE_NAME /bin/bash           ---(/bin/bash is the most common shell used as default shell for user login of the linux system.)
+
+	Run Image with Priviledged mode
+
+		* privileged mode grants a Docker container root capabilities to all devices on the host system. Running a container in privileged mode gives it the capabilities of its host 				machine
+		* you can even install a new instance of the Docker platform within the privileged container. Essentially, this mode allows running Docker inside Docker.
+
+		docker run -it --privileged ubuntu
+
+
+
+	Run The Container with port expose (-p stands for publish/port )
+
+					---------------------------------------------------------------------------
+					|           docker run -it -d IMAGE_NAME -p HOST_PORT:CONTAINER_PORT	   |      	-P  to publish all ports   
+					---------------------------------------------------------------------------
+															If you do -p, but do not EXPOSE, Docker does an implicit EXPOSE
+			Basically, you have three options:
+
+		
+		1) If you specify neither EXPOSE nor -p, the service in the container will only be accessible from inside the container itself.
+
+		2) If you EXPOSE a port, the service in the container is not accessible from outside Docker, but from inside other Docker containers. So this is good for inter-container 			communication.
+
+		3) If you EXPOSE and -p a port, the service in the container is accessible from anywhere, even outside Docker.
+
+
+
+				*********************************************************************************************************
+									EXECUTE THE CONTAINER 
+				*********************************************************************************************************
+	
+															CONTIANER_ID can be used instead of NAME
+
+
+	Access the running container (only if status is up ) , it will start from leftover process of previous time when exited from container ,PPID becomes previous  PID
+
+					---------------------------------------------------------------------------
+					|           		docker attach CONTAINER_NAME			   |
+					---------------------------------------------------------------------------
+
+	Access the running container with new process PID , It will create a new process for bash , new PID with PPID as first PPID when container is created
+
+					---------------------------------------------------------------------------
+					|           	docker exec -it CONTAINER_NAME bash			   |
+					---------------------------------------------------------------------------
+
+	
+	stop the running container (only if container is running and user is out of container , any from docker ps , status up)
+
+					---------------------------------------------------------------------------
+					|           		docker stop CONTIANER_NAME			   |	USE : ctrl + p + q    to exit from running container without stopping
+					---------------------------------------------------------------------------
+
+			stop all at once   :   docker stop $ (docker ps -q )
+
+	Strat the stopped container (any from docker ps -a , status exited)
+
+					---------------------------------------------------------------------------
+					|           		docker start CONTAINER_NAME			   |
+					---------------------------------------------------------------------------
+
+			start all at once   :   docker start $ (docker ps -aq )
+
+	Delete container (stop the container before removing , it will get removes from all lists )
+
+					---------------------------------------------------------------------------
+					|           		docker rm CONTAINER_NAME			   |
+					---------------------------------------------------------------------------
+		To delete all container at once 
+
+				docker rm $ (docker ps -a -q)    OR   docker rm $ (docker ps -aq )  
+
+
+	get diff. betn conatiner and actual image from that container is created 
+							display every file changed or modifed from image  (everytime /root/.bash_history will have status C as it conatins command history)
+					---------------------------------------------------------------------------
+					|           		docker diff CONTAINER_NAME			   |
+					---------------------------------------------------------------------------
+			status name(can be file or dir) : A => file added  , C => file modified  , D => file deleted
+
+
+	Save the conatainer template i.e create image of conatiner (container should has status as exited )
+
+					---------------------------------------------------------------------------
+					|           	docker commit CONTAINER_NAME NEW_IMAGE_NAME		   |    ---to access first start
+					---------------------------------------------------------------------------
+
+
+
+
+
+				*********************************************************************************************************
+									RUN CONTAINER FROM DOCKERFILE
+				*********************************************************************************************************
+
+		dockerfile has set of instruction to launch a container with modified setting such as packege , services , ports , name should be " Dockerfile "
+
+
+
+	Build Image from Dockerfile
+
+					---------------------------------------------------------------------------
+					|           	docker build -t NEW_IMAGE_NAME .   			   |    --- remember adding . at last
+					---------------------------------------------------------------------------
+
+
+
+
+
+
+				*********************************************************************************************************
+									DOCKER VOLUME
+				*********************************************************************************************************
+
+	///**  diff. betn bind mount And Volume
+
+	- bind mount is a high-performance connection from the container to a directory on the host machine. It allows the host to share its own file system with the container, which can be 		made read-only or read-write
+
+	-  volume is nothing but directory inside container that is accessible even after container exit . bind mount uses the host file system, but Docker volumes are native to Docker. The 			data is kept somewhere on storage attached to the host – often the local filesystem. The volume itself has a lifecycle that's longer than the container's, allowing 			it to persist until no longer needed. Volumes can be shared between containers.
+		$ data in volume is inter-sharable between 2 or more containers , any container having RW access can write and read the data.
+		$ volume should be attched before initializing(starting 1st time) container , after creating volume can not be attched 
+		$ if image is created from running container having volume , then container that will be created from that image has volume as an independent dir and it will not be 					connected to original volume.any change in that dir will not reflect in volume but dir will have data until image has been created
+
+
+	BeneFits Of Volume :
+				* easy decoupling of container as no data loss 
+				* sharable data among containers , save space as well as bandwidth
+
+
+	Container with Volume can be created using (both have diff volume storage )
+
+							1. From Dockerfile (it will create volume if volume is not present )
+
+										code : 		 Volume ["/VOLUME_NAME"]   
+						#container will have dir named VOLUME_NAME and volume will be generated automatically & newly everytime container launched from dockerfile
+						# to access same volume , 1st time launch from dockerfile and after that attach container volume using --volumes-from 
+
+							2. Directly attaching host's dir as volume
+
+									docker run -it -v HOST_DIR_PATH:DIR_PATH ubuntu    --both path starts with /
+
+
+							3. By manually creating Volume as well as Container
+
+
+	Launch Container with Creating new Volume from run command
+
+					----------------------------------------------------------------------------------------
+					|     docker run -it -v DIR_PATH --name CONTAINER_NAME IAMGE_NAME			|   DIR_PATH starts with / always
+					----------------------------------------------------------------------------------------
+			it will create volume and it is accessible inside container at dir_path , everytime new volume is created and attached so run only 1 time
+					and attach that container volume directly while creating new container
+		
+	List Available Volumes
+
+					---------------------------------------------------------------------------
+					|           		docker volume ls				   |  
+					---------------------------------------------------------------------------
+
+								 docker volume ls -f name=VOL     --- if is filter to get list of volumes like VOL , e.g. VOL23 , VOLUME1
+
+
+	Create docker Volume
+
+					---------------------------------------------------------------------------
+					|           		docker volume create VOLUME_NAME		   |
+					---------------------------------------------------------------------------
+		Volume will have dirs =>		backups  cache  lib  local  lock  log  mail  opt  run  spool  tmp
+		any modification in this dir structure will reflect to volume causing to another conatainers that attched with that volume
+					
+
+	inspect docker volume
+
+					---------------------------------------------------------------------------
+					|           		docker volume inspect VOLUME_NAME		  |
+					---------------------------------------------------------------------------
+
+	remove docker volume
+	
+					---------------------------------------------------------------------------
+					|           		docker volume rm VOLUME_NAME 			   |
+					---------------------------------------------------------------------------									
+										
+							docker volume prune   ----WARNING! This will remove all local volumes not used by at least one container.
+
+
+	Launch Container with Volume from run command
+
+					----------------------------------------------------------------------------------------
+					|     docker run -it -v VOL_NAME:DIR_PATH --name CONTAINER_NAME IAMGE_NAME		|   DIR_PATH starts with / always
+					----------------------------------------------------------------------------------------									
+			e.g.        docker run -it -v vol1:/var/filerahul/ --name containervol2 ubuntu    ,  vol1 will be accessible at location /var/filerahul/ inside conatiner
+
+
+	Launch Container with Volume of another conatiner from run command 
+				( –volumes-from is usually used to link volumes between running containers. Jenkins uses it to share data between agents running as Docker containers.)
+
+				-------------------------------------------------------------------------------------------------
+				|     docker run -it --volumes-from CONATINER_VOL_NAME --name CONTAINER_NAME IAMGE_NAME		|   
+				-------------------------------------------------------------------------------------------------
+		
+		CONATINER_VOL_NAME is conatiner name/id that has volume attached 
+				in newly launched container has volume accessible at same location as CONATINER_VOL_NAME has 
+
+
+
+
+
+
+
+
  
 check docker status sudo systemctl status docker
 
-##  sudo docker pull ubuntu
-       ubuntu image will be pulled from docker server
 
-##  check images available in system
-   sudo docker images
-## Run image   it=interactive d= deamon(for background)
+## Run image   it=interactive 
    sudo docker run -it -d {image-name}     -p {host port no}:{img port no} if any server is installed inside image it will map its port to on our host port {port no}
 
-## status of container
 
-   sudo docker ps <== add -a to get all images details
-## stop container
-  sudo docker stop --ID--   <== id get from ps command
 
 ## connect to container running
   first run the image
@@ -28,13 +419,7 @@ check docker status sudo systemctl status docker
 	sudo docker run -it -v {dir address}:/{map point inside container} -d {img-name}  // for using , enter to bash of image and use command "cd {map point inside container}"
  										{map point inside container} can be any name like app eg /home/file:/app
 
-## docker volume
-	sudo docker volume create {vol-name}
-	sudo docker volume ls  <== list all valume list , rm for remove
-   
-   for using docker volume
 
-	sudo docker run -it --mount source={name_of_volume},target={path to vol from container} -d {vol_name}     // path to vol from container=/app	
 
 
 
@@ -42,11 +427,7 @@ check docker status sudo systemctl status docker
 	
 	  sudo docker exec -it {id} bash   <==id from ps
 
-# delete container from system
- 
-  sudo docker rm -f {ID}        -f if container is still running
-  sudo docker container prune   <== delete all containers at once
-  sudo docker rm -f $(sudo docker ps -a -q)   nested command for removing all containers
+
 
 ## remove image from system  
 
@@ -73,3 +454,99 @@ check docker status sudo systemctl status docker
 ## COMPOSE 
 
     run multiple docker containers at once
+
+
+
+
+	Syntax:  (instruction should be in capital form , # followed by whole line is comment , comment should always be in newline , not with any instruction )
+
+######################################################################--Dockerfile--####################################################################################################
+
+# FROM should be alwasy the first line of the Dockerfile , and it should be the same as the image name , FROM IMAGE_NAME:TAG
+# e.g.  
+FROM ubuntu:latest
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# RUN <command> (shell form, the command is run in a shell, which by default is /bin/sh -c on Linux or cmd /S /C on Windows)
+#  can ber used to install software, or to run a command in the container. use -y always to install without asking for confirmation
+RUN apt-get update
+RUN apt-get install nginx -y
+
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+
+#  MAINTAINER instruction is deprecated. Instead, one should use the LABEL instruction , it will lable the conainer with the maintainer name
+# LABEL <key>=<value> (label the container with a key-value pair)
+LABEL name="RahulUbuntu"
+#  view an image’s labels, use the docker inspect command. They will be under the "Labels" JSON attribute
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+#  Copies new files or directories from <src> and adds them to the filesystem of the image at the path <dest>
+# COPY <src> <dest>
+# <src> may contain wildcards and matching will be done using Go’s filepath.Match rules.
+# <src> must be relative to the source directory that is being built (the context of the build).
+# <dest> is an absolute path, or a path relative to WORKDIR.
+
+COPY filea userfile/
+
+# src should in ref with where the Dockerfile is not from root dir , and also dsc should not start with /
+
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+#  ADD <src> <dest> , similar to COPY , but it has feature to download files from the internet and also extract and then save to <src>
+
+ADD http://archive.ubuntu.com/ubuntu/pool/universe/t/tree/tree_1.8.0-1_amd64.deb /tree
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+#  Informs Docker that the container listens on the specified network port(s) at runtime.
+# EXPOSE does not make the ports of the container accessible to the host
+
+EXPOSE 8080
+
+#  The above line will instruct Docker that the container’s service can be connected to via port 8080
+
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# The ENV instruction sets the environment variable <key> to the value <value>.
+
+ENV name="Rahul"
+ENV key="mykey"
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it.
+WORKDIR /userfile
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# Docker has a default entrypoint which is /bin/sh -c but does not have a default command
+# CMD and entrypoint  used only once in a Dockerfile
+
+# CMD defines default commands and/or parameters for a container. CMD is an instruction that is best to use if you need a default
+#  command which users can easily override. If a Dockerfile has multiple CMDs, it only applies the instructions from the last one.
+#  CMD Executes the commands during the Image build process.
+CMD [ "echo" , "hello this is echo" ]
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# ENTRYPOINT is preferred when you want to define a container with a specific executable
+# similar to CMD but ENTRYPOINT has higher priority than CMD , first command will be executed by only ENTRYPOINT
+ENTRYPOINT [ "echo" , "hello this is echo" ]
+
+# ------------------------------------------------------------------------------------------------------------------------------#
+
+# USER instruction sets the user name or 
+#    UID to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow it in the Dockerfile.
+
+USER root
+USER rahuluser
+# ------------------------------------------------------------------------------------------------------------------------------#
+# ARG : lets you define an argument which can be passed to Docker when you build the Docker image from the Dockerfile.	
+
+######################################################################--Dockerfile--####################################################################################################

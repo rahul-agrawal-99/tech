@@ -241,9 +241,13 @@ upstream is from where you clone the repository, and downstream is any project t
 	git remote -v
 
 
-# estbilishing connection to remote repo for first time
+# estbilishing connection to remote repo for first time  (origin is just key that has value of url , any key name can be set instead of origin)
 
-	git remote add origin   PROFILE_URL_OF_GITHUB_REPO      ---- it point origin as a key to setted url , at time of push requires authentication if not done previously 	
+	git remote add origin   PROFILE_URL_OF_GITHUB_REPO      ---- it point origin as a key to setted url , at time of push requires authentication if not done previously 
+
+# change remote url 
+	
+	git remote set-url origin NEW_URL	
 
 # set default remote branch 
 

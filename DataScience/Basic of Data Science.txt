@@ -1,0 +1,9 @@
+
+Data science is an interdisciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from noisy, structured and unstructured data, and apply knowledge and actionable insights from data across a broad range of application domains.
+Many operations of data science that is, data gathering, data cleaning, data manipulation, etc.
+
+Machine learning (ML) is a type of artificial intelligence (AI) that allows software applications to become more accurate at predicting outcomes without being explicitly programmed to do so. Machine learning algorithms use historical data as input to predict new output values.
+
+
+
+Diff Betn Package , Module and Library
