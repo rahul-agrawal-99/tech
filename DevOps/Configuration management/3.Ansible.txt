@@ -1,0 +1,12 @@
+
+
+Ansible was introduced in 2012 by AnsibleWorks, is now owned by Red Hat,  it is an open-source and also has an enterprise version (Ansible Tower).
+Ansible is agenteless , agent has not installed on node , it directly communicates through ssh directly
+it was designed In Python (not Ruby) and is meant to be lightweight and have fast deployment
+scripts for ansibke are written in YAML(yet another markup language) which is clode to english and also machine understandable
+Ansible was a command-line-only tool. Now you can get a UI if you use the enterprise version, but it’s by no means perfect
+it is Push Based Configuration Management Tool
+ansible is terminolgy used as make communaicaation without delay between 2 devices which is on diff planet
+chef and puppet are more popular than ansible , also ansible community is not grown as much now
+chef has cookbook -> recipe but ansible has playbook
+technically not fully automate as we need to push for configuration

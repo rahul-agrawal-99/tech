@@ -396,66 +396,18 @@ Container Lifecycle
 
 
 
+	Push The image to docker Hub :
+
+			docker push IMAGE_NAME:TAG_NOT_NECESSARY      --- requires sign credentials for docker hub using docker login
 
 
 
+******************************************************************************************************************************************************************************************
+										Dockerfile Syntax
+******************************************************************************************************************************************************************************************
 
 
  
-check docker status sudo systemctl status docker
-
-
-## Run image   it=interactive 
-   sudo docker run -it -d {image-name}     -p {host port no}:{img port no} if any server is installed inside image it will map its port to on our host port {port no}
-
-
-
-## connect to container running
-  first run the image
-  then execute
-
-## docker run --name "container_name" --rm -i {iamge name}
-	for using docker bind mount  , it is dynamic
-	sudo docker run -it -v {dir address}:/{map point inside container} -d {img-name}  // for using , enter to bash of image and use command "cd {map point inside container}"
- 										{map point inside container} can be any name like app eg /home/file:/app
-
-
-
-
-
-## Execute container for use
-	
-	  sudo docker exec -it {id} bash   <==id from ps
-
-
-
-## remove image from system  
-
-  sudo docker rm  {imageID}   get imgID from sudo docker images ,
-
-## saving changes made in container 
-
-  sudo docker commit {container id} {new-img-name}   img-name for storing with new name [save as rahulagrawal99/test_repo/img_name]
-   check commit by sudo docker images
-
-## login to docker hub
-
-	sudo docker login
-
-## push image to docker 
-
-	sudo docker push {img-name}:{tag}   
-
-## build from dockerfile
-
-	sudo docker build . -t dockerfile
-        sudo docker run -it -p 84:80 -d dockerfile
-
-## COMPOSE 
-
-    run multiple docker containers at once
-
-
 
 
 	Syntax:  (instruction should be in capital form , # followed by whole line is comment , comment should always be in newline , not with any instruction )
@@ -550,3 +502,71 @@ USER rahuluser
 # ARG : lets you define an argument which can be passed to Docker when you build the Docker image from the Dockerfile.	
 
 ######################################################################--Dockerfile--####################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+******************************************************************************************************************************************************************************************
+										Docker Compose (not pre-installed)
+******************************************************************************************************************************************************************************************
+-Docker Compose is a tool for running multi-container applications on Docker defined using the Compose file format. A Compose file is used to define how the one or more containers that make 	up your application are configured
+-Docker Compose works by applying many rules declared within a single docker-compose.yml configuration file.
+-These YAML rules, both human-readable and machine-optimized, provide us an effective way to snapshot the whole project from ten-thousand feet in a few lines.
+
+
+
+
+
+
+******************************************************************************************************************************************************************************************
+										Docker Swarm
+******************************************************************************************************************************************************************************************
+
+	it is container orchestration tool , it allows the user to manage multiple containers deployed across multiple host machines
+
+	it is master-worker(both have diff. hardware) architecture in which master has to initialize swarm and after that work can simply join this , master can moniter status of workers
+
+	master-wroker should be the part of same private network in order to communicate , service is created on master and deployed on conatiners on worker
+
+	in service , exact NUM amount of conatiner will be maiuntained across master and worker combined , if any of container fails , new will be launched automatically
+
+	container will be distributed equally in betn available machine i.e. master + all wokers
+
+	ON Master :
+
+		docker swarm init --advertise-addr=PRIVATE_IP_OF_MASTER      ---if ip not given , it will automatically assign private ip
+
+			after running this command , we will get command having token , just copy that command and run it on worker node 
+			we can check worker node status using ,     
+									docker node ls
+	
+	Creating Service on Master : (service is accessible with eaither master or worker's ip )
+
+		docker service create --name NAME --replicas NUM -p HPORT:CPORT IMAGE_NAME
+
+	Check docker services available on master :
+
+		docker service ls
+	
+	change scaling dynamically :
+
+		docker service scale IMAGE_NAME=NEW_NUM     ---scale up/down easily and evenly
+
+	remove service
+
+		docker service rm IMAGE_NAME
+
+	left the swarm :
+
+		docker swarm leave    ---- use --force for master to leave
+
+
+

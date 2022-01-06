@@ -1,0 +1,33 @@
+
+******************************************************************************************************************************************************************************************
+										Configuration management
+******************************************************************************************************************************************************************************************
+
+	Configuration management is a systems engineering process for establishing and maintaining consistency of a product's performance, functional, and physical attributes with its 		requirements, design, and operational information throughout its life
+
+Pull Vs Push Based Configuration Management Tool
+
+	Pull :  nodes pull the configuration information from the server ,agent or client is installed on every node.    (e.g.  Chef & Puppet )
+		 its always the agent/client that initiates communication, not the main server.
+		 This agent/client will:
+				1.at regular intervals, get the configuration from the server
+				2.compare the configuration received from the server with the current configuration of the node
+				3.if there is any mis-match, take the steps required to match the configuration of the node with the configuration received from the server
+
+	Push :  main server (where the configuration data is stored) pushes the configuration to the node    
+		it is the main server that initiates communication, not the nodes. Which means that an agent/client may or may not be installed on each node.
+
+		(e.g. Ansible ,doesn’t need an agent to be installed on the nodes) 
+		(e.g. SaltStack is an example of a push based configuration management tool that needs an agent (minion) to be installed on the nodes)
+
+
+	Use-Case : largely static infrastructure will benefit more from Push Based Configuration Management, while an extremely dynamic infrastructure will find Pull Based Configuration 			more suitable or just use Pull for initial configuration setup and Push for application deployment
+
+
+
+
+SaltStack: Written in Python, SaltStack(Salt) holds your inventory’s state on a master server, with YAML being the default format for storing configurations. SaltStack templates use the Jinja templating language, which will be familiar to Python users.
+
+Puppet: Another tool on the configuration management side, Puppet requires a master server, called the Puppet master, which stores the configuration of your infrastructure and pushes changes out to clients. Like Ansible Tower, Puppet Enterprise comes with a web dashboard, Puppet Enterprise Console, for managing your inventory.
+
+Terraform: A different approach to both Ansible and Chef. Terraform focuses on setting up your entire infrastructure and provisioning servers. As such, it falls on the orchestration side of the spectrum, but it can be used alongside configuration focused tools like Chef and Ansible.
