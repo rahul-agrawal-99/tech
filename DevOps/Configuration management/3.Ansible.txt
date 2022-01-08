@@ -1,12 +1,162 @@
 
 
-Ansible was introduced in 2012 by AnsibleWorks, is now owned by Red Hat,  it is an open-source and also has an enterprise version (Ansible Tower).
-Ansible is agenteless , agent has not installed on node , it directly communicates through ssh directly
-it was designed In Python (not Ruby) and is meant to be lightweight and have fast deployment
-scripts for ansibke are written in YAML(yet another markup language) which is clode to english and also machine understandable
-Ansible was a command-line-only tool. Now you can get a UI if you use the enterprise version, but it’s by no means perfect
-it is Push Based Configuration Management Tool
-ansible is terminolgy used as make communaicaation without delay between 2 devices which is on diff planet
-chef and puppet are more popular than ansible , also ansible community is not grown as much now
-chef has cookbook -> recipe but ansible has playbook
-technically not fully automate as we need to push for configuration
+-Ansible was introduced in 2012 by AnsibleWorks, is now owned by Red Hat,  it is an open-source and also has an enterprise version (Ansible Tower).
+
+-ansible is terminolgy used as make communaicaation without delay between 2 devices which is on diff planet
+
+-chef and puppet are more popular than ansible , also ansible community is not grown as much now
+-chef has cookbook -> recipe but ansible has playbook
+
+-Ansible is agenteless , agent has not installed on node , it directly communicates through ssh directly
+
+-it was designed In Python (not Ruby) and is meant to be lightweight and have fast deployment
+
+-Ansible uses the playbook to describe automation jobs, and playbook, which uses simple language, i.e., YAML. YAML is a human-readable data serialization language & commonly used for 	configuration files
+
+-Ansible was a command-line-only tool. Now you can get a UI if you use the enterprise version, but it’s by no means perfect
+
+-it is Push Based Configuration Management Tool
+
+-technically not fully automate as we need to push for configuration
+
+-It can easily connect to clients using SSH-Keys, simplifying though the whole process. Client details, such as hostnames or IP addresses and SSH ports, are stored in the files, which are 		called inventory files. If you created an inventory file and populated it, then Ansible can use it.
+
+
+ --------------------- Terms
+
+Ansible Server			It is a machine where Ansible is installed and from which all tasks and playbooks will be executed.
+Modules				The module is a command or set of similar commands which is executed on the client-side.
+Task				A task is a section which consists of a single procedure to be completed.
+Role				It is a way of organizing tasks and related files to be later called in a playbook.
+Fact				The information fetched from the client system from the global variables with the gather facts operation.
+Inventory			A file containing the data regarding the Ansible client-server.
+Play				It is the execution of the playbook.
+Handler				The task is called only if a notifier is present.
+Notifier			The section attributed to a task which calls a handler if the output is changed.
+Tag				It is a name set to a task that can be used later on to issue just that specific task or group of jobs.
+
+
+
+			////////////////////       Ansible Use commands and configuration    ///////////////////////
+
+
+
+- install ansible , python ,pip , openssl , git , python-level 
+
+- open /etc/ansible/hosts in any editor like vi , nano and create group with nodes like e.g.
+
+[GRP_NAME]
+PRIVATE_NODE_IP
+
+		add as many node with private ip , we can push configuration to group and it will be send to all available nodes
+
+- open /etc/ansible/ansible.cfg in any editor and uncomment(remove #) lines having inventory  , sudo_user
+
+- craete user having root access so that it can communicate with nodes without switching directly to root and nodes can execute cmd with that sudo user access 
+
+	useradd USER      --create user directly
+
+	passwd USER	  --- set password for user 
+
+	sudo adduser USER sudo  OR   visudo         ---run with root access only , used to set sudo access ,add the lines as :
+
+				USER ALL=(ALL) NOPASSWD: ALL
+
+	create new root user in all nodes as well as server , with that access , USER can perform root operations with using sudo 
+
+- switch to USER created in server and all nodes 
+
+- in server , open /etc/ssh/sshd_config in editor and perform :
+
+						1. uncomment PermitRootLogin 
+						2. change PasswordAuthentication to yes
+
+- restart ssh service in server as well as node 
+
+- switch to USER , then we can ssh access of nodes from server but require password everytime
+
+- to get access without password , rsa is used where servers public key is saved on all node and whenever server tries to access , it tries with its own private key and node will verify 	with public key so trust reletion will be build , follow steps :
+		
+			1. switch to USER , and type ssh-keygen   in server
+			2. to copy server's punlic key on node , type    ssh-copy-id USER@NODE_PRIVATE_ID         ----USER is sudo user name of node 
+
+- to list availble ALL nodes 
+
+		ansible all --list-hosts
+
+- to list availble in GROUP nodes 
+
+		ansible GRP_NAME --list-hosts
+
+- to list availble in GROUP nodes index wise --- indexing same as list indexing in python , starts from 0 and last has index -1 also slicing is possible
+
+		ansible GRP_NAME[0] --list-hosts
+
+
+
+
+                                      ////////////////////  Ansible ad hoc and playbooks        /////// (-a used whenever a command has to be pass to nodes)
+
+
+	1. AD HOC COMMANDS (ad hoc typically signifies a solution for a specific purpose, problem, or task rather than a generalized solution adaptable to collateral instances.)
+
+				Ad hoc commands are commands which can be run individually to perform quick functions. These commands need not be performed later.
+
+				For example, you have to reboot all your company servers , instead writing whole playbook for writing for just one singal task
+	
+				it is not used for configuration management/deployment but it can be , it is for only individual commands , it is one time use 
+
+				it used for works like start , reboot , shut down , create file , install on all/specific at once 
+
+				basic linux commands are executed  , no idempotency
+
+	Use of ad hoc commands (-a is used if it is ad hoc command) (switch to USER created in server and all the nodes)
+
+				ansible USER_GROUP -ba "COMMAND"      -----  -a stands for argument means run the arg in "" and b is for make it as sudo 
+									USER_GROUP may be all or created in /etc/ansible/hosts , instead of -b add sudo in the COMMAND directly
+								COMMAND e.g. :  touch , ls , install httpd (not recommended)
+
+			
+						e.g. ansible grp[1:5] -a "sudo yum install httpd"  OR ansible all -ba "yum install httpd"
+
+
+
+	2. Ansible Module and Playbook (idempotency is present)
+
+		whenever module/playbook is fired , setup (like ohai) from server checks the configuration from all nodes and then decides to install if it is not present
+			to get setup info abount nodes : ansible demo -m setup 
+				to filter use :   ansible -m setup -a "filter=*ipv4*"    ---it will give only setup details about ipv4
+
+		module is like recipe and playbook is like cookbook from chef  
+
+		Ansible modules are discrete units of code which can be used from the command line or in a playbook task 
+
+		Module :   always contain -m , MODULE_NAME is not discrete , it is according to purpoes like for installing yum , user releted cmd it is user 
+
+				ansible GROUP_NAME -b -m MODULE_NAME -a "COMMAND"          -----COMMAND is not like linux commands , it is in form of YAML scripts
+
+
+				e.g. for installing packge
+
+						ansible all -b -m yum -a "pkg=httpd state=present"     ---pkg can br anything
+
+							Yaml format=	state is present by default, present means install , absent means remove package , latest means update package
+
+				e.g. for strating service
+
+						ansible all -b -m service -a "name=httpd state=started"
+
+				e.g. user releted , e.g. creating a user
+
+						ansible all -b -m user -a "name=NAME"         ----to remove use ("name=NAME state=absent")
+
+				e.g. copy files to nodes 
+
+						ansible all -b -m copy -a "src=/DIR dest=/DIR" 
+
+		Playbooks are the files where the Ansible code is written. Playbooks are written in YAML format ,Playbooks contain the steps which the user wants to execute on a particular 		machine. And playbooks are run sequentially. Playbooks are the building blocks for all the use cases of Ansible
+											
+
+
+
+
