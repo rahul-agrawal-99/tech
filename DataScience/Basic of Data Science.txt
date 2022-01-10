@@ -7,3 +7,70 @@ Machine learning (ML) is a type of artificial intelligence (AI) that allows soft
 
 
 Diff Betn Package , Module and Library
+
+
+Module:
+
+A module is a file containing Python definitions and statements. The file name is the module name with the suffix .py appended.
+
+Package:
+
+Packages are a way of structuring Python’s module namespace by using “dotted module names”.
+
+An API is not a collection of code per se - it is more like a "protocol" specification how various parts (usually libraries) communicate with each other. There are a few notable "standard" APIs in python. E.g. the DB API
+
+In my opinion, a library is anything that is not an application - in python, a library is a module - usually with submodules. The scope of a library is quite variable - for example the python standard library is vast (with quite a few submodules) while there are lots of single purpose libraries in the PyPi, e.g. a backport of collections.OrderedDict for py < 2.7
+
+A package is a collection of python modules under a common namespace. In practice one is created by placing multiple python modules in a directory with a special __init__.py module (file).
+
+A module is a single file of python code that is meant to be imported. This is a bit of a simplification since in practice quite a few modules detect when they are run as script and do something special in that case.
+
+A script is a single file of python code that is meant to be executed as the 'main' program.
+
+If you have a set of code that spans multiple files, you probably have an application instead of script.
+
+
+
+
+**************************************    Types of Variable
+
+A quantitative variable is a variable that reflects a notion of magnitude, that is, if the values it can take are numbers. A quantitative variable represents thus a measure and is numerical.
+
+Quantitative variables are divided into two types: discrete and continuous. The difference is explained in the following two sections.
+
+# Discrete
+Quantitative discrete variables are variables for which the values it can take are countable and have a finite number of possibilities. The values are often (but not always) integers. Here are some examples of discrete variables:
+
+Number of children per family
+Number of students in a class
+Number of citizens of a country
+Even if it would take a long time to count the citizens of a large country, it is still technically doable. Moreover, for all examples, the number of possibilities is finite. Whatever the number of children in a family, it will never be 3.58 or 7.912 so the number of possibilities is a finite number and thus countable.
+
+# Continuous
+On the other hand, quantitative continuous variables are variables for which the values are not countable and have an infinite number of possibilities. For example:
+
+Age
+Weight
+Height
+For simplicity, we usually referred to years, kilograms (or pounds) and centimeters (or feet and inches) for age, weight and height respectively. However, a 28-year-old man could actually be 28 years, 7 months, 16 days, 3 hours, 4 minutes, 5 seconds, 31 milliseconds, 9 nanoseconds old.
+
+For all measurements, we usually stop at a standard level of granularity, but nothing (except our measurement tools) prevents us from going deeper, leading to an infinite number of potential values. The fact that the values can take an infinite number of possibilities makes it uncountable.
+
+# Qualitative
+In opposition to quantitative variables, qualitative variables (also referred as categorical variables or factors in R) are variables that are not numerical and which values fits into categories.
+
+In other words, a qualitative variable is a variable which takes as its values modalities, categories or even levels, in contrast to quantitative variables which measure a quantity on each individual.
+
+Qualitative variables are divided into two types: nominal and ordinal.
+
+# Nominal
+A qualitative nominal variable is a qualitative variable where no ordering is possible or implied in the levels. For example, the variable gender is nominal because there is no order in the levels female/male. Eye color is another example of a nominal variable because there is no order among blue, brown or green eyes.
+
+A nominal variable can have between two levels (e.g., do you smoke? Yes/No or what is your gender? Female/Male) and a large number of levels (what is your college major? Each major is a level in that case).
+
+Note that a qualitative variable with exactly 2 levels is also referred as a binary or dichotomous variable.
+
+# Ordinal
+On the other hand, a qualitative ordinal variable is a qualitative variable with an order implied in the levels. For instance, if the severity of road accidents has been measured on a scale such as light, moderate and fatal accidents, this variable is a qualitative ordinal variable because there is a clear order in the levels.
+
+Another good example is health, which can take values such as poor, reasonable, good, or excellent. Again, there is clear order in these levels so health is in this case a qualitative ordinal variable.

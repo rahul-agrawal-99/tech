@@ -155,8 +155,259 @@ PRIVATE_NODE_IP
 						ansible all -b -m copy -a "src=/DIR dest=/DIR" 
 
 		Playbooks are the files where the Ansible code is written. Playbooks are written in YAML format ,Playbooks contain the steps which the user wants to execute on a particular 		machine. And playbooks are run sequentially. Playbooks are the building blocks for all the use cases of Ansible
-											
 
+	Playbook consists of :
+
+		1.Role
+
+		2.Handler  : performed only when task notofies true condition used to handle the services like start/reboot the servers	
+
+		3.Task	  : tasks are defined here such as install package , copy files 			
+
+		4.Role
+
+		5.Var  : define the variables which you can use in your playbook. Usage is similar to variables in any programming language.can be used many times once defined 
+
+		6.Files
+
+		7.Name	 :   It specifies the name of the Ansible Playbooks.	
+
+
+ansible-lint verify-apache.yml
+			To check  playbook syntax and what is it's working without actual working on nodes
+
+					---------------------------------------------------------------------------
+					|           	 ansible-lint FILE_NAME.yml	  			   |  Alternative:  ansible-playbook FILE_NAME.yml --check
+					---------------------------------------------------------------------------
+
+			To execute any playbook
+
+					---------------------------------------------------------------------------
+					|           	  ansible-playbook FILE_NAME.yml			   |
+					---------------------------------------------------------------------------
+
+			create encrypted playbook
+
+					---------------------------------------------------------------------------
+					|           	  ansible-vault create FILE_NAME.yml			   |   ---enter key for as password for this yam file
+					---------------------------------------------------------------------------
+
+			To edit encrypted playbook
+
+					---------------------------------------------------------------------------
+					|           	  ansible-vault edit FILE_NAME.yml			   |   ---only accessible after entering successful key
+					---------------------------------------------------------------------------
+
+
+			To change password of encrypted playbook
+
+					---------------------------------------------------------------------------
+					|           	 ansible-vault rekey FILE_NAME.yml			   |
+					---------------------------------------------------------------------------
+
+
+		to encrpt exisitng yml file :     ansible-vault encrypt FILE.yml     ---- file should be decrypted
+
+		to decrypt file :  ansible decrypt FILE.yml    ---- file should be pre-encrypted
+
+
+	YAML Basic Format :
+
+			alwasys start with --- and ends with ...  , ... is not mandatory , .yml format and it is case sensitive , like python it has indentation 
+			
+			it has key-value pairs strictly written as key: value  --- not space betn "key" and ":" but a single space betn ":" and value
+
+			supports single line comments with # like python , no multi line comment supprted
+
+E.G.
+
+###   Syntax  ###
+
+# start with --- and end with ...
+
+# identifier key after main header always has sign -  , like e.g.
+# tasks:                            -------headers can be tasks, handlers, vars , etc.
+#   - name:ANYTHING                   ------- "-" is used only for identifier key after main headers , evry name in tasks has "-" sign
+
+#  host , user , become ,connection is mandetory for every playbook but remote_user also can be used 
+
+
+
+#####################   gather facts from setup      #####################
+
+---
+   hosts: GRP_NAME
+   user: USER         # inour case it is ansible , it can be root
+# in this case USER is ansible 
+   become: yes
+   connection: ssh
+   gather_facts: yes  # to display facts from setup
+
+...
+
+#####################   Install a package using action     #####################
+
+---
+- hosts: GRP_NAME        # use - for first heading
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+    - name: TEXT_THAT_DESCRIBES_FOLLOWING_PROCESS
+      action: yum name=httpd state=present    #state may be installed
+
+
+#####################   Install a package and configure          #####################
+
+---
+- name: Update web servers
+  hosts: webservers
+  remote_user: root
+
+  tasks:
+  - name: Ensure apache is at the latest version
+    ansible.builtin.yum:
+      name: httpd
+      state: latest
+  - name: Write the apache config file
+    ansible.builtin.template:
+      src: /srv/httpd.j2
+      dest: /etc/httpd.conf
+
+#####################   Install a package and start only if installed using handlers     #####################
+
+---
+- hosts: GRP_NAME        # use - for first heading
+  user: ansible
+  become: yes
+  connection: ssh
+
+  target :
+    - name: TEXT_THAT_DESCRIBES_FOLLOWING_PROCESS
+      action: yum name=httpd state=present    
+      notify: restart httpd     # we can use anything but mention same test for name of handler
+
+  handlers:
+    - name: restart httpd      # same name as notify , it will be executed only if any task notifies it
+      action: service name=httpd state=restarted
+
+
+#####################   Install a package with variable         #####################
+
+
+---
+- hosts: GRP_NAME        # use - for first heading
+  user: ansible
+  become: yes
+
+  vars:
+    package: httpd   # simple variable
+    region:        # multiple values for 1 variable
+      - northeast
+      - southeast
+      - midwest
+    foo:            # dictionary variables
+      field1: one
+      field2: two
+
+  tasks:
+    - name: TEXT_THAT_DESCRIBES_FOLLOWING_PROCESS
+      action: 
+        - yum name="{{package}}" state=present    #state may be installed
+        - echo '"{{ region[0] }}" is the best region' >> /tmp/region.txt
+        - echo '"{{ foo.field1 }}" is same as "{{ foo['field1'] }}"' >> /tmp/region.txt
+
+
+#####################   Install a package with loop         #####################
+#   Dont use action for loop , use specific task name
+
+---
+- hosts: GRP_NAME        # use - for first heading
+  user: ansible
+  become: yes
+
+  vars:
+    list_of_packages: httpd
+
+  tasks:  
+# - name will be executed until loop values are exhausted , no integers are  defined for loops
+    - name: Add several users
+      ansible.builtin.user:
+        name: "{{ item.name }}"    # item is by default used for calling values of loop
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - { name: 'testuser1', groups: 'wheel' }
+        - { name: 'testuser2', groups: 'root' }
+
+    - name: Optimal yum
+      ansible.builtin.yum:
+        name: "{{ item }}"
+        state: present
+      loop: 
+        - httpd
+        - nginx
+
+    - name: creating users with loop
+      user: name="{{ item }}" state=present
+      with_items:         # using with items instead of loop
+        - user1   # only single letter allowed , like user1 allowed but user 1 will throw error
+        - user2
+    
+							
+#############  Using When Condition  #############
+
+---
+- hosts: GRP_NAME        # use - for first heading
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+    - name: TEXT_THAT_DESCRIBES_FOLLOWING_PROCESS
+      action: yum name=httpd state=present   
+      when: ansible_os_family == 'RedHat'
+    - name: TEXT_THAT_DESCRIBES_FOLLOWING_PROCESS
+      command: apt-get install apache2 -y
+      when: ansible_os_family == 'Debian'
+
+
+
+******************************************************************************************************************************************************************************************
+
+		Playbook Using Roles
+
+		
+			Create Tasks as 
+		
+						mkdir -p playbook/roles/ROLE_NAME/tasks            ---- -p for for creating nested directories
+
+
+						also with tasks make sepeate dir's like handlers , vars inside playbook/roles/ROLE_NAME/
+
+	
+			create yml file only for specific purpoes , like tasks contain only tasks for ROLE_NAME
+
+					touch playbook/roles/ROLE_NAME/tasks/main.yml        ---- main list of tasks that the role executes.
+
+			for vars       touch playbook/roles/ROLE_NAME/vars/main.yml
+
+
+		Create master yml file to run this roles
+
+					touch  playbook/master.yml              ---- it contains target and role          
+
+
+---
+- hosts: GRP_NAME        # For master.yml file
+  user: ansible
+  become: yes
+  connection: ssh
+  roles:
+    - roles: webserver    #  we created webserver dir as ROLE_NAME
+
+
+
+When master.yml is called , it will execute the role webserver so that in every dir inside ROLE_NAME , it run every main.yml available i.e. from tasks , vars , handlers etc.
 
 
 
