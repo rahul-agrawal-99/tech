@@ -1,0 +1,193 @@
+Required Libraries:
+
+import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+********************************************************************************************************************************************************************
+                                                    Loading Data
+********************************************************************************************************************************************************************
+
+
+df = pd.read_excel("sample.xlsx")     Or
+all_df = pd.read_csv('titanic.csv')
+saving csv file use df.to_csv('titanic_preprocessed.csv' , index=False) to avoid index problem 
+
+get sample from df  == df.sample(3)   returns 3 sample randomly
+
+
+
+********************************************************************************************************************************************************************
+                                                               Listing Data 
+********************************************************************************************************************************************************************
+
+## Get all 
+
+df.info()             ---- Deatils about Dataframe like column name with data type , total notNull count
+
+OR 
+
+df.describe()       --- it will give details about mean , std , min , max , count , etc only if data type is numeric
+
+---------------------------------------------------------
+
+##  to list any sample data from dataframe upto N
+
+
+df.sample(N)   
+
+Also .head(N)     And   .tail(N)
+
+---------------------------------------------------------
+
+## get all columns name by 
+
+df.columns
+
+Or
+
+for col in df:
+    print(col)
+
+---------------------------------------------------------
+
+
+##  get only Unique Values from a column
+
+df["col"].unique()
+
+
+---------------------------------------------------------
+
+##  List the unique values in a column and count the number of times they appear
+
+df['col'].value_counts()       
+Or
+df.groupby('col_name').describe()        ---- it shows in more advance way with min max value , mean , std , etc
+
+
+---------------------------------------------------------
+
+##  get All values at Row N
+
+df.values[2]                ----return array with list containing all values present at row 2
+
+OR 
+
+df.loc[2]                  ----return dataframe with all values present at row 2
+
+df.loc[:50,COL_LIST]                ----return dataframe with all values present upto row 50 with columns COL_LIST , loc requires only list of columns
+OR
+df.iloc[:10 , : 5]          ----return dataframe with all values present at first 10 row and column 0 to 4 , iloc requires only interger values of columns
+
+
+---------------------------------------------------------
+
+##  Get Max , min values for a column
+
+df["col"].max()       ----for obj datatype , it will return max value according to alphabetic order
+
+df[col].mean()
+df[col].mode()
+df[col].median()
+
+---------------------------------------------------------
+
+
+## Get datatype for a column
+
+df["col"].dtype            --- returns numpy.dtype , o for object , int64 for int 
+
+Get datatype for each column
+
+for col in df:
+    print(f'col={col} , Datatype=',df[col].dtypes)
+
+---------------------------------------------------------
+## List specific columns list
+
+df[["col1","col2","col3"]]
+
+---------------------------------------------------------
+
+## listing dataframe with specific conditions
+
+e.g. model from year 2015 onwards
+
+df[df["model"]>=2015]
+
+e.g. model from year 2015 onwards and price less than 150000
+
+df[(df["year"]>=2015) & (df["selling_price"]<150000)]          ----more condition can be added with & and ()
+
+---------------------------------------------------------
+## modify dataframe values with using function
+
+def fun(X):
+    return X+1
+
+df["col"] = df["col"].apply(fun)      --- update the value of column with function 
+
+df["col"] = df["col"].apply(lambda x:x+1)      --- update the value of column with function
+
+---------------------------------------------------------
+---------------------------------------------------------
+
+
+********************************************************************************************************************************************************************
+                                                            Dropping Unnecessary Columns
+********************************************************************************************************************************************************************
+
+
+## make unwanted column list 
+
+        droping_columns = []           ----insert unwanted column name here
+
+df=df.drop(droping_columns,axis=1,inplace=True)        ----droping unwanted column in same dataframe only
+
+
+
+
+
+
+********************************************************************************************************************************************************************
+                                                            Deal With Null Values
+********************************************************************************************************************************************************************
+
+## List all null values in a column col 
+
+df["col"].isnull()     ---- true for null value and false for non null value
+
+OR
+
+df[col].isnull().sum()  ---- return total number of null values in a column
+
+e.g.
+for col in df:     # to print columsn having more than 0 null values
+    total=df[col].isnull().sum()
+    if(total>0):
+        print('col=',col,' Null values=',total )
+
+
+## Drop the touple Or row having Null Value_count
+
+df.dropna(axis=0,inplace=True)
+
+## Fill the null values with mean of column
+
+df[col].fillna(value=mean_value,inplace=True)   #with mean
+
+OR
+
+df[col].fillna(value='sf' ,inplace=True) # spwcific values
+
+
+
+
+
+
+
+********************************************************************************************************************************************************************
+                                                    Loading Data
+********************************************************************************************************************************************************************

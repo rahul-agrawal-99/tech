@@ -1,0 +1,103 @@
+
+
+Jenkins is a powerful application that allows continuous integration and continuous delivery of projects, regardless of the platform you are working on. It is a free source that can handle any kind of build or continuous integration. You can integrate Jenkins with a number of testing and deployment technologies. In this tutorial, we would explain how you can use Jenkins to build and test your software projects continuously.
+
+
+******************************************************************************************************************************************************************************************
+										About Jenkins
+******************************************************************************************************************************************************************************************
+
+it is devoloped by sun microsystem under the name  hudson in 2004 , later oracle made jenkin that is part of hudson open spurce and kept hudson as paid , later hudson was discontinued
+
+jenkins requires JDK 1.5 or above
+
+Jenkins is a software that allows continuous integration. Jenkins will be installed on a server where the central build will take place. The following flowchart demonstrates a very simple workflow of how Jenkins works. it is framework and has master slave architecture , it can be scheduled as per requirement like crone server , tasks can be labeled and accordingly lables can be assigned to any of slave so that it can perform that specific task only 
+
+Alternatives :  altassian Bamboo ,Buildbot
+
+CI :
+	Continuous Integration is a development practice that requires developers to integrate code into a shared repository at regular intervals. This concept was meant to remove the problem of finding later occurrence of issues in the build lifecycle. Continuous integration requires the developers to have frequent builds. The common practice is that whenever a code commit occurs, a build should be triggered.
+
+Plugins :
+	a plug-in is a software component that adds a specific feature to an existing computer program. When a program supports plug-ins, it enables customization. Plugins are the primary 	means of enhancing the functionality of a Jenkins environment to suit organization- or user-specific needs. There are over a thousand different plugins which can be installed on a 	Jenkins controller and to integrate various build tools, cloud providers, analysis tools, and much more.
+
+Artifact:
+	used for archiving purpoes
+
+
+Jenkins Working :
+
+
+	pull code (using webhooks) --> build(like maven)  ---> test(selenium , junit) --> QA  --- > Deploy on production (if passes QA)
+
+
+
+
+
+A Build is an attempt or process to compile all of the source code for the project into a set of executable binaries. We cannot able to access the source code directly but we can access the application in the form of builds.
+
+
+
+******************************************************************************************************************************************************************************************
+									 Jenkins Setup
+******************************************************************************************************************************************************************************************
+
+Using Docker 
+
+	docker pull jenkins/jenkins
+
+	docker run -it -p 8080:8080 --name jenkins jenkins/jenkins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
