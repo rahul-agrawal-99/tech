@@ -36,6 +36,15 @@ Jenkins Working :
 
 A Build is an attempt or process to compile all of the source code for the project into a set of executable binaries. We cannot able to access the source code directly but we can access the application in the form of builds.
 
+An upstream job is a configured project that triggers a project as part of its execution. post build action is used .
+if project b should build after project a then we need to configure project a in this case
+
+A downstream job is a configured project that is triggered as part of a execution of pipeline. node project is active and continously reach the mentioned project to done its job
+Build after other projects are built option is used
+if project b should build after project a then we need to configure project b in this case
+
+Upstream and downstream jobs help you to configure the sequence of execution for different operations and hence you can orchestrate the flow of execution. We can configure one or more projects as downstream jobs in Jenkins.
+
 
 
 ******************************************************************************************************************************************************************************************
@@ -46,8 +55,24 @@ Using Docker
 
 	docker pull jenkins/jenkins
 
-	docker run -it -p 8080:8080 --name jenkins jenkins/jenkins
+	docker run -it -p 8080:8080 --name jenkins jenkins/jenkins            Or     docker run -it -p 8081:8080 --name jenkins jenkins/jenkins
 
+install plugin Role-based Authorization Strategy to create and assign roles to users
+1. change Logged-in users can do anything to Role-Based Strategy in manange jenkins -> configure global security -> authorization
+2. create a role in manage jenkins -> manage and assign roles -> Global Roles -> Role to add
+3. to create role based on field , create role in Item roles with pattern AS  e.g. for devolpoer use dev* , so user with starting name as dev will be assigned automatically
+4. assign role to account
+
+
+
+
+Master slave model:
+
+	we can assign slave for master to help with master , slave has its own system to perform
+
+	every job has a label and also slave has lable , if label matches then only that slave is going to build this job otherwise anyone of this get assigned
+
+	in "Restrict where this project can be run" option from configure job , set label of node to dedicatedly attach node to that job
 
 
 
