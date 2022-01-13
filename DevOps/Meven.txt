@@ -1,0 +1,113 @@
+******************************////////      ABout Java    ////////******************
+
+Java Development Kit is a distribution of Java Technology by Oracle Corporation. It implements the Java Language Specification and the Java Virtual Machine Specification and provides the Standard Edition of the Java Application Programming Interface
+
+JVM executes Java byte code and provides an environment for executing it.
+
+A JAR (Java ARchive) is a package file format typically used to aggregate many Java class files and associated metadata and resources (text, images, etc.) into one file for distribution.
+
+war file contains the web application that can be deployed on any servlet/jsp container. The .war file contains jsp, html, javascript and other files necessary for the development of web applications
+
+enterprise archive file (EAR) is a Java archive (JAR) file format used to package modules as single archive files to ensure the coherent deployment of different modules to application servers. EAR uses enclosed Extensible Markup Language (XML) files, or deployment descriptors, to describe module deployment.
+
+EAR <- WAR <- JAR
+
+
+
+
+******************************////////      ABout Build Tools    ////////******************
+
+
+Software build tools are used to automate the creation of executable applications from source code. They script or automate a variety of tasks, such as downloading dependencies, compiling and packaging code, running tests, and deployment.
+E.g.   for C/C++ has Make  , python has Pypi , .NET has visual studio , java has gradle ant maven etc.
+
+Basically build automation is the act of scripting or automating a wide variety of tasks that software developers do in their day-to-day activities like:
+
+Downloading dependencies.
+Compiling source code into binary code.
+Packaging that binary code.
+Running tests.
+Deployment to production systems.
+
+Build tools are generally to transform source code into binaries - it organize source code, set compile flags, manage dependencies... some of them also integrate with running unit test, doing static analysis, a generating documentation.
+
+Eclipse or Visual Studio are also build systems (but more of an IDE), and for visual studio it is the underlying msbuild to parse visual studio project files under the hood.
+
+Ant is tool box but maven is framework , we can modify as our convention, ant is only biuld tool but maven is complate project management tool
+ant requires to structure everytime but in maven it is pre-defined but one can change as per his need
+maven is declarative as it has lifecycle but ant does not have lifecycle
+
+******************************////////      ABout Maven   ////////******************
+
+Maven is a  project management and automation tool for java , it builds and manages dependancies . it is based on POM.xml  (project object model) , written in java and released in 2004
+Meaven means accumalate
+pom.xml will have all information to build your project.it contains following :
+	1.Metadata
+	2.Dependencies
+	3.project output (like .jar , .war)
+	4. Discription , build info , build profile
+	5.plugins
+Every project has single POM file and Every pom has exactly 1 project info
+
+For example you want to build a project and you have only the pom.xml sent to you via mail. If there are enough entries in the pom.xml then that is all you need! You can import it to Eclipse, Maven will download your source code from CVS, download various dependency jars (like Spring, Apache Commons), run your test cases, build the jar/war, deploy to your jboss/app server, generate a report of your code quality (using Sonar, maybe). Each task you want to do will be mentioned as a goal.
+
+we have just configure a library name and version , maven will collect all from official website without any user intervention 
+
+
+
+
+
+**********    Maven Architecture
+
+	. Initially it fetches source code from local or remote repo
+	.The first step refers to configuring Maven, which is stored in a pom.xml.file
+	.The POM file includes all of the configurations that Maven needs. The second step is to download the dependencies defined in pom.xml into the local repository from the central 		repository if it is not available in local
+	.After the user starts working in Maven, the tool provides various default settings, so there is no need to add every configuration in the pom.xml
+
+
+
+*********  Maven Build Life Cycle
+
+Comiple
+Test-Compile
+Test
+Package 
+Integration test
+Verify
+Install
+Deploy
+
+
+**********   Maven File structure
+
+
+Maven defines some conventions in order to organize the normal files inside a project. In this directories you can put all application sources files.
+
+The directories are the following
+
+src/main/java  : you can put all the application source files
+src/test/java  : you can put all the application test source files
+src/it         :  you can put all the application integration test source files
+
+E.g.
+
+└───maven-project
+    ├───pom.xml
+    ├───README.txt
+    ├───NOTICE.txt
+    ├───LICENSE.txt
+    └───src
+        ├───main
+        │   ├───java
+        │   ├───resources
+        │   ├───filters
+        │   └───webapp
+        ├───test
+        │   ├───java
+        │   ├───resources
+        │   └───filters
+        ├───it
+        ├───site
+        └───assembly
+
+
