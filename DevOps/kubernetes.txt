@@ -1,0 +1,64 @@
+******************************************************************************************************************************************************************************************
+										About Kubernetes
+******************************************************************************************************************************************************************************************
+					---------------------------------------------------------------------------
+					|           		docker images					   |
+					---------------------------------------------------------------------------
+
+
+simply container management/orchestration tool , also known as k8s , Container orchestration automates the deployment, management, scaling, and networking of containers.
+orchestration means clustering of any no of containers running on any network , it can works on also hybrid cloud also
+Kubernetes was originally developed and designed by engineers at Google. it was developed in Golang , it supports menifest scripts in JSON and Yaml
+
+container orchestration to automate and manage tasks such as:
+
+	Provisioning and deployment
+	Configuration and scheduling 
+	Resource allocation
+	Container availability 
+	Scaling or removing containers based on balancing workloads across your infrastructure (can scale vertically[amount of resources] as well horizontally[no of containers])
+	Load balancing and traffic routing 
+	Monitoring container health
+	Configuring applications based on the container in which they will run
+	Keeping interactions between containers secure
+	batch execution (manifest are used like recipe)
+
+it is  Container as a Service (CaaS) . CaaS is cloud service that allows software developers and IT departments to upload, organize, run, scale, manage and stop containers by using 	container-based virtualization
+
+Alternatives:
+	AWS Fargate.
+	Azure Container Instances. 
+	Google Cloud Run.
+	Google Kubernetes Engine (GKE) 
+	Amazon Elastic Kubernetes Service (EKS) 
+	Openshift Container Platform. 
+	Rancher. 
+	Docker Swarm.
+	Apache marathon 
+
+
+Kubernetes comparison with its top compatitor docker swarm :
+
+	it has gui but swarm does not have
+	it is complex and harder than swarm but it has more features than swarm
+	data sharabilty is only within pod in case of kubernetes but in swarm it is sharable throughout all containers
+	swarm only supports only while k8s supports  Docker, containerd, CRI-O, and any implementation of the Kubernetes CRI 
+	it has support of auto scaling in both direction but swarm does not have
+	k8s has its own monitering tool but swarm needs 3rd party tool to perform this
+
+
+Architecture :
+
+	it has master- node architecture inside a cluter , node is pod which can have 1 or more worker containers runnign in it , containers communicates with pods , diff pods can have diff types of container services running in it , like in 1 pod 20 docker containers are running but in 2 nd pod from same cluster can have 30 OpenVZ or containerd conatiners running at same time 
+	containers run microservice 
+
+
+								  ------Cluster----------
+								  |			 |
+								master 			node ---------------------------- (it can have multiple nodes for multiple purpoes)
+											|                |               |
+											pod1 		pod2    	pod3 (generally all pods runs same application from same node)
+											  | 		  |		  |		
+											cont1		cont1		cont1 (diff types of container services can be used )
+											cont2
+

@@ -1,0 +1,26 @@
+Cloud monitoring uses automated and manual tools to manage, monitor, and evaluate cloud computing architecture, infrastructure, and services.
+
+It incorporates an overall cloud management strategy allowing administrators to monitor the status of cloud-based resources. It helps you identify emerging defects and troubling patterns so you can prevent minor issues from turning into significant problems.it hepls to find root cause of error and sometimes it fixes itself , 
+it reduces downtime also inceases server performance
+
+Alternatives :  Aws cloudwatch , splunk , promethus ,sensu , elk , librato
+
+nagios , released in 2002 for free to all and in 2009 launched commercialy , current version 4.4 is a monitering tool which has open source part also is used to moniter network , infrastructure and system . it has default port as 5666 , 5667 , 5668 but can be changed , it is oldest and latest , it has interactive gui as well logging , also has notification service
+it has client- server architecture , it supports active(like push) as well passive(like pull) monitering
+it moniters network services like ssh ,ftp , http/s , pop , dns , ldap , smtp
+
+phases for continous monitering :
+
+1.define  -> develop monitering strategies 
+2.estabilish -> setting up parameter for monitering
+3.implement -> implement in gui
+4.analyze -> make report on data
+5.respond -> responce to error
+6.review and update  
+
+
+terms :
+
+deamon -> run on server  , collects configuration that will be processed during monitering
+NRPE(plugin , nagios remote plugin executor) -> invoked by deamon , it collects data from nodes for monitering
+check by ssh -> installed on nodes , helps NRPE to estabilish ssh conncetion so that it can moniter via vaious parameters 
