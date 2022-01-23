@@ -19,7 +19,7 @@ get sample from df  == df.sample(3)   returns 3 sample randomly
 
 
 ********************************************************************************************************************************************************************
-                                                               Listing Data 
+                                                               Listing Data    0 = column  And  1= Row
 ********************************************************************************************************************************************************************
 
 ## Get all 
@@ -84,13 +84,15 @@ df.iloc[:10 , : 5]          ----return dataframe with all values present at firs
 
 ---------------------------------------------------------
 
-##  Get Max , min values for a column
+##  Get Max , min values for a column (axis = 0 by default)
 
 df["col"].max()       ----for obj datatype , it will return max value according to alphabetic order
 
 df[col].mean()
 df[col].mode()
 df[col].median()
+
+df.mean()    -- get mean for all col having dtype = float or int
 
 ---------------------------------------------------------
 

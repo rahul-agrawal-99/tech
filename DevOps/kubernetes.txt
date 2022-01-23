@@ -1,9 +1,7 @@
 ******************************************************************************************************************************************************************************************
 										About Kubernetes
 ******************************************************************************************************************************************************************************************
-					---------------------------------------------------------------------------
-					|           		docker images					   |
-					---------------------------------------------------------------------------
+
 
 
 simply container management/orchestration tool , also known as k8s , Container orchestration automates the deployment, management, scaling, and networking of containers.
@@ -61,4 +59,453 @@ Architecture :
 											  | 		  |		  |		
 											cont1		cont1		cont1 (diff types of container services can be used )
 											cont2
+
+
+	Kubernetes - Master Machine Components
+
+
+	
+			# Controller Manager
+					This component is responsible for most of the collectors that regulates the state of cluster and performs a task. In general, it can be considered as 					a daemon which runs in nonterminating loop and is responsible for collecting and sending information to API server. It works toward getting the 					shared state of cluster and then make changes to bring the "current status" of the server to "desired state".The controller manager runs different 						kind of controllers to handle nodes, endpoints, etc.
+
+			# etcd
+					It stores the configuration information which can be used by each of the nodes in the cluster. It is a high availability key value store that can be 					distributed among multiple nodes. It is accessible only by Kubernetes API server as it may have some sensitive information. It is a distributed key 					value Store which is accessible to all.
+
+			
+			# Scheduler
+					This is one of the key components of Kubernetes master. It is a service in master responsible for distributing the workload. It is responsible for 					tracking utilization of working load on cluster nodes and then placing the workload on which resources are available and accept the workload.The 					scheduler is responsible for workload utilization and allocating pod to new node.
+
+	
+			# API Server
+					Kubernetes is an API server which provides all the operation on cluster using the API. API server implements an interface, which means different 					tools and libraries can readily communicate with it. Kubeconfig is a package along with the server side tools that can be used for communication. It 					exposes Kubernetes API.
+
+A minimum Kubernetes master node configuration is:
+	4 CPU cores (Intel VT-capable CPU)
+	16GB RAM.
+	1GB Ethernet NIC.
+	40GB hard disk space in the /var directory.
+
+On AWS
+	sizes we use on AWS are(master requirements)
+
+		1-5 nodes: m3.medium
+		6-10 nodes: m3.large
+		11-100 nodes: m3.xlarge
+		101-250 nodes: m3.2xlarge
+		251-500 nodes: c4.4xlarge
+		more than 500 nodes: c4.8xlarge
+
+				Master									Node
+
+
+					it has all data of nodes 			    sends data
+						ETCD (can be accessed only by apiserver)   <------     Kubelet(each for every node)
+					         ^						  / --- Node 1  ---  pod11  -> cont1 , cont2
+it checks etcd via server and commands           |						/
+	 sheduler to perform actions		 |                                            /				  
+		CONTROL MANAGER	-------->   API SERVER ----------------------------------------  ------- Node2  ----pod21  -> cont1 
+						|							   |
+						|							    -------- pod22  -> 	cont1 , cont2 , cont3			
+						SCHEDULER (actions taken here actually)	
+	
+
+		* Admin sends menifest to Api server then control manager check actual and desired state with help of etcd and commands scheduler to perform necessory action to get in 			desired state , menifest scripts written in JSON OR Yaml contains
+
+
+
+	Kubernetes - Node Components
+
+
+			# Kubelet Service (sends node status to etcd) 10225 port by default
+
+					This is a small service in each node responsible for relaying information to and from control plane service. It interacts with etcd store to read 					configuration details and wright values. This communicates with the master component to receive commands and work. The kubelet process then assumes 					responsibility for maintaining the state of work and the node server. It manages network rules, port forwarding, etc.
+
+
+			# Kubernetes Proxy Service (each pod has ip to communicate with other pods or external network )
+
+					This is a proxy service which runs on each node and helps in making services available to the external host. It helps in forwarding the request to 					correct containers and is capable of performing primitive load balancing. It makes sure that the networking environment is predictable and accessible 					and at the same time it is isolated as well. It manages pods on node, volumes, secrets, creating new containers’ health checkup, etc.
+
+		
+			# Container Engine (e.g, Docker)
+
+					The first requirement of each node is Docker which helps in running the encapsulated application containers in a relatively isolated but lightweight 					operating environment.
+
+
+
+
+		///  ***  POD    ***  ////
+
+A pod is a collection of containers and its storage inside a node of a Kubernetes cluster. It is possible to create a pod with multiple containers inside it. For example, keeping a database container and data container in the same pod.
+
+Types of Pod
+	There are two types of Pods −
+
+		Single container pod - 
+				They can be simply created with the kubctl run command, where you have a defined image on the Docker registry which we will pull while creating a pod.
+			
+		Multi container pod - 
+				Multi container pods are created using yaml mail with the definition of the containers. 
+				defined in spec-> containers -> 
+  							 - name: Tomcat
+    							   image: tomcat: 8.0
+  							 - name: database
+    							   image: mongoDB
+
+
+if a single container inside pod fails then whole pod is discarded and new pod is creared as that pod cant be repaired or reconstructed, this is disadvatage of multi conatainer pod .
+so , it is recommended that to use Single container
+
+
+
+//////    Kubernaetes services 
+
+
+					////  ***  kubectl    ***   ///
+The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs
+
+
+					////  ***  kind    ***   ///
+kind lets you run Kubernetes on your local computer. This tool requires that you have Docker installed and configured.
+
+			
+					////  ***   minikube   ***   ///
+Like kind, minikube is a tool that lets you run Kubernetes locally. minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, or for daily development work.
+
+
+					////  ***  kubeadm    ***   ///
+You can use the kubeadm tool to create and manage Kubernetes clusters. It performs the actions necessary to get a minimum viable, secure cluster up and running in a user friendly way.
+
+
+					////  ***  Kops    ***   ///
+Kops, short for Kubernetes Operations, is a set of tools for installing, operating, and deleting Kubernetes clusters in the cloud. A rolling upgrade of an older version of Kubernetes to a new version can also be performed. It also manages the cluster add-ons.
+
+
+					////  ***  kublet    ***   ///
+kubelet: the component that runs on all of the machines in your cluster and does things like starting pods and containers.
+
+
+
+
+
+Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. It is responsible for making sure that the specified number of pod replicas are running at any point of time. It is used in time when one wants to make sure that the specified number of pod or at least one pod is running. It has the capability to bring up or down the specified no of pod.
+
+/// Volumes
+
+In Kubernetes, a volume can be thought of as a directory which is accessible to the containers in a pod. We have different types of volumes in Kubernetes and the type defines how the volume is created and its content.
+
+The concept of volume was present with the Docker, however the only issue was that the volume was very much limited to a particular pod. As soon as the life of a pod ended, the volume was also lost.
+
+On the other hand, the volumes that are created through Kubernetes is not limited to any container. It supports any or all the containers deployed inside the pod of Kubernetes. A key advantage of Kubernetes volume is, it supports different kind of storage wherein the pod can use multiple of them at the same time.
+
+
+******************************************************************************************************************************************************************************************
+										Commands
+******************************************************************************************************************************************************************************************
+
+
+					***************************************************************************************************
+									Kubernetes Basic commands																	***************************************************************************************************
+
+
+					
+
+
+	1. install kubectl  , check using  (kubectl version)
+
+	2. get context by using
+
+					---------------------------------------------------------------------------
+					|                 kubectl config current-context			  |     list a current cluster config is locating
+					---------------------------------------------------------------------------
+			A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. 			By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster
+
+
+			use =>  kubectl config get-contexts  --- list all the cluster that are configured to master
+	
+	3. get list of nodes
+
+					---------------------------------------------------------------------------
+					|                  kubectl get nodes 					  |
+					---------------------------------------------------------------------------
+
+	4. get list of all pods avilable on every node
+
+					---------------------------------------------------------------------------
+					|          		       kubectl get pods				  |
+					---------------------------------------------------------------------------		
+						kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-namespaces   (from every clucter namespace)
+
+						kubectl get pods -n NAME_OF_NAMESPACE          ---- get pods inside specific namespace
+
+	5. config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+
+		config file contains cluster , user and context .
+
+				cluster = > https endpoints for cluster
+				user = >  credential to communicate to cluster
+				context = >   cluster + user
+
+	6. get list of services
+
+					---------------------------------------------------------------------------
+					|                  kubectl get services 				  |
+					---------------------------------------------------------------------------
+
+	7. get list of name spaces available
+					---------------------------------------------------------------------------
+					|                		 kubectl get ns				  |
+					---------------------------------------------------------------------------
+
+				Namespace provides an additional qualification to a resource name. This is helpful when multiple teams are using the same cluster and there is a potential of 				name collision. It can be as a virtual wall between multiple clusters.
+
+				Functionality of Namespace
+					Following are some of the important functionalities of a Namespace in Kubernetes −
+
+												Namespaces help pod-to-pod communication using the same namespace.
+
+												Namespaces are virtual clusters that can sit on top of the same physical cluster.
+
+												They provide logical separation between the teams and their environments.
+
+	8. get desciption of pod available
+					---------------------------------------------------------------------------
+					|     		kubectl describe pod POD_NAME -n NS_NAME		  | if NS_NAME is not mentioned then it search in all the availble ns
+					---------------------------------------------------------------------------
+												
+
+	9. get all info about status and pods 
+
+					---------------------------------------------------------------------------
+					|              	 kubectl get all		 			  |
+					---------------------------------------------------------------------------
+
+	10. delete a pod from specific namespace
+					---------------------------------------------------------------------------
+					|         kubectl delete pod POD_NAME -n NS_NAME		 	 |    --- use -n only if 2 pods in diff ns have same name
+					---------------------------------------------------------------------------
+
+	11. get logs inside pod for troubleshooting a problem causing sometimes failures
+
+					---------------------------------------------------------------------------
+					|           		 kubectl logs POD_NAME    			  |
+					---------------------------------------------------------------------------
+
+
+
+
+
+
+
+					***************************************************************************************************
+									Kubernetes Deployment commands																	***************************************************************************************************
+
+					Deployment is getting cluster from actual state to desired state at controlled rate
+
+	1. build yaml file containg info to get in desired state known as manifest
+
+		required details for manifest :
+
+				apiVersion - Which version of the Kubernetes API you're using to create this object
+				kind - What kind of object you want to create
+				metadata - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+				spec - What state you desire for the object
+
+		it will create deployment(metadata -> name) and replica set named as mentioned in metadata -> name ,  like =>  name-rs_id-hash  
+
+		Replica Set ensures how many replica of pod should be running. It can be considered as a replacement of replication controller. The key difference between the replica set 		and the replication controller is, the replication controller only supports equality-based selector whereas the replica set supports set-based selector.
+		However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features
+			You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define 			Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+
+	2. apply yml file
+					---------------------------------------------------------------------------
+					|                kubectl apply -f /PATH_TO_FILE/FILENAME.yml 		  |
+					---------------------------------------------------------------------------
+
+	3. get list of replica sets available
+					---------------------------------------------------------------------------
+					|                		 kubectl get rs				  |   use --watch to see rs in real time , i.e. creating and deleting
+					--------------------------------------------------------------------------- 
+
+
+	4. get list of deployment
+					---------------------------------------------------------------------------
+					|                		 kubectl get deploy			  |  (kubectl delete deploy NAME)  to delete 
+					--------------------------------------------------------------------------- 
+
+	5. get desciption of deployment
+					---------------------------------------------------------------------------
+					|               kubectl describe deployments DEPLOY_NAME		  |   
+					--------------------------------------------------------------------------- 
+	6. get desciption of rs
+					---------------------------------------------------------------------------
+					|		 kubectl describe rs/RS_NAME  				|   
+					--------------------------------------------------------------------------- 
+
+
+				***************************************************************************************************
+									Kubernetes configmap  , Volume , secreat														***************************************************************************************************
+
+		In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. In Kubernetes, we 		can use ConfigMaps to achieve the same functionality.
+		A ConfigMap is a Kubernetes API object that can be used to store data as key-value pairs. Kubernetes pods can use the created ConfigMaps as a:
+
+				Configuration file
+				Environment variable
+				Command-line argument
+
+		ConfigMaps provides the ability to make applications portable by decoupling environment-specific configurations from the containers.
+
+			* Importantly, ConfigMaps are not suitable for storing confidential data. They do not provide any kind of encryption, and all the data in them are
+					 visible to anyone who has access to the file. (Kubernetes provides secrets that can be used to store sensitive information.)
+
+
+
+		//** Setup cocnfigmap using yaml file
+
+
+							* file can be of any format 
+					-----------------------------------------------------------------------------------------------
+
+				     	kubectl create configmap MAP_NAME --from-file ./PATH/TO/FILE/file_name.yml    
+      	
+					-----------------------------------------------------------------------------------------------
+
+					it will create configmap named as MAP_NAME
+
+
+				get list of configmaps available 
+
+					---------------------------------------------------------------------------
+					|                	kubectl get configmaps				  |
+					---------------------------------------------------------------------------
+										kubectl describe configmaps MAP_NAME  --to get properties in details about map_name
+
+				view specific configmaps  
+
+					---------------------------------------------------------------------------
+					|                kubectl get configmaps MAP_NAME -o yaml		  |    output map as yaml file
+					---------------------------------------------------------------------------
+
+
+		//** Mount configmap to pods using manifest
+
+			 containers:
+  				- name: container-configmap
+      				  image: nginx:1.7.9
+ 	
+      				  volumeMounts:
+		
+				# ----------  Using directly attached Volume  ---------# 
+       					 - name: example-configmap-volume1
+            				  mountPath: /etc/config   
+
+				# ----------  Using configmap  ---------# 
+       					 - name: example-configmap-volume2
+            				  configMap:
+						name: MAP_NAME     # from   kubectl get configmaps	 
+
+				# ----------  Using secreat  ---------# 
+
+
+				volumes:
+      				 - name: secret-volume
+        			  secret:       # treats like secreat only 
+          			    secretName: mysecret            # mysecreat is a name like configmap
+      				 - name: config-volume
+        			    configMap:
+          			      name: example-config #name of our configmap object
+
+
+
+		//** secreats using cli
+	
+				kubectl apply -f /path/screats/secreat.yaml            ----using apply method , also configmap can be created this way just changing file and dir name
+												(also kubectl create secreat command can be used like configmap )
+
+				get list of secreats available 
+
+					---------------------------------------------------------------------------
+					|                	kubectl get secreats				  |
+					---------------------------------------------------------------------------
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+	7. e.g
+					---------------------------------------------------------------------------
+					|                			  |
+					---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 

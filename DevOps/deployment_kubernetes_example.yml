@@ -1,0 +1,75 @@
+#    4 imp phases to write manifest
+
+    # 1. apiVersion
+    # 2. kind
+    # 3. metadata
+    # 4. spec (contains metadata with actual spec)
+
+#  Running this file will create pod containing no. of replicas as no. of containers inside a pod
+#  setting a enviroment in metadata means only replicas no. of pod will be created for that enviroment , even if created with same enviroment
+#        using kubectl command , it will be still replicas no. of pods
+
+---           # init yaml file
+apiVersion: apps/v1   # define app version 
+kind: Deployment      # define kind of object ,new hash will be generated after every apply and used in naming of pods like pod_name-{hash}
+metadata:
+  name: example-deploy    # name for deployment
+  labels:
+    app: example-app
+    test: test
+    enviroment: test
+  annotations:
+    fluxcd.io/tag.example-app: semver:~1.0
+    fluxcd.io/automated: 'true'
+spec:               # define specs for get in desired state 
+  selector:
+    matchLabels:
+      app: example-app
+      enviroment: test
+  replicas: 2           # tells deployment to run 2 pods matching the template , it creates replica set , for rolling update strategy 
+                        # new replica set will be created before replacing old replica set
+  minReadySeconds: 10   # wait for 10 seconds before considering new pod ready for the strategy , then delete old container 
+  strategy:              # define strategy for deployment like rolling update , fixing bugs etc
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1     # maxSurge is the number of extra container  that allowed to  be created as a result of a rolling update.
+      maxUnavailable: 0    # 
+  template:            # metadata about spec
+    metadata:
+      labels:
+        app: example-app
+        enviroment: test           # enviroment label to identify pod with same specs , not necessary
+    spec:
+      containers:
+      - name: example-app           # name for container
+        image: aimvector/python:1.0.4          # image to run
+        imagePullPolicy: Always
+        ports:                     # image requirements
+        - containerPort: 5000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /status
+        #     port: 5000
+        #   initialDelaySeconds: 3
+        #   periodSeconds: 3
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+#NOTE: comment out `volumeMounts` section for configmap and\or secret guide
+        # volumeMounts:
+        # - name: secret-volume
+        #   mountPath: /secrets/
+        # - name: config-volume
+        #   mountPath: /configs/
+#NOTE: comment out `volumes` section for configmap and\or secret guide
+      # volumes:
+      # - name: secret-volume
+      #   secret:
+      #     secretName: mysecret
+      # - name: config-volume
+      #   configMap:
+      #     name: example-config #name of our configmap object

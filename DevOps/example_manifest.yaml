@@ -1,0 +1,50 @@
+---           # init yaml file
+apiVersion: apps/v1   # define app version 
+kind: Deployment      # define kind of object ,new hash will be generated after every apply and used in naming of pods like pod_name-{hash}
+metadata:
+  name: example-deploy    # name for deployment
+  labels:
+    app: app1
+    test: test
+    enviroment: test
+  annotations:
+    fluxcd.io/tag.example-app: semver:~1.0
+    fluxcd.io/automated: 'true'
+spec:               # define specs for get in desired state 
+  selector:
+    matchLabels:
+      app: app1
+      enviroment: test
+  replicas: 2           # tells deployment to run 2 pods matching the template , it creates replica set , for rolling update strategy 
+                        # new replica set will be created before replacing old replica set
+  # minReadySeconds: 10   # wait for 10 seconds before considering new pod ready for the strategy , then delete old container 
+  # strategy:              # define strategy for deployment like rolling update , fixing bugs etc
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 1     # maxSurge is the number of extra container  that allowed to  be created as a result of a rolling update.
+  #     maxUnavailable: 0    # 
+  template:            # metadata about spec
+    metadata:
+      labels:
+        app: app1
+        enviroment: test           # enviroment label to identify pod with same specs , not necessary
+    spec:
+      containers:
+      - name: apache2-server           # name for container
+        image: local/apache2:latest          # image to run
+        imagePullPolicy: Always
+        ports:                     # image requirements
+        - containerPort: 5000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /status
+        #     port: 5000
+        #   initialDelaySeconds: 3
+        #   periodSeconds: 3
+        resources:
+          requests:
+            memory: "640Mi"
+            cpu: "800m"
+          limits:
+            memory: "1200Mi"
+            cpu: "2000m"
