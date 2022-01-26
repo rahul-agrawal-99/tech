@@ -2,7 +2,7 @@
 										About Kubernetes
 ******************************************************************************************************************************************************************************************
 
-
+* imperative means use cli every time to execute , declarative means make file and then execute it every time 
 
 simply container management/orchestration tool , also known as k8s , Container orchestration automates the deployment, management, scaling, and networking of containers.
 orchestration means clustering of any no of containers running on any network , it can works on also hybrid cloud also
@@ -231,7 +231,7 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 	4. get list of all pods avilable on every node
 
 					---------------------------------------------------------------------------
-					|          		       kubectl get pods				  |
+					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view
 					---------------------------------------------------------------------------		
 						kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-namespaces   (from every clucter namespace)
 
@@ -429,6 +429,11 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 					---------------------------------------------------------------------------
 
 		
+
+
+				***************************************************************************************************
+									Kubernetes configmap  , Volume , secreat														***************************************************************************************************
+
 
 
 

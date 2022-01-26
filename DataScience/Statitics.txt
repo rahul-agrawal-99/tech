@@ -1,1 +1,245 @@
-A quantile defines a particular part of a data set, i.e. a quantile determines how many values in a distribution are above or below a certain limit. Special quantiles are the quartile (quarter), the quintile (fifth) and percentiles (hundredth).
+Statistics is a branch of mathematics dealing with the collection, analysis, interpretation, and presentation of masses of numerical data. It is basically a collection of quantitative data.
+it is used for better decision making , it is nothing but science used to collect , organize and analyze data
+data is fact or piece of information that can be measured , also can be COLLECTION OF FACTS N FIGURES OR   Information related to objext
+
+Types of Statistics –
+
+1.Theoretical Statistics
+2.Applied Statistics  => this is further divided into  i] Descriptive statistics	     ii] Inferential statistics
+
+
+  i] Descriptive statistics
+	   # Descriptive statistics is a term given to the analysis of data that helps to describe, show and summarize data in a meaningful way. It is a simple way to describe our data.
+	   
+           #  Types of Descriptive Statistics –
+				Measure of Central Tendency  => e.g mean , mode , median
+				Measure of Variability / Dispersion => e.g. variance , standerd deviation , range
+				Measures of Position    =>	Percentile Ranks, Quartile Ranks
+				 Measures of Frequency   =>	Count, Percent, Frequency
+
+	    #  This type of statistics is applied on already known data.
+
+		# present raw data ineffective/meaningful way using numerical calculations or graphs or tables.
+
+		#  With descriptive statistics, there is no uncertainty because you are describing only the people or items that you actually measure
+
+		# e.g mean , SD , mode of marks of class
+
+
+  ii] Inferential statistics
+
+	# inferential statistics predictions are made by taking any group of data in which you are interested. It can be defined as a random sample of data taken from a population to 				describe and make inference about the population.
+
+	# it is used to form a conclusion on the basis of data(sample) that represent larger data(population)
+
+	# It basically allows you to make predictions by taking a small sample instead of working on whole population
+
+	# sample is choosen using diff. sampling techniques like 
+
+		1.Simple Random sampling  =>choosen completely random ,  skipping the repeated number because we do not survey or interview the same person twice
+
+		2.Systematic sampling => easier to do than random sampling. In systematic sampling, the list of elements is "counted off". That is, every kth element is taken
+
+		3.Convenience sampling => worst technique to use. In convenience sampling, readily available data is used. That is, the first people the surveyor runs into.
+					e.g. only expert of cloud tech are allowd to participate in survey based on clud tech
+
+		4.Cluster sampling => accomplished by dividing the population into groups,usually geographically. clusters are randomly selected, and each element in the selected clusters 					are used. 
+
+		5.Stratified sampling => divides the population into groups by some characteristic called strata ,For instance, the population might be separated into males and females. A 					sample is taken from each of these strata using either random, systematic, or convenience sampling.
+					strata is always non-overlapping , cluster may have overlapping data , in strata one sample group is completely diff. from other strata group
+					 e.g. strata is sample of male and female different but cluster is sample such as peoples lives in perticular area 
+
+	#  Because the goal of inferential statistics is to draw conclusions from a sample and generalize them to a population, we need to have confidence that our sample accurately 				reflects the population
+
+	# The most common methodologies in inferential statistics are hypothesis tests, confidence intervals, and regression analysis.
+
+	# The following types of inferential statistics are extensively used and relatively easy to interpret:
+
+		1.One sample test of difference/One sample hypothesis test
+		2.Confidence Interval
+		3.Contingency Tables and Chi Square Statistic
+		4.T-test or Anova
+		5.Pearson Correlation
+		6.Bi-variate Regression
+		7.Multi-variate Regression
+		8.Hypothesis Testing
+		9.Normal Distributions
+		10.Central Limit Theorem
+		11.Comparison of Means.
+
+	# e.g. how likely the student is going to pass based on avg. marks of the class of that student and marks required for passing
+
+	#  kernel density estimation (KDE) is a non-parametric way to estimate the probability density function of a random variable.Kernel density estimation is a fundamental data 		smoothing problem where inferences about the population are made, based on a finite data sample.
+
+
+e.g. 100 peoples are asked that they whether like pizza or not , based on that 
+	1. we made a histogram of yes and no answers , this is descriptive
+	2. on the basis of that data , we made a conclusion that major chunk of population like pizza , this is inferential
+	3. we compared pizza data with burger data , found out avg./mean rating(discriptive) and based on that we conclude that peoples 
+		likes pizza more than burger ,this is also inferential
+
+
+
+
+To perform statistical analysis of data, it is important to first understand variables and what should be measured using these variables.
+
+ // **  Variable ** //  
+
+	it is property that can take any value like a variable can take diff. values with respect to age of person.
+	
+	maily 2 types of variable 
+	
+		1. Quantitative variable => it can be measured numerically or can say magnitudely like age, height of person , we can perform also math operations like +,- etc.
+						it can be used to plot graphs and has meaning in it without comparison
+
+			Quantitative variables are divided into two types: discrete and continuous.
+
+				i] discrete => values it can take are countable and have a finite number of possibilities. e.g total citizens in region
+ 
+			       ii] Continuous => variables for which the values are not countable and have an infinite number of possibilities. e.g weight , rainfall
+
+		2. Qualitative/catagorical Variable => based of characteristics it lies in catagories like gender of person , it is variables that are not numerical and which values fits 						into categories.it is a variable which takes as its values modalities, categories or even levels, we cant perform math operations here
+
+			e.g. pincode , year , phone no. etc 
+			
+			Some variables, such as social security numbers and zip codes, take numerical values, but are not quantitative: They are qualitative or categorical variables. The 			sum of two zip codes or social security numbers is not meaningful. The average of a list of zip codes is not meaningful.
+
+		qualitative variable with exactly 2 levels is also referred as a binary or dichotomous variable.
+
+			it is further divided into typs
+
+				i] Nominal => no ordering is possible or implied in the levels. For example gender is nominal because there is no order in the levels female/male
+
+				ii] Ordinal => variable with an order implied in the levels. For instance, if the severity of road accidents has been measured on a scale such as light, 						moderate and fatal accidents Or health, which can take values such as poor, reasonable, good, or excellent.
+				
+					it is value that can be measued from low to high severity , value does not matter here like ranking a student on the basis on marks ,
+					 but marks doent matter much only rank that is order matters
+
+	
+
+The level of measurement of a variable decides the statistical test type to be used. The mathematical nature of a variable or in other words, how a variable is measured is considered as the level of measurement.
+
+There are 4 tyeps :
+
+	1. Nomianal => e.g where do you live in town or village
+
+	2. ordinal => e.g. how do you feel like not well , moderate , highly energatic , only order has imp role
+
+	3. interval => e.g. rate your experiance with movie from 1 to 10 star , order and value both have imp. role , natural zero is absent always
+			another e.g. tempreture intervals of 0-20 degree , here zero has also meaning not like mathamatical zero which means nothing 
+			here numbers are assigned to objects such that the differences (but not ratios) between the numbers can be meaningfully interpreted
+
+	4. Ratio =>  have all the attributes of interval scale variables and one additional attribute ratio scales include an absolute “zero” point.
+			natural zero is present 
+			For example, traffic density (measured in vehicles per kilometer) represents a ratio scale. The density of a link is defined as zero when there are no 
+			vehicles in a link. Other ratio scale variables include number of vehicles in a queue, height of a person, distance traveled, accident rate, etc
+
+
+
+//////   ***   Types Of Charts/Graphs   ***   ///////
+
+	1. Bar Chart => A bar chart consists of a grid and some vertical or horizontal columns (bars). Each column represents quantitative data.values are discrete
+
+	2. Box Plots  =>  A box plot displays summary statistics for the distribution of values for a variable. The outer bounds of the box represent the first and third quartiles.
+			 The line inside the box represents the median. The markers outside the box, referred to as outliers,
+			 represent data points that are outside of the 25th and 75th percentiles.
+
+	3. Histograms   => A histogram is a bar chart that displays the observed frequencies of data that have been binned (divided into contiguous, equally spaced intervals).
+			   The heights of the bars indicate the relative frequency of observations in each bin , bin is placed on x axis
+				it tells share of data falls in perticular interval of bin , values are continuous , KDE is used to smoothening histogram
+
+	4. Pie Charts  => A pie chart is a circular chart that is divided into slices by radial lines. Each slice represents the relative contribution of each part to the whole.
+
+	5. Scatter Plots => A scatter plot is a two- or three-dimensional plot that shows the joint variation of two (or three) variables from a group of observations. The coordinates of 			each point in the plot correspond to the data values for a single observation.
+
+
+
+//////   ***   Measure of Central Tendency    ***   //////   
+
+	mean  
+		mean is the arithmetic average of a set of given numbers. 
+
+	median
+		The median is the middle score in a set of given numbers. sort in ascending order and middle will be median , 
+			for odd count it is middle , for even count take avg of 2 middle elements
+
+	mode 
+		The mode is the most frequently occurring score in a set of given numbers.
+
+				*analysts tend to use the mean because it includes all of the data in the calculations. However, if you have a skewed distribution, the median is often the 						best measure of central tendency.
+
+
+
+//////   ***   Measure of Variability / Dispersion(spread)    ***   //////   
+
+	used to analyze how 2 distributions are differ from each other
+
+	Variance: 
+			Variance is a numerical value that shows how widely the individual figures in a set of data distribute themselves about the mean. That is how far
+			 each number is from the mean, and thus from each other. A variance of zero value means all the data are identical.
+
+			
+
+		S^2 (sample variance square) = Summation{ [(x_i) - X ]^2 } / n-1         ----- in case on sample variance
+
+					x_i 	=	the value of the one observation 
+					(X)	=	the mean value of all observations , diff for sample and population
+					n	=	the number of observations
+
+		difference between population variance and sample variance relates to calculation of variance
+
+			For Population of 1000 , n is taken as 1000 for calculating variance , but in case of sample of 100 n is taken is 100 - 1 for variance 
+			population means when we have all data about that , but most of the time it is just sample of population
+			n-1 is used because there is no variation if there is only 1 observation 
+
+		Due to this, the value of variance calculated from sample data is higher than the value that could have been found out by using population data. The logic of doing that is 				to compensate our lack of information about the population data.
+		
+		A large variance indicates that numbers in the set are far from the mean and far from each other , Variance can lead to overfitting
+
+
+	standard deviation 
+
+		it is the square root of the population variance.  it is way to express the value is how far from the mean in terms standerd deviation times. 
+		 SD is a measure of how much any random data point is varying or distant from the mean of all the data points from where you have picked that random point.
+
+
+
+
+//////   ***   Measures of Position    ***   //////   
+
+	Percentile 
+
+			it is value below which certain percentage of observation lies
+
+			
+			percentile of value x = [(no. of values lies below x) / (total sample size) ]*100       --- dont consider x itself while calculating below values
+
+
+			e.g.  for dataset 1,5,6,7,8,9  => percentile of 7 = 3/5 * 100 = 60 percentile , it means 60 percent of total values are less than 7
+
+			index of value(X) = [ percentile of X / 100 ] * (total sample + 1)          ---- index in terms of after sorted order of all data , 
+											if index is float then value = value at index(X) + value at index(X+1) / 2
+
+	
+
+	Quatile
+
+			A quantile defines a particular part of a data set, i.e. a quantile determines how many values in a distribution are above or below a certain limit. Special 			quantiles are the quartile (quarter), the quintile (fifth) and percentiles (hundredth).
+		
+		main 5 terminologies in IQR (inter quartile range which is used to identify outlier from dataset)
+		
+			1. minimum    ( q1 - 1.5(IQR) )						---- IQR = q3 -q1
+			2. first quartile (q1) , 25 percentile
+			3. median
+			4. thirs quartile (q3) , 75 percentile
+			5. maximum     ( q3 - 1.5(IQR) )
+
+				value beyons minimum and maximum considerd as outlier , only minimum < VAlUE < maximum considerd as valid , Box Plot is drawn based on this values
+
+		
+
+
+
+
+
+

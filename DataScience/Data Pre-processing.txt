@@ -1,3 +1,18 @@
+
+Lifecycle
+
+1. import libraires and dataset
+2. gather metadata and object types , remove unwanted columns
+3. deal with null values , fill depending upon data requirement
+4. Encoding data to int or float
+5. outlier detection , remove outlier or fill with measure of central tendancy
+
+
+
+
+
+
+
 Required Libraries:
 
 import pandas as pd
@@ -164,6 +179,7 @@ df["col"].isnull()     ---- true for null value and false for non null value
 OR
 
 df[col].isnull().sum()  ---- return total number of null values in a column
+df.isnull().sum()     --- for every column
 
 e.g.
 for col in df:     # to print columsn having more than 0 null values
@@ -171,25 +187,75 @@ for col in df:     # to print columsn having more than 0 null values
     if(total>0):
         print('col=',col,' Null values=',total )
 
+# only returns boolean value true if there is more than zero null values
 
-## Drop the touple Or row having Null Value_count
+df.isnull.values.any()
+
+# get row index of null touples
+
+for i,j in enumerate(df[col].isnull()):
+    if(j==True):
+        print(i)
+
+
+    //// Techniques to deal with missing value problem
+
+## Drop the touple Or row having Null Value_count  , *remove entire column if max touples of a perticular column having null values
 
 df.dropna(axis=0,inplace=True)
 
-## Fill the null values with mean of column
+## Fill the null values with mean of column , we can take median as well as mode
 
-df[col].fillna(value=mean_value,inplace=True)   #with mean
+df[col].fillna(value=df[col].mean() ,inplace=True)   #with mean 
 
 OR
 
-df[col].fillna(value='sf' ,inplace=True) # spwcific values
+df[col].fillna(value='SAMPLE' ,inplace=True) # specific value or zero
+
+// Forward Fill
 
 
+# applying ffill() method to fill the missing values
+df.ffill(axis = 0)      # only row wise filling 
 
 
 
 
 
 ********************************************************************************************************************************************************************
-                                                    Loading Data
+                                                    Outliers
 ********************************************************************************************************************************************************************
+
+*************   get outliers using Boxplot *********
+
+ outlier is a data point that differs significantly from other observations. An outlier may be due to variability in the measurement or it may indicate experimental error
+
+# can be found using 
+
+	sns.boxplot(df[col])   # it will plot a boxplot having minima , maxima , median and outlier points
+
+# found out the index of that outlier using
+
+	np.where(df[col] < value )    # value is considered using boxplot
+
+# remove tha touple 
+
+	df.drop(df[df[col] < value].index, inplace = True)   # it will that perticular row only
+
+
+*************   get outliers using math formulas  *********
+
+# get quantile range
+
+	q1 = np.quantile(df[col], .25)
+
+	q3 = np.quantile(df[col], .75)
+
+	minimum = 
+
+
+*************   get outliers using math formulas zscore *********
+
+zscore = np.abs(stats.zscore(df['reading score']))
+
+

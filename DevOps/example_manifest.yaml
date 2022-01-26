@@ -31,7 +31,8 @@ spec:               # define specs for get in desired state
     spec:
       containers:
       - name: apache2-server           # name for container
-        image: local/apache2:latest          # image to run
+        image: apache2          # image to run
+        command: ["/bin/bash", "-c", "systemctl start apache2.service","systemctl status apache2.service"]
         imagePullPolicy: Always
         ports:                     # image requirements
         - containerPort: 5000
