@@ -236,8 +236,71 @@ There are 4 tyeps :
 
 				value beyons minimum and maximum considerd as outlier , only minimum < VAlUE < maximum considerd as valid , Box Plot is drawn based on this values
 
+		get percentile using , np.percentile(df[col] ,[25,50,75]) ==> it will return array with three diff percentile values for that specific column
+
+
+
+//////   ***   distribution    ***   //////   
+
+
+		The distribution is a mathematical function that describes the relationship of observations of different heights. A distribution is simply a collection of data, or scores, 		on a variable. Usually, these scores are arranged in order from smallest to largest and then they can be presented graphically.
+
+
+
+	1. normal/Gaussian distribution  (sns.histplot(df[col]) used to see distribution , use kde=true for also view the PDF)
+
+			when plotted on graph , mean has maximum on that graph and also it follows bell curve means it is symmetric anout mean , it is known as normal distribution.
+				S.D determines the amount of dispersion away from the mean. A small standard deviation (compared with the mean) produces a steep graph, whereas a large 					standard deviation (again compared with the mean) produces a flat graph. 
+			in case of normal distrubution always mean = median = mode    --- all are equal 
+
+
+
+
+
+				------------|--------|--------|--------|--------||--------|--------|--------|--------|-----------   for noramal distribution
+					  4sd	    3sd	     2sd     1sd       mean      1sd	  2sd     3sd       4sd
+
+
+									<----- 68 % ------>     this amount of data from total data lies in this region
+
+								<------------- 95 % --------------->  68–95–99.7 rule, also known as the empirical rule
+
+							<--------------------- 99.77 % ---------------------->  
+				68%, 95%, and 99.7% of the values lie within one, two, and three standard deviations of the mean
+
+
+
+		 Z-score is a numerical measurement that describes a value's relationship to the mean of a group of values . for mean , z-score =0 
+
+		Formula =>  Z-Score-of-datapoint = (datapoint - mean of sample ) / SD of sample
+
+		z-score is a standard score that tells you how many standard deviations away from the mean an individual value (x) lies:
+
+					A positive z-score means that your x-value is greater than the mean.
+					A negative z-score means that your x-value is less than the mean.
+					A z-score of zero means that your x-value is equal to the mean.
+
+	2. Standerd Normaml Distribution
+
+		special case of normal distribution , where after applying z-score , we got mean as 0 and SD as 1 , it is known as STD normal / Z distribution 
+
+		this concept is used to standerdize data in sklearn(standerd scaler) , where a column is taken , z-score is applied wrt to datapoint value 
+											mean has value 0 and applied value will be less if value is nearer to mean
+		standerdization is used when feature distribution is Normal or Gaussian.
+
+		Normalization is also standerdiztion with range , basically is normalization , values will be converted into scale of 0 to 1 , or any defined
+		minmax scaler is normaliztion technique , highly affected by outliers , use only if we dont know about features of distribution
 		
 
+
+
+
+********************************************************************   Probability ****************************************************************************
+
+
+Mutually Exclusive = only one event occures at a time , e.g. no. getting after rolling a die or toss a coin
+
+Non Mutual Exclusive : 1 or more event can occures at a time , like 1 random card is picked it lies in 4 types as well as in 13+3 combination at a same time
 
 
 
