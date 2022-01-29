@@ -272,7 +272,7 @@ There are 4 tyeps :
 
 		 Z-score is a numerical measurement that describes a value's relationship to the mean of a group of values . for mean , z-score =0 
 
-		Formula =>  Z-Score-of-datapoint = (datapoint - mean of sample ) / SD of sample
+		Formula =>  Z-Score-of-datapoint = (datapoint - mean of sample ) / SD of sample           ----squareroot(n) is 1 for a single datapoint
 
 		z-score is a standard score that tells you how many standard deviations away from the mean an individual value (x) lies:
 
@@ -301,6 +301,239 @@ There are 4 tyeps :
 Mutually Exclusive = only one event occures at a time , e.g. no. getting after rolling a die or toss a coin
 
 Non Mutual Exclusive : 1 or more event can occures at a time , like 1 random card is picked it lies in 4 types as well as in 13+3 combination at a same time
+
+					P(a U b) = P(a) + P(b) - P(a ∩ b)      ,  U is Or & ∩ is And operation
+
+Dependent Probabilty = When probability of 1 event is influenced by by other , like picking a specific colored marble from set of diff. colored marbles 
+
+Independent Probalbilty = when probability of 1 event completly random without anyones's influance , like rolling a dice getting a random no. or toss a coin
+
+Conditional probability is defined as the probability of an event A, given that another event B has already occurred (i.e. A conditional B)
+
+			P(A|B) = P(A ∩ B) / P(B)  , here event a is occuring which is influenced by event b which is already occured
+
+			P(A|B) = P(B|A)*P(A) / P(B) ---baye's therom
+
+
+
+********************************************************************   Permutation and combination  ****************************************************************************
+
+
+ Permutation = all the possible combination can be calculated using this , nPr =n! / (n-r)!  , here combinations are repeated like (a b c) , (b a c)
+
+Combination = only unique combinations are allowed , nCr = n! / r!(n-r)! , like (a b c) only ,not other combination is here which contains all this 3 elements 
+
+
+********************************************************************  Hypothesis testing   ****************************************************************************
+
+hypothesis is an educated guess about something in the world around you. or it is a idea that can be tested
+
+Hypothesis testing in statistics is a way for you to test the results of a survey or experiment to see if you have meaningful results.
+	e.g. a coin is said to be fair only if p(head) = p(tail) , so after testing 100 times , or million times it should be same always
+Hypothesis Testing is a form of inferential statistics that allows us to draw conclusions about an entire population based on a representative sample
+
+Null hypothesis(h0) is a hypothesis that is stating or favoring given condition but it can be false later like innocent until proven guilty. e.g. coin is fair
+	it is difficult to challange null hypothesis ,  no statistical significance between the two variables in the hypothesis. it is constant 
+
+p-value is the probability of obtaining test results at least as extreme as the results actually observed, under the assumption that the null hypothesis is correct.
+it helps to support or reject the null hypothesis. smaller the p-value, the stronger the evidence that you should reject the null hypothesis.
+p-value considerd as false negetive and considerd as randomness while testing
+
+significance level(alpha symbol) is the probability of rejecting the null hypothesis when it is true. 0.2 significance level means 20% of false values are tolerable .
+	e.g. out of 100 test , if coin is getting head 70 times , then also it is fair
+
+Confidence Interval is a range of values we are fairly sure our true value lies in. e.g CI of 90% means , result between >5% and <95% considerd as true or null hypothesis is correct
+	defined by domain expert , calculated using significance value/level i.e. CI = ( 1 - SI ) *100 %
+
+alternate hypothesis(h1) is a everything other than null hypotheis e.g coin is not fair , coin is baised 
+it is assumed here that there i co-reletion between the two variables in the hypothesis.
+
+Experiment = test that are performed null hypothesis 
+
+Type 1 Error : due to biasness , we reject true null hypothesis , False-Positive
+
+Type 2 eroor : we didnt reject false null hypothesis , False-Negetive
+
+One-Tailed Test = here significance level is just at a single side , also called directional like weight is less than mean
+			if statement contains words that reseambles comparison like greater, taller , lesser then it is always one tailed
+
+	left tailed : when a assumed score value is less than value at null hypothesis , then significance level is at left section 
+			e.g. when null is packet has mean 1kg of milk , but one said that it is less than 1kg then significance level is at left side
+			e.g. peoples does smoking has less chances to reach age of 60
+
+	right tailed : when a assumed score value is greater than value at null hypothesis , then significance level is at right section 
+			e.g. when null is packet has mean 1kg of milk , but one said that it is greater than 1kg then significance level is at right side
+			e.g. peoples live healthy life has greater chance to reach 60 years
+
+Two-Tailed test = significance value is equally distributed at both the sides , also called non-directional like medicine is going to affect in good or bad way
+		statement contains words that is like it is going to happen but not knows in which way , like 'change','difference'
+		e.g. is it a difference between IQ of young compared old peoples
+		e.g. is it change in color of phone when it is day compared to night
+
+
+Parametric Tests, if samples follow/assumed a normal distribution. In general, samples follow a normal distribution if their mean is 0 and variance is 1.
+	e.g. ztest , ttest , ftest
+		here scale of measurement is interval or ratio , assumptions are made here , data is quantitative
+		mean is measure of central tendancy , more powerful and less robust
+
+Non-Parametric Tests, if samples do not follow a normal distribution. scale of measurement is nominal or ordinal , data is qualitative
+		median(positional avarage) is measure of central tendancy  , less powerful but more robust
+	e.g. chi-square , htest , utest , spearman rank correlation test
+
+/* Co-Variance 
+	
+		Covariance indicates the relationship of two variables whenever one variable changes.
+
+		Cov(X,Y)=∑(Xi− x_bar )(Yi− y_bar ) / n        ----for population  , for sample n = n-1
+											x_bar the mean of the X-variable
+
+		if Cov(X,Y) is (+)ve then X is directly propotional to Y , for (-)ve it is inversaly propotional , if 0 then no relation
+
+		covariance gives the direction but correlation gives the direction and the strength of the correlation
+
+
+	Pearson’s correlation :    -1 <= ρ <= 1  , always
+
+			 Cov(X,Y) 				ρ is Pearson’s correlation coefficient
+		ρ =     -----------
+			 σx * σy                          ----- σ is SD
+
+
+			if ρ is toward +1 more , strongly coreleted , ρ = 0 , no coreletion , ρ towards -1  strong inversly coreleted
+
+
+	spearman correlation  =
+
+			  cov( R(X), R(Y) )            ----R(X) is rank of x , according to acscending order what is index of value x is the rank of that value x
+		S(X,Y) =  --------------------
+			    σ(R(X)) * σ(R(Y))
+	
+
+************************************************************* Calculate Hypothesis test  ****************************************************
+	
+		1. define Null hypothesis (H0)
+		2. define Alternate hypothesis (H1 i.e ~H0)
+		3. state alpha value , if not given consider as 5%
+		4. calculate confidence range using alpha like Z(alpha/2) ot T(alpha/2)
+						interval/range as  +Z(alpha/2) to -Z(alpha/2)
+		5. calculate test(t) for corresponding test
+		6. state out dicision , if test(t) is in between range , then null is failed to reject (p-value >= significance)
+					otherwise reject null and accept alternate assumptions (p-value < significance-value)
+						also make positive or negetive assumption as alternate based on test(t) value
+
+/* T-test : 
+
+	used when sample size is less than 30 ,used when corelation of coefficient is zero , if not zero z-test is used
+		
+		confidence interval = point estimate +- margin error          --- , T(alpha/2)[ S /squareroot(n)] -> S is sample SD
+							
+										calculate T(alpha/2) as 
+											1. if alpha is not given then -> 1 - CL
+											2. calculate num = (alpha/2)
+											3. find corresponding value to DF and num 
+	
+	there are 2 types of T-test :
+
+		1. one sample T-test : sample mean is compared with population mean
+
+
+			test (t)  =     (sample mean - population mean) squareroot(n)           ----n is sample no.
+				         ------------------------------------
+							sample S.D. 
+
+			degree of freedom = sample_size(n) - 1        ----it is necessory to get value from t-distribution table
+									--- it is  maximum number of logically independent values
+
+	
+
+
+		2. Two sample T-test :  mean of 1 sample is compared with another mean of another sample
+
+	
+				       (X1)^2  -  (X2)^2				X1 , X2 is mean of sample 1 and 2 resp.
+			test(t) =   -----------------------------
+					___________________
+				       / (S1)^2      (S2)^2				S1 and S2 are SD of sample 1 and 2 resp.
+				      / -------  +   ------
+				    \/   n1           n2				n1 and n2 are number of sample points of sample 1 and 2 resp.
+
+
+/* Z-test :
+
+	used when population S.D. is given and sample size is greater than 30
+	+ for upper bound , - for lower bound , if value lies betn this bound , then null hypothesis is accpted
+	confidence interval = point estimate +- margin error				point estimate = X_bar = sample mean 
+											margin error = Z(alpha/2)population S.D. /squareroot(n)  , if CL is given then alpha= 1-CL
+																				CL= confidence level
+				         					
+										alpha/2 only if it is one tailed , if 2 tailed take only alpha
+
+   
+	* calculate Z(alpha/2) as , first get num =alpha/2 , then substract it from 1 i.e. 1-num , then find corresponding sd for value 1-num from z-score table 
+
+
+	there are 2 types of Z-test :
+
+		1. one sample Z-test : sample mean is compared with population mean
+
+
+	             test (z)  =     (sample mean - population mean) squareroot(n)           ----n is sample no.   , population S.D. /squareroot(n)   = standerd error
+		    			     ------------------------------------
+							population S.D. 
+	
+		2. two sample Z-test : mean of 1 sample is compared with another mean of another sample
+
+		
+				       (X1)^2  -  (X2)^2				X1 , X2 is mean of sample 1 and 2 resp.
+			test(z) =   -----------------------------
+					___________________
+				       / (S1)^2      (S2)^2				S1 and S2 are SD of population  1 and 2 resp.
+				      / -------  +   ------
+				    \/   n1           n2				n1 and n2 are number of sample points of sample 1 and 2 resp.
+
+
+
+/* F-Test  :
+
+		it is test for 2 normal population have same variance  , it is comparison of equality of sample variance , it also tests equality of mean
+
+/* Annova Test :
+
+		it is parametric test , it is extension of t and z test as here we calculate diff. of sample means are calculated for 2 or more samples
+
+		f-stastitics = variance between sample means / variance within samples
+
+/* chi-square test :
+
+	it is non-parametric test that is performed on catagorical(i.e. nomianl or ordinal) data
+	non parametric test is a test in which you test the hypothesis without taking any population parametres
+
+	degree of freedom = no. of catagories - 1
+
+	(chi-square) χ² =   (Oi - Ei)²							--------Oi = observed value at position i , Ei	= expected value at position i
+			  Σ ---------
+			       Ei
+	steps :
+		1. define null and alternate hypothesis
+		2. calculate alpha value and degree of freedom
+		3. check decision boudry using chi-square table based on type of problem like one tail or 2 tail , get value with DF and alpha
+		4. calculate chi-square (χ²)
+		5. if χ² > decision boudry ,then reject null 
+		6. if decision boudry > χ² , then accept null
+
+
+
+	
+
+A/B testing is used to check which statistical models are better model A or B
+
+
+
+
+
+
+
+
 
 
 
