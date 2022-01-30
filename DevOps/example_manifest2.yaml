@@ -1,11 +1,18 @@
 kind: Pod                              
 apiVersion: v1                     
 metadata:                           
-  name: testpod                  
+  name: testpod3                 
 spec:                                    
   containers:                      
     - name: c00                     
-      image: apache2
+      image: apache2img
       imagePullPolicy: Never              
-      command:  ["/bin/bash", "-c", "systemctl start apache2.service","systemctl status apache2.service"]
+      command:  ["/bin/bash", "-c", "which apache2"]
+
+  env:
+    - name: envvar
+      value: valuevar
+
   restartPolicy: Never         # Defaults to Always
+  
+    
