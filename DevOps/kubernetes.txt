@@ -231,7 +231,7 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 	4. get list of all pods avilable on every node
 
 					---------------------------------------------------------------------------
-					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view
+					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view with ip address
 					---------------------------------------------------------------------------		
 						kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-namespaces   (from every clucter namespace)
 
@@ -344,7 +344,7 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 
 
 				***************************************************************************************************
-									Kubernetes configmap  , Volume , secreat														***************************************************************************************************
+									Kubernetes configmap  , Volume , secrets														***************************************************************************************************
 
 		In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. In Kubernetes, we 		can use ConfigMaps to achieve the same functionality.
 		A ConfigMap is a Kubernetes API object that can be used to store data as key-value pairs. Kubernetes pods can use the created ConfigMaps as a:
