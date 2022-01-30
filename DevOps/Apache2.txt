@@ -7,7 +7,7 @@ Install Apache2 Webserver :
 
 see status of server :  systemctl status apache2	OR     systemctl status httpd
 
-start apche2 service :   systemctl start apache2.service
+start apche2 service :   systemctl start apache2.service  OR /etc/init.d/apache2 restart
 
 Stop : systemctl stop apache2.service
 

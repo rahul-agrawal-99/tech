@@ -1,18 +1,30 @@
-kind: Pod                              
-apiVersion: v1                     
-metadata:                           
-  name: testpod3                 
-spec:                                    
-  containers:                      
-    - name: c00                     
-      image: apache2img
-      imagePullPolicy: Never              
-      command:  ["/bin/bash", "-c", "which apache2"]
+# kind: Pod                              
+# apiVersion: v1                     
+# metadata:                           
+#   name: testpod3                 
+# spec:                                    
+#   containers:                      
+#     - name: c00                     
+#       image: httpd
+#       # imagePullPolicy: Never              
+#       # command:  ["/bin/bash", "-c", "/etc/init.d/apache2 start" , "/etc/init.d/apache2 status"]
+#       # command:  ["/bin/bash", "-c", "which apache2"]
 
-  env:
-    - name: envvar
-      value: valuevar
-
-  restartPolicy: Never         # Defaults to Always
+#       env:
+#         - name: envvar
+#           value: valuevar
+#       ports:
+#         - containerPort: 80  
+#   restartPolicy: Never         # Defaults to Always
   
-    
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod4
+spec:
+  containers:
+    - name: c00
+      image: httpd
+      ports:
+       - containerPort: 80  
