@@ -508,6 +508,12 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 	it is non-parametric test that is performed on catagorical(i.e. nomianl or ordinal) data
 	non parametric test is a test in which you test the hypothesis without taking any population parametres
 
+	it is comparison between observed and expencted frequencies
+
+	it also tests independeance od two variavbles
+
+	sample size > 50
+
 	degree of freedom = no. of catagories - 1
 
 	(chi-square) χ² =   (Oi - Ei)²							--------Oi = observed value at position i , Ei	= expected value at position i
@@ -522,8 +528,24 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 		6. if decision boudry > χ² , then accept null
 
 
+/* U-test (Mann-Whitney ):
 
+	used to investigate that 2 independent samples selected from same population have same distribution
 	
+	it is non-parametric counter part of t-test
+
+	it is calculated as :
+			   n1(n1 + 1)                        n2(n2 + 1)                      n is sample size and R is sum of ranks after giving rank to rech in sample
+		U1 = R1 -  -------------    ,   U2 = R2 -  -------------   
+				2                        	2
+
+
+		U = U1 + U2 = n1*n2
+
+
+/* H-test (kruscal-wallies ) :
+
+	used to comparing 2 or more independent samples of various sizes , it is extends U test 
 
 A/B testing is used to check which statistical models are better model A or B
 
