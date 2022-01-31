@@ -291,6 +291,22 @@ There are 4 tyeps :
 		Normalization is also standerdiztion with range , basically is normalization , values will be converted into scale of 0 to 1 , or any defined
 		minmax scaler is normaliztion technique , highly affected by outliers , use only if we dont know about features of distribution
 		
+		
+	3. Log normal distribution :
+	
+	
+		whenever log is applied , it is converted into gaussian/normal distribution
+	
+		
+		
+	4. Bernoulli distribution :
+	
+	
+	5. pareto distribution :
+	
+		
+		
+		
 
 
 
@@ -417,9 +433,19 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 		4. calculate confidence range using alpha like Z(alpha/2) ot T(alpha/2)
 						interval/range as  +Z(alpha/2) to -Z(alpha/2)
 		5. calculate test(t) for corresponding test
-		6. state out dicision , if test(t) is in between range , then null is failed to reject (p-value >= significance)
+		6. state out dicision , if test(t) is  in between range , then null is failed to reject (p-value >= significance)
 					otherwise reject null and accept alternate assumptions (p-value < significance-value)
 						also make positive or negetive assumption as alternate based on test(t) value
+						
+		7. calculate p-value as , get test(t) value and find area under curve using z-score table , 
+			search value according test(t) 
+					if null is passed then use right z-score table , otherwise left , get value as p-value'
+					
+				p-value = 1 - p-value'
+				
+			now p-value is area under the curve (divide area for 2 tail for each section but p-value is combined both of it so keep as it is )
+			
+			also reamaing area will be p-value'
 
 /* T-test : 
 

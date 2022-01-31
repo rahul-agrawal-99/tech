@@ -231,7 +231,7 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 	4. get list of all pods avilable on every node
 
 					---------------------------------------------------------------------------
-					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view with ip address
+					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view
 					---------------------------------------------------------------------------		
 						kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-namespaces   (from every clucter namespace)
 

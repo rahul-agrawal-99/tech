@@ -259,3 +259,79 @@ df.ffill(axis = 0)      # only row wise filling
 zscore = np.abs(stats.zscore(df['reading score']))
 
 
+
+********************************************************************************************************************************************************************
+                                                   Scaling
+********************************************************************************************************************************************************************
+
+		use sns.pairplot(df)   to see 
+
+ 1. Staderd scaler 
+ 
+ 
+	scaler=StandardScaler()
+	### fit vs fit_transform
+	X_train_scaled=scaler.fit_transform(X_train)
+	
+
+ 2. Minmax scaler 
+ 
+ 	mainly used in cnn to scale down 0 to 1 from 0-255
+ 	
+ 	min_max=MinMaxScaler()        # MinMaxScaler(feature_range=(0,1)       --- is by default
+ 	
+ 	
+ 3. Robust Scaler
+	Robust Scaler are robust to outliers.It is used to scale the feature to median and quantiles Scaling using median and quantiles consists of substracting the median to all the observations, and then 		dividing by the interquantile difference. The interquantile difference is the difference between the 75th and 25th quantile:
+
+	IQR = 75th quantile - 25th quantile
+
+	X_scaled = (X - X.median) / IQR
+	
+	scaler=RobustScaler()
+	
+#### If you want to check whether feature is guassian or normal distributed
+#### Q-Q plot
+def plot_data(df,feature):
+    plt.figure(figsize=(10,6))
+    plt.subplot(1,2,1)
+    df[feature].hist()
+    plt.subplot(1,2,2)
+    stat.probplot(df[feature],dist='norm',plot=pylab)
+    plt.show()
+    
+	
+ 4. Guassian Transformation
+	
+	Some machine learning algorithms like linear and logistic assume that the features are normally distributed -Accuracy -Performance
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
