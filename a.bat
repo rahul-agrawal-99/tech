@@ -1,7 +1,7 @@
 @ECHO OFF
 set /p pull= "Enter 0 to leave pull otherwise any btn will pull first : " 
 
-if %pull%==0 (echo "pulling") else (echo "skip pull") 
+if %pull%==0 ( echo "skiped pull" ) else ( git pull ) 
 
 set /p choice= "Enter Message to be set on Commit : " 
 git add .
