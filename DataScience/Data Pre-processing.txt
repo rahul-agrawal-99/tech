@@ -259,6 +259,37 @@ df.ffill(axis = 0)      # only row wise filling
 zscore = np.abs(stats.zscore(df['reading score']))
 
 
+******************************************************************************************************************************************************************
+                                                    		Encoding
+********************************************************************************************************************************************************************
+
+
+	For nominal data use dummies as pune > mumbai > kolkata doesnt make sence if encoded directly
+
+		create dummy for a column :
+
+			dummies = pd.get_dummies(df.col_name)
+
+			# merge into original dataframe 
+
+			merged_df = pd.concat([df,dummies],axis='columns')
+
+			# drop the main column
+
+			df.drop([col_name], axis=1 , inplace = true)
+
+			# if dummies size > 2 , then  drop one of the dummy column to reduce redundancy and also relieve model from dummy variable trap
+
+			# e.g. if for dummy C , drop C column then A=0 , B=0 assumed as it is value of C
+
+	For Ordinal Data like good , avg , bad :
+
+			# use replace method 
+
+		
+			
+
+
 
 ********************************************************************************************************************************************************************
                                                    Scaling
