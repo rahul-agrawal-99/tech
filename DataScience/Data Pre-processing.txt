@@ -286,6 +286,21 @@ zscore = np.abs(stats.zscore(df['reading score']))
 
 			# use replace method 
 
+				df.replace(['female'],1,inplace=True)
+				df.replace(['male'],0,inplace=True)
+
+
+			# using Map method :
+
+                     		d['Embarked']=d['Embarked'].map({'S':0,'Q':1,'C':2})
+
+
+			# Using Lambda 
+
+				df['new_col']=df['col_tobe_encoded'].apply(lambda x : 1 if x=='catagory1' 2 elif x=='catagory2' else 3)
+         				it will return single new_col with catagory1 = 1 and so . 
+
+
 		
 			
 

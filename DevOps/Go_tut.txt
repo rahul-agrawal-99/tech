@@ -1,0 +1,306 @@
+to run a go file use : go run main.go
+
+(it is mostly like mixture of c++ and python )
+
+there is no indentation like python and no semicolon like c++
+
+use capitalize keywords to act like global variables
+
+
+
+synatx details:  
+
+    1. package name -> use package name to import other packages , also it is mandatory to use package main to run mian file
+    
+    2. import packages -> use import to import other packages , if imported package is not used then it will throw error
+
+    3. func main -> use func main to run main file , it is mandatory to use func main to run main file
+
+    4. declare variable -> use var to declare variable of any type , if variable is not used then it will throw error
+        if we did'nt use var then it will consider it as const variable and if tried to reassign and change then it will throw error
+            e.g.   a = 50   // a is considered as const variable and it can't be reassigned
+                    a = 100 // it will throw error
+            
+            or     a := 50    // another method of declaring variable , but this are local variable and it can't be used outside the func
+
+                    var A = 50   //it is global variable and it can be used outside the func or in another files also
+
+                    gloable variables always declared outside the function
+
+                    
+        for forward declaration , we need to explicitely mention the type of variable
+            e.g. var item string   // throw an error if type is not mentioned
+                 string = "hello"  
+
+        blank identifier : 
+                    used when we don't want to use variable name but in code we have to mention it 
+
+                    e.g.  _ = "hello"  // it will not throw error if not used 
+                         
+
+    5. print variable -> use fmt.Println or fmt.Print to print variable 
+
+        f string -> use fmt.Printf("value is : %v that is ",value) to print string 
+
+                    use fmt.Printf("type of value is : %T that is ",value)  to print type of variable]]
+
+    6. declare functions -> use func to declare function , if function is not used then it will throw error
+
+        used like : func func_name (parameter_name parameter_type) return_type {
+                        code
+                        }
+
+        e.g. :   func add(a int , b int) int {
+                    return a+b
+                    }
+
+        passing array/slice to func :
+
+                func add(a []int) int {   //also for array type return use  func add(a []int) []int {
+                    sum := 0
+                    for _,value := range a {
+                        sum += value
+                    }
+                    return sum        // return sum of alll elements of array
+                }
+
+    7. user input
+
+            first : declare variable  -> var input string
+
+            second : use 	fmt.Scan(&input)  or 	fmt.Scanln(&input)    to take input from user and store it in address of variable , " & " is used to take address of variable
+
+    8. creating array :
+
+            var array_name [size]type_of_variable   
+
+                e.g :   var array_name [5]int  // array of 5 int type variable
+
+        adding values in array :
+
+            array_name[index] = value
+
+                e.g :   array_name[0] = 10  // add 10 in array_name[0]
+
+        length of array :   =>      len(array_name)
+
+        print whole array :   =>      fmt.Println("Whole array is %v \n",array_name)
+
+    9. slice :   it is dyanamic array  , it is like array but it is not fixed in size , it can be changed in runtime
+
+            var slice_name []type_of_variable
+
+                e.g :   var slice_name []int
+
+        adding values in slice :
+          
+           Using Index
+
+            slice_name[index] = value    
+                                                 e.g :   slice_name[0] = 10  // add 10 in slice_name[0]
+
+          Without Index :   useful when add values wiothout knowing actual last index of slice
+
+                        append(slice_name,value)
+
+                                                 e.g :   append(slice_name,10)  // add value 10 in slice_name
+
+        length of slice :   =>      len(slice_name)
+
+        print whole slice :   =>      fmt.Println("Whole slice is %v \n",slice_name)
+
+    10. map :   it is like hash table , it is used to store key value pair , it is used to store key value pair
+
+            var map_name = make(map[key_type]value_type)   // create empty map
+ 
+                e.g :   var map_name = make(map[string]string)
+
+                to add key value pair :
+
+                    map_name[key] = value
+
+                        e.g :   map_name["name"] = "sachin"
+
+
+    11. loops :
+
+            for loop :
+
+                for condition {   // if no condition , it considered as true always so infinite loop will be created
+                    code
+                    }
+
+            for each loop :
+
+                for index,value := range slice_name {   // range allows us to iterate over slice/array of any type of data
+                    code
+                    }
+
+            while loop :
+
+                while condition {
+                    code
+                    }
+
+            do while loop :
+
+                do {
+                    code
+                    } while condition
+
+            for range loop :
+
+                for key,value := range map_name {
+                    code
+                    }
+
+            for loop with break and continue :
+
+                for condition {
+                    code
+                    if condition {
+                        break
+                        }
+                    if condition {
+                        continue
+                        } 
+                    }
+
+    12. if else :
+
+            if condition {
+                code
+                } else {
+                code
+                }
+
+    13. switch case :
+
+            switch value {
+                case value1 :   // if value = value1 then it will execute code
+                    code
+                    break
+                case value2 , value3 :   // if value = value2 or value = value3 then it will execute code
+                    code
+                    break
+                default :
+                    code
+                    break
+                }
+
+    14. using other go files to run :
+
+            create .go files and write respective code in it , only one file will contain main function .
+
+            to use as imported file run all files inside folder using : go run .    // it will run all files inside current folder
+
+        OR  
+
+            create a folder folder_name and put all helpers file inside it  , func name should be capitalized in order to use in another file, dont put main func file 
+
+            init the module using : go mod init mod_name
+
+            import in main file :  import "mod_name/folder_name"
+
+            also to use helper function , use in main file as :  folder_name.func_name()
+
+            e.g. file structure 
+
+                go run main.go
+
+                . -- main.go    --> import ( "myproject/helper" )      helper.Add(2,3)
+                |
+                | -- helper
+                |   |
+                |   | -- helper1.go   --> package helper     func Add (a int , b int) int { return a+b }    /// only Add not add allowed
+                |   | -- helper2.go   --> package helper      // some other functions
+                |
+                | -- go.mod   -->  module myproject       // contains module info  , using go mod init myproject
+
+
+    15. using struct :
+
+            struct is used define user data type 
+
+            type name struct  {
+                field_name1 field_type1
+                field_name2 field_type2
+                field_name3 field_type3
+                }
+            e.g.
+                
+                    type struct user {         // type keyword is used to create new type 
+                        name string
+                        age int
+                        }
+
+    16. Sleep :
+
+        first import (  "time"  )
+
+        use time.Sleep(time.Duration(seconds) * time.Second) to sleep for given seconds
+
+        e.g  time.Sleep(10 * time.Second)  // sleep for 5 seconds
+
+
+    17. multi threading :
+
+        in go , keyword "go" is used to create a thread  , it means start ner go routine
+
+        go fun_name()   // this fun will run in parallel with main , but if main ends before fun ends then it will be killed without even fully executing
+
+        to avoid syncing problem :
+
+                import ( "sync" )
+
+                var wg = sync.WaitGroup{}  // wait for thead until where wg statement is written
+
+                func fun(){
+                    //code
+
+                    wg.Done()  // when fun is done , decrement the wait group
+                }
+
+                // before calling go call use 
+
+                wg.Add(1)  // add 1 to wait group as we have only 1 go routine call
+
+                go fun()  // call fun in go routine
+
+
+                // to actually wait for all go routines to finish use
+
+                func main(){
+
+                    // all code 
+
+                wg.Wait()  // wait for all go routines to finish  , place at last of main function
+
+
+                }
+
+                Goroutine	                                     VS                               Thread
+
+                Goroutines are managed by the go runtime.	                                    Operating system threads are managed by kernal.
+
+                Goroutine are not hardware dependent.	                                        Threads are hardware dependent.
+
+                Goroutines have easy communication medium known as channel.	                    Thread does not have easy communication medium.
+
+                Due to the presence of channel one goroutine can communicate with               Due to lack of easy communication medium inter-threads
+                other goroutine with low latency.	                                            communicate takes place with high latency.
+
+                Goroutine does not have ID because go does not have Thread Local Storage.	    Threads have their own unique ID because they have Thread Local Storage.
+
+                Goroutines are cheaper than threads.	                                        The cost of threads are higher than goroutine.
+                
+                They are cooperatively scheduled.	                                            They are preemptively scheduled.
+
+                They have fasted startup time than threads.	                                    They have slow startup time than goroutines.
+
+                Goroutine has growable segmented stacks.	                                    Threads does not have growable segmented stacks.
+          
+ 
+              
+
+    
