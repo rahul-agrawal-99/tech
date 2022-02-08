@@ -1,0 +1,398 @@
+
+Terraform v1.1.5 , made by harshicorp and it is declarative language , it uses harshicorp configuration language (HCL)
+it is supported by all major cloud providers like aws , azure , GCP , alibaba , oracle also by orchestration tools like kubernetes
+
+
+
+******************************************************************************************************************************************************************************************
+										About Terraform
+******************************************************************************************************************************************************************************************
+
+key diff betn configuration management and infrastructure as code or orchestartion
+
+	Orchestration/provisioning is a process where we create the infrastructure – virtual machines, network components, databases, etc. Whereas, on the other hand, configuration 	management is a process of automating versioned software component installation, OS configuration tasks, network and firewall configuration, etc.
+
+	other tools are concerned with installation and management of software on existing servers, while Terraform provisions the servers themselves
+
+	Terraform is detailed as "Describe your complete infrastructure as code and build resources across providers". With Terraform, you describe your complete infrastructure as code, 	even as it spans multiple service providers like aws , azure and gcp in a single time
+
+
+Terraform File structure
+
+	. project_name
+	|    
+	|- .terraform(dir)  ----->  providers -> registry.terraform.io -> hashicorp -> aws -> aws_plugins 
+	|
+	|- .terraform.tfstate  ----->  terraform state file , it contains the state of the infrastructure
+	|					
+	|- .terraform.lock.hcl  ----->  terraform lock file , it contains the lock of the infrastructure
+	|
+	|- .terraform.tfstate.backup    ----->  terraform state file backup 
+	|
+	|- file_name.tf            ----->  terraform file , it contains the configuration of the infrastructure
+	|
+	|- file_name.tfvars        ----->  terraform variables file , it contains the variables of the infrastructure
+
+by running terraform apply , it will run all .tf files at once as it applies for whole dir
+
+#  syntax for creating a resource
+
+# resource "PROVIDER_NAME" "RESOURCE_NAME" {
+#     CONFIG_OPTIONS
+# }
+
+
+
+******************************************************************************************************************************************************************************************
+									configure and deploy using Terraform
+******************************************************************************************************************************************************************************************
+
+
+1. create a seperate dir for terraform project 
+
+2. create a file inside that dir named with any_project_name.tf and write declaratively all the resource specification 
+
+3. after that in terminal , type 
+
+					---------------------------------------------------------------------------
+					|           		terraform init					   |
+					---------------------------------------------------------------------------	
+
+	it will initialize , downlaod and setup a plugins for all the providers we mwntioned any_project_name.tf
+
+	it will create .terraform dir , inside all plugins will be stored to connect cloud providers
+
+4.					---------------------------------------------------------------------------
+					|           		terraform plan					   |
+					---------------------------------------------------------------------------
+
+	 "terraform plan" to see any changes that are required for your infrastructure. 
+
+5.	# To actually deploy speccified resources use 
+
+
+					---------------------------------------------------------------------------
+					|           		terraform apply					   |  -- type yes to accept and deploy or use --auto-approve
+					---------------------------------------------------------------------------
+
+	if we do apply again it is not going to again deploy as our cloud infrastructure is in already desired state so until we delete or create new resources , it is not apply
+
+	if there is change in code then first run plan then apply
+
+ 	5 A]    apply only specific resource
+
+
+			terraform apply -target RESOURCE_TYPE.RESOURCE_NAME
+
+				e.g terraform apply aws_eip.one    # apply elastic ip with name one
+
+
+6.	# To destroy the changes made due to tf file use  , it will not interfare with resources created by other than tf files
+
+					---------------------------------------------------------------------------
+					|           		terraform destroy				   |   -- it will destoy all the resources made by terraform
+					---------------------------------------------------------------------------
+
+		also to remove specific resource , just comment or remove that lines of code and again apply
+
+
+ 	6 A]    destroy only specific resource
+
+
+			terraform destroy -target RESOURCE_TYPE.RESOURCE_NAME
+
+				e.g terraform destroy aws_eip.one    # destroy elastic ip with name one
+
+7.      # to list all the resources deployed by the terraform
+					---------------------------------------------------------------------------
+					|           	  terraform state list					   |
+					---------------------------------------------------------------------------
+
+8.					---------------------------------------------------------------------------
+					|          terraform state show RESOURCE_TYPE.RESOURCE_NAME		  |
+					---------------------------------------------------------------------------
+
+			--- to get all the details about the specific resource
+
+					e.g.   terraform state show aws_instance.web-app-example
+
+9.  to get a specific details every time apply is called then use in tf file as 
+
+	output "ANY_NAME"{    # only one value in one output block
+
+		value = RESOURCE_TYPE.RESOURCE_NAME.RESOURCE_FEATURE
+
+		# e.g.
+
+		# value = aws_eip.one.public_ip
+
+	}
+
+		after applying apply we get output as :   ANY_NAME = value_at_value    # in our case , public ip
+
+
+	Also to only get output without applying apply use :     terraform output   
+
+				--- also to get refreshed output use first :   terraform refresh       then      terraform output    ---- get details withput changing infra
+		
+10.   declare  a variable 
+	
+		var can be used as list , dict and string to pass value
+
+		------------------  using inline  -----------------------------
+	variable "VAR_NAME"{
+
+	discription =   "SOMETHING ABOUT VAR"      ---optional
+
+	default =   "value"       ---optional ,if not mentioned after apply it will prompt user input from cli
+
+	type =     "string"     ---optional  can be int , bool
+
+	}
+
+		------------------  using terraform.tfvars  -----------------------------
+
+	create a file named :  terraform.tfvars
+
+	inside that file assign name and value to var as :
+
+		var_name = "var_value"
+
+		------------------  Call this variable   -----------------------------
+
+	resource "RESOURCE_TYPE" "RESOURCE_NAME" {
+	
+	ANY_FEATURE = var.VAR_NAME
+
+	}
+
+	Also if default is not mentiones we can Use :   terraform apply -var "VAR_NAME=VALUE"
+
+		------------------  using another tfvars  -----------------------------
+
+	create a file named :  any_name.tfvars
+
+	use :  terraform apply -var-file any_name.tfvars
+
+
+******************************************************************************************************************************************************************************************
+									 Terraform For AWS
+******************************************************************************************************************************************************************************************
+
+
+
+		in terraform code , order doesnt matter , we can write a resouce at last but we can refer its attribute in first line also
+
+
+	Configure AWS for terraform
+
+	using static credentials (not a preffered option)
+
+						provider "aws" {
+							  region = "us-east-2" # ohio region
+
+ #    Make sure to delete the following line after practice as it is not a good practice to store credentials in code
+
+							  access_key = "AKIASKCKEKHHI4OZ****"
+							  secret_key = "Dndvmjv8yd93Ybm4S6ZcaqVyeWyLL0kuFlB*****"
+							  }
+
+
+
+1. VPC with Subnet , Internet gateway , Route Table , Security group
+
+
+           # --------------------------   VPC      --------------------------------
+
+			resource "aws_vpc" "customvpc" {
+ 					 cidr_block = "10.0.0.0/16"
+
+ 				 tags = {
+  						  "Name" = "my-custom-vpc-name"
+ 				 }
+
+			}
+
+
+
+           # --------------------------   Subnet      --------------------------------
+
+			resource "aws_subnet" "my-custom-subnet" {
+						  vpc_id     = aws_vpc.customvpc.id      # getting ref id of the vpc without even creating actually
+
+  						cidr_block = "10.0.1.0/24"      # should be from vpc_id only 
+
+						availability_zone = "us-east-2b"
+ 
+ 					 tags = {
+ 								   "Name" = "my-custom-subnet-name"
+						  }
+
+					}
+
+
+	
+
+
+
+           # --------------------------   Internet gateway     --------------------------------
+
+			resource "aws_internet_gateway" "my-custom-ig" {
+						  vpc_id     = aws_vpc.customvpc.id      # getting ref id of the vpc without even creating actually
+
+  					
+ 
+ 					 tags = {
+ 								   "Name" = "my-custom-ig-name"
+						  }
+
+					}
+
+
+           # --------------------------   Route Table     --------------------------------
+
+			resource "aws_route_table" "my-custom-ig" {
+						  vpc_id     = aws_vpc.customvpc.id      # getting ref id of the vpc without even creating actually
+
+  					
+ 
+ 					 tags = {
+ 								   "Name" = "my-custom-ig-name"
+						  }
+
+					}
+
+
+
+           # --------------------------  Route Table Assosiation with subnet      --------------------------------
+
+			# create multiple resource of this type for multiple subnets
+
+				resource "aws_route_table_association" "my-custom-rt-association" {
+
+  						subnet_id      = aws_subnet.my-custom-subnet.id
+
+  						route_table_id = aws_route_table.my-custom-rt.id
+				}
+
+
+
+
+           # --------------------------  Security Group      --------------------------------
+
+
+				resource "aws_security_group" "sg-custom" {
+									  name        = "allow_tls"
+  									description = "Allow TLS inbound traffic"
+  									vpc_id      = aws_vpc.customvpc.id
+
+ 						 ingress { # inbound traffic  , from internet to instance
+    
+									description = "TLS from VPC"
+  									  from_port   = 0  # it allows range from 0 - 1024
+   									 to_port     = 1024
+  									  protocol    = "tcp"
+   									 cidr_blocks = ["0.0.0.0/0"]       # allow all traffic
+
+							  }
+
+						  egress { # outbound traffic  , from instance to internet
+
+									    from_port        = 0
+ 									   to_port          = 0
+   										 protocol         = "-1"       # -1 means all protocols
+ 									   cidr_blocks      = ["0.0.0.0/0"]
+ 									   ipv6_cidr_blocks = ["::/0"]
+							  }
+
+  								tags = {
+   									 Name = "allow_all_traffic"
+							  }
+						}
+
+           # --------------------------   network interface     --------------------------------
+
+
+
+						resource "aws_network_interface" "nic-custom" {
+
+								  subnet_id       = aws_subnet.my-custom-subnet.id
+								  private_ips     = ["10.0.1.50"]
+								  security_groups = [aws_security_group.sg-custom.id]
+
+
+						}
+
+           # --------------------------   elastic ip      --------------------------------
+
+
+					resource "aws_eip" "one" {
+
+							  vpc                       = true
+ 							 network_interface         = aws_network_interface.nic-custom.id
+							  associate_with_private_ip = "10.0.1.50"
+  				depends_on = [
+					    aws_internet_gateway.my-custom-ig	 # depends on internet gateway as internet gateway is required to assign public ip
+					  ]
+
+				}
+
+
+
+2. EC2 instances
+
+
+	resource "aws_instance" "web-app-example" { 
+
+				  ami           = "ami-0231217be14a6f3ba"          # ami id , this is for amazon linux ami
+				  instance_type = "t2.micro"                   
+  				  subnet_id = aws_subnet.my-custom-subnet.id        # subnet id , can be hard coded id or just ref. id from another resource
+
+				  associate_public_ip_address = true
+  
+
+				  tags = {
+					    Name = "ExampleAppServerInstance" # name for the instance
+						  }
+
+
+				# ---------------------------------------------------------------------------- Not compulsory
+
+	
+					   network_interface {
+
+							     device_index = 0
+							   
+							    #  delete_on_termination = true
+							     network_interface_id = aws_network_interface.nic-custom.id
+						   }
+
+				   user_data = <<-EOF
+				    #!/bin/bash
+				    yum update -y
+				    yum install httpd -y
+				    service httpd start
+				    EOF
+
+				# ----------------------------------------------------------------------------
+
+				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
