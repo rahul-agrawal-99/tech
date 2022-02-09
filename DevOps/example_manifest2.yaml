@@ -18,13 +18,59 @@
 #   restartPolicy: Never         # Defaults to Always
   
 
-kind: Pod
+# kind: Pod
+# apiVersion: v1
+# metadata:
+#   name: testpod4
+#   labels:
+#     app: app1
+#     test: test
+# spec:
+#   containers:
+#     - name: c00
+#       image: httpd
+#       ports:
+#        - containerPort: 80  
+
+
+
+kind: ReplicationController               
 apiVersion: v1
 metadata:
-  name: testpod4
+  name: myreplica
 spec:
-  containers:
-    - name: c00
-      image: httpd
-      ports:
-       - containerPort: 80  
+  replicas: 2            
+  selector:        
+    myname: app1     # should be same as template -> metadata -> labels -> app                      
+  template:                
+    metadata:
+      name: testpod6
+      labels:            
+        myname: app1
+    spec:
+     containers:
+       - name: c00
+         image: httpd
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: httpd-deployment-nautilus
+#   labels:
+#     app: httpd_app_nautilus
+# spec:
+#   replicas: 4
+#   selector:
+#     matchLabels:
+#       app: httpd_app_nautilus
+#   template:
+#     metadata:
+#       labels:
+#         app: httpd_app_nautilus
+#     spec:
+#       containers:
+#         - name: httpd-container-nautilus
+#           image: httpd:latest
+#           ports:
+#             - containerPort: 80

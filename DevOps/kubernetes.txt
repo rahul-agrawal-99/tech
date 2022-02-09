@@ -171,6 +171,15 @@ kind lets you run Kubernetes on your local computer. This tool requires that you
 					////  ***   minikube   ***   ///
 Like kind, minikube is a tool that lets you run Kubernetes locally. minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, or for daily development work.
 
+	to use local docker images with minikube to deploy using kubernetes , use :   eval $(minikube docker-env)    --- it will get images from local docker registry
+
+																				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image.
+
+			after that it will create docker specifically for minikube which doesnt contain any of other images which is in local registry
+
+				to pull from local registry use :   minikube image load IMG_NAME 
+
+			after stopping minikube , we can access our local registry of docker that was before minikube wwas started 
 
 					////  ***  kubeadm    ***   ///
 You can use the kubeadm tool to create and manage Kubernetes clusters. It performs the actions necessary to get a minimum viable, secure cluster up and running in a user friendly way.
@@ -203,6 +212,19 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 ******************************************************************************************************************************************************************************************
 
 
+diff types of object available in k8s are :
+
+	pods
+    Namespaces
+    ReplicationController (Manages Pods)       --- supoorts on equality based selectors
+    DeploymentController (Manages Pods)
+	ReplicaSet     --- advanced version of ReplicationController , it support equality as well as set based selectors
+    StatefulSets
+    DaemonSets
+    Services
+    ConfigMaps
+    Volumes
+
 					***************************************************************************************************
 									Kubernetes Basic commands																	***************************************************************************************************
 
@@ -222,20 +244,53 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 
 			use =>  kubectl config get-contexts  --- list all the cluster that are configured to master
 	
-	3. get list of nodes
+	3. get list of nodes  , nodes are the hardware devices connected to kubenetes master where sheduler deploys container
 
 					---------------------------------------------------------------------------
-					|                  kubectl get nodes 					  |
+					|                  kubectl get nodes 					 				 |
 					---------------------------------------------------------------------------
+
+				deploy pod on only on specific node using node selector
+
+					first lable the node as :
+									1. get node name using get nodes command
+
+									2. use label command to label the node like kubctl label node NODE_NAME KEY=VALUE
+
+															e.g. kubectl label node node12 hardware=t2.medium
+
+					then in yml file of manifest mention as
+
+							spec:
+								nodeSelector:
+									hardware = t2.medium       # create pod on only instance/node having lable as key=hardware and value = t2.medium
+							
+						# if no node having this lable , then pod will not be deployed it will be in pending state
+
 
 	4. get list of all pods avilable on every node
 
 					---------------------------------------------------------------------------
-					|          		       kubectl get pods				  | (kubectl get pod -o wide ) for detailed view
+					|          		       kubectl get pods									  | (kubectl get pod -o wide ) for detailed view
 					---------------------------------------------------------------------------		
 						kubectl get pod -o=custom-columns=NODE:.spec.nodeName,NAME:.metadata.name --all-namespaces   (from every clucter namespace)
 
 						kubectl get pods -n NAME_OF_NAMESPACE          ---- get pods inside specific namespace
+
+						kubectl get pods --show-labels                   ----- to get all the pods with labels , also can be used for any other services like rs , ns
+
+					To reterve using any lable key Use :
+
+						kubctl get pods -l key=value                 ---- also for other resources
+
+						also  kubctl get pods -l key!=value              ---- get if key is not having value as value 
+
+					set based selectors :
+
+						kubectl get pods 'KEY in (value1,value2,value3)'    --- list the pods having key as value1 or value2 or value3
+
+									also can be used with selector like notin and exist
+
 
 	5. config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
 
@@ -276,7 +331,7 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 	9. get all info about status and pods 
 
 					---------------------------------------------------------------------------
-					|              	 kubectl get all		 			  |
+					|              	 kubectl get all		 								  |
 					---------------------------------------------------------------------------
 
 	10. delete a pod from specific namespace
@@ -284,11 +339,27 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 					|         kubectl delete pod POD_NAME -n NS_NAME		 	 |    --- use -n only if 2 pods in diff ns have same name
 					---------------------------------------------------------------------------
 
+
+				delete pod using lable :
+
+						kubectl delete pod -l key=value           ---- delete all the pods having lable as key and it value is value
+
 	11. get logs inside pod for troubleshooting a problem causing sometimes failures
 
 					---------------------------------------------------------------------------
-					|           		 kubectl logs POD_NAME    			  |
+					|           		 kubectl logs POD_NAME    						  |
 					---------------------------------------------------------------------------
+
+	12. assign label to a pod or any other resource
+
+					---------------------------------------------------------------------------
+					|           	kubectl lable Resource_TYPE Resource_NAME KEY=VALUE  		|
+					---------------------------------------------------------------------------
+
+					e.g.  kubectl lable pods mypod1 name=lable1
+
+
+	
 
 
 
@@ -432,9 +503,23 @@ On the other hand, the volumes that are created through Kubernetes is not limite
 
 
 				***************************************************************************************************
-									Kubernetes configmap  , Volume , secreat														***************************************************************************************************
+									Kubernetes replica and load-balancing														
+				***************************************************************************************************
 
 
+		there will be always at least replica no of pods will be in created/stared state 
+
+		it can not be created using kind : pod , it requires kind Deployment or ReplicationController 
+
+
+			sacle up/down ReplicationController using 
+
+					kubctl scale --replicas=10 rc -l key=value     ---- key should be from only spec -> selector of that ReplicationController
+
+
+					to delete ReplicationController or any object deployment use 
+
+					kubectl delete -f FILENAME.yaml   --- it will not delete file physically only resource will be terminated from kubectl
 
 
 
