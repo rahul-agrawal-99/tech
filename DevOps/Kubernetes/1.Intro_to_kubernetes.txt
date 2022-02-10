@@ -2,6 +2,7 @@
 										About Kubernetes
 ******************************************************************************************************************************************************************************************
 
+
 * imperative means use cli every time to execute , declarative means make file and then execute it every time 
 
 simply container management/orchestration tool , also known as k8s , Container orchestration automates the deployment, management, scaling, and networking of containers.
@@ -47,7 +48,9 @@ Kubernetes comparison with its top compatitor docker swarm :
 
 Architecture :
 
-	it has master- node architecture inside a cluter , node is pod which can have 1 or more worker containers runnign in it , containers communicates with pods , diff pods can have diff types of container services running in it , like in 1 pod 20 docker containers are running but in 2 nd pod from same cluster can have 30 OpenVZ or containerd conatiners running at same time 
+	it has master- node architecture inside a cluter , there can be more than 1 master in this architecture
+	, containers communicates with pods , diff pods can have diff types of container services running in it , 
+	like in 1 pod 20 docker containers are running but in 2 nd pod from same cluster can have 30 OpenVZ or containerd conatiners running at same time 
 	containers run microservice 
 
 
@@ -98,19 +101,30 @@ On AWS
 				Master									Node
 
 
-					it has all data of nodes 			    sends data
-						ETCD (can be accessed only by apiserver)   <------     Kubelet(each for every node)
-					         ^						  / --- Node 1  ---  pod11  -> cont1 , cont2
+					it has all data about nodes 			 		  	sends data
+						ETCD (can be accessed only by apiserver)   <-------------   Kubelet(each for every node)
+					         					 ↑						 / --- Node 1  ---  pod11  -> cont1 , cont2
 it checks etcd via server and commands           |						/
-	 sheduler to perform actions		 |                                            /				  
-		CONTROL MANAGER	-------->   API SERVER ----------------------------------------  ------- Node2  ----pod21  -> cont1 
+	 sheduler to perform actions		 		 |                     /				  
+				CONTROL MANAGER	-------->   API SERVER ------------------------------ Node2  ----pod21  -> cont1 
 						|							   |
 						|							    -------- pod22  -> 	cont1 , cont2 , cont3			
 						SCHEDULER (actions taken here actually)	
 	
 
-		* Admin sends menifest to Api server then control manager check actual and desired state with help of etcd and commands scheduler to perform necessory action to get in 			desired state , menifest scripts written in JSON OR Yaml contains
+		* Admin sends menifest to Api server then 
+		control manager check actual and desired state with help of etcd and 
+		commands scheduler to perform necessory action to get in desired state , menifest scripts written in JSON OR Yaml contains
+		scheduler samrtly decides which pod to run on which node and which container to run on which pod based on the workloads on each cluster and node
+		but we can also decide manually to on which node pod will be created 
+		by getting commnds from scheduler , kubelet on nodes perform actions to create pod based on image provided by scheduler itself
+		Replication is done by Control manager by checking the desired and actual state of node and if any of pod fails ,new pod get scheduled on node
+		etcd contains status of every node which is deliverd by kubelet from each nodes
 
+		in case of 2 master structuer , api-server is getting load balanced and etcd is being shared by both master
+	
+
+	We can add additional master or worker node anytime in architecture , we can just to by installing required specification
 
 
 	Kubernetes - Node Components
@@ -135,7 +149,8 @@ it checks etcd via server and commands           |						/
 
 		///  ***  POD    ***  ////
 
-A pod is a collection of containers and its storage inside a node of a Kubernetes cluster. It is possible to create a pod with multiple containers inside it. For example, keeping a database container and data container in the same pod.
+
+
 
 Types of Pod
 	There are two types of Pods −
@@ -152,8 +167,7 @@ Types of Pod
     							   image: mongoDB
 
 
-if a single container inside pod fails then whole pod is discarded and new pod is creared as that pod cant be repaired or reconstructed, this is disadvatage of multi conatainer pod .
-so , it is recommended that to use Single container
+
 
 
 
@@ -161,47 +175,67 @@ so , it is recommended that to use Single container
 
 
 					////  ***  kubectl    ***   ///
-The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs
+		
+		The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. 
+		You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs
+		kubectl communicated with api-server to perform actions based on commands 
 
 
 					////  ***  kind    ***   ///
-kind lets you run Kubernetes on your local computer. This tool requires that you have Docker installed and configured.
+		
+		kind lets you run Kubernetes on your local computer. This tool requires that you have Docker installed and configured.
 
 			
 					////  ***   minikube   ***   ///
-Like kind, minikube is a tool that lets you run Kubernetes locally. minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, or for daily development work.
 
-	to use local docker images with minikube to deploy using kubernetes , use :   eval $(minikube docker-env)    --- it will get images from local docker registry
+		Like kind, minikube is a tool that lets you run Kubernetes locally. 
+		minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, 
+		or for daily development work.
+		it has docker container time preinstalled so we dont need to install it but it is only available inside minikube 
+		there will be different docker registry of docker inside minikube and locally installed docker
 
-																				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image.
+		use --vm-driver along with start to select hypervisor where minikube requires  , it is deprecated as  --driver
+		--driver='': Driver is one of: virtualbox, vmwarefusion, kvm2, vmware,none, docker, podman, ssh (defaults to auto-detect)
 
-			after that it will create docker specifically for minikube which doesnt contain any of other images which is in local registry
+		using : eval $(minikube docker-env)     , we can access docker inside minikube for that opened cli only 
 
-				to pull from local registry use :   minikube image load IMG_NAME 
+				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image into its docker 
 
-			after stopping minikube , we can access our local registry of docker that was before minikube wwas started 
+				to pull from local docker registry use :   minikube image load IMG_NAME            
+
+				it will load the image into minikube docker registry from our local docker registry
+
+
 
 					////  ***  kubeadm    ***   ///
-You can use the kubeadm tool to create and manage Kubernetes clusters. It performs the actions necessary to get a minimum viable, secure cluster up and running in a user friendly way.
+			You can use the kubeadm tool to create and manage Kubernetes clusters. 
+			It performs the actions necessary to get a minimum viable, secure cluster up and running in a user friendly way.
 
 
 					////  ***  Kops    ***   ///
-Kops, short for Kubernetes Operations, is a set of tools for installing, operating, and deleting Kubernetes clusters in the cloud. A rolling upgrade of an older version of Kubernetes to a new version can also be performed. It also manages the cluster add-ons.
+
+			Kops, short for Kubernetes Operations, is a set of tools for installing, operating, and deleting Kubernetes clusters in the cloud.
+			A rolling upgrade of an older version of Kubernetes to a new version can also be performed. It also manages the cluster add-ons.
 
 
 					////  ***  kublet    ***   ///
-kubelet: the component that runs on all of the machines in your cluster and does things like starting pods and containers.
+
+		kubelet: the component that runs on all of the machines/nodes in your cluster and does things like starting pods and containers.
+		it is responsible for keeping the state of the node to desired state
+
+
+					////  ***  kubProxy    ***   ///
+
+		it ensure that the pods are communicating with rights containers from other pods in same cluster 
+
+		it also makes communication between service and pods
+
+		This is a proxy service which runs on each node and helps in making services available to the external host. 
+		
+		It helps in forwarding the request to correct containers and is capable of performing primitive load balancing. 
+		It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well. 
+		
+		It manages pods on node, volumes, secrets, creating new containers’ health checkup, etc.
 
 
 
-
-
-Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. It is responsible for making sure that the specified number of pod replicas are running at any point of time. It is used in time when one wants to make sure that the specified number of pod or at least one pod is running. It has the capability to bring up or down the specified no of pod.
-
-/// Volumes
-
-In Kubernetes, a volume can be thought of as a directory which is accessible to the containers in a pod. We have different types of volumes in Kubernetes and the type defines how the volume is created and its content.
-
-The concept of volume was present with the Docker, however the only issue was that the volume was very much limited to a particular pod. As soon as the life of a pod ended, the volume was also lost.
-
-On the other hand, the volumes that are created through Kubernetes is not limited to any container. It supports any or all the containers deployed inside the pod of Kubernetes. A key advantage of Kubernetes volume is, it supports different kind of storage wherein the pod can use multiple of them at the same time.

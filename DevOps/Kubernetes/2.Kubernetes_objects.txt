@@ -1,4 +1,19 @@
-What are kubernetes objects:
+                            _              _                                    _                
+                            | | __  _   _  | |__     ___   _ __   _ __     ___  | |_    ___   ___ 
+                            | |/ / | | | | | '_ \   / _ \ | '__| | '_ \   / _ \ | __|  / _ \ / __|
+                            |   <  | |_| | | |_) | |  __/ | |    | | | | |  __/ | |_  |  __/ \__ \
+                            |_|\_\  \__,_| |_.__/   \___| |_|    |_| |_|  \___|  \__|  \___| |___/
+                                                                                                
+
+                                    _         _                 _         
+                             ___   | |__     (_)   ___    ___  | |_   ___ 
+                            / _ \  | '_ \    | |  / _ \  / __| | __| / __|
+                           | (_) | | |_) |   | | |  __/ | (__  | |_  \__ \
+                            \___/  |_.__/   _/ |  \___|  \___|  \__| |___/
+                                            |__/                           
+
+
+kubernetes offers following objects/components :
 
 
 diff types of object available in k8s are :
@@ -8,15 +23,135 @@ diff types of object available in k8s are :
 					|                  Pod					 			                	 |
 					---------------------------------------------------------------------------
 
+                    it is smalles unit of k8s, it is used to run application on k8s cluster.
+                    A pod is a collection of containers and its storage inside a node of a Kubernetes cluster. 
+                    It is possible to create a pod with multiple containers inside it. 
+
+
+                    pod has its own ip address but containers inside pods not have their own ip address
+
+                    evrytime pod gets created it will get new ip address only
+
+                    if a single container inside pod fails then whole pod is discarded and new pod is creared as that pod cant be repaired or reconstructed, 
+                    this is disadvatage of multi conatainer pod .
+                    so , it is recommended that to use Single container
+
                     kubectl exec POD_NAME -- CMD       it will execute CMD in the pod POD_NAME
+
+					---------------------------------------------------------------------------
+					|                   Services				 			                	 |
+					---------------------------------------------------------------------------
+
+                    services are attached to pods , even if pod dies , services remain as it is and can be attched to new pod 
+
+                    each service has its own ip address and port number
+
+                    so that they are used in crusial container application like database so that even the db pod get terminated , 
+                    data and connection to db by other services will never get lost
+
+                    there are 2 types of services available in k8s:
+
+                            1. Internal services : 
+
+                                        used in pods that not need to expose to world like database , only require to be used by other pods
+
+                            2. External services :
+
+                                        used in pods that need to be exposed to world like web server 
+
+
+                    ---------------------------------------------------------------------------
+					|                             Ingress 					 				 |
+					---------------------------------------------------------------------------
+
+
+                    it is type of External service that is used to expose services to the world but using a secure protol like https and with domain name
+
+                    if request comes to the domain name , it will be routed to the service by ingress
+
+
+
+                    ---------------------------------------------------------------------------
+					|                               configmap 				 				 |
+					---------------------------------------------------------------------------
+
+                    In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. 
+                    In Kubernetes, we can use ConfigMaps to achieve the same functionality.
+		            A ConfigMap is a Kubernetes API object that can be used to store data as key-value pairs. Kubernetes pods can use the created ConfigMaps as a:
+
+                                    Configuration file
+                                    Environment variable
+                                    Command-line argument
+
+		            ConfigMaps provides the ability to make applications portable by decoupling environment-specific configurations from the containers.
+
+                    * Importantly, ConfigMaps are not suitable for storing confidential data. They do not provide any kind of encryption, and all the data in them are
+                            visible to anyone who has access to the file. (Kubernetes provides secrets that can be used to store sensitive information.)
+
 
 
 
 
                     ---------------------------------------------------------------------------
-					|                  ReplicationController					 				 |
+					|                           secreats				 		        	 |
 					---------------------------------------------------------------------------
 
+                    Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
+                    Such information might otherwise be put in a Pod specification or in a container image. 
+                    Using a Secret means that you don't need to include confidential data in your application code.
+
+                    Because Secrets can be created independently of the Pods that use them, 
+                    there is less risk of the Secret (and its data) being exposed during the workflow of creating, 
+                    viewing, and editing Pods. Kubernetes, and applications that run in your cluster, can also take additional precautions with Secrets, 
+                    such as avoiding writing confidential data to nonvolatile storage.
+
+                    Secrets are similar to ConfigMaps but are specifically intended to hold confidential data.
+
+
+
+                    ---------------------------------------------------------------------------
+					|                           Volume      				 				 |
+					---------------------------------------------------------------------------
+
+                    Volume is a container for a file or directory on the host machine that is mounted into a container. it is user managed
+                    it can be on cloud also. like awsElasticBlockStore volume mounts an Amazon Web Services (AWS) EBS volume into your pod
+                    concept of volume was present with the Docker, however the only issue was that the volume was very much limited to a particular pod.
+                     As soon as the life of a pod ended, the volume was also lost.
+
+
+                     Pod can use any number of volume types simultaneously. 
+                     Ephemeral volume types have a lifetime of a pod, but persistent volumes exist beyond the lifetime of a pod. 
+                     When a pod ceases to exist, Kubernetes destroys ephemeral volumes; however, Kubernetes does not destroy persistent volumes. 
+                     For any kind of volume in a given pod, data is preserved across container restarts.
+
+
+                    Types of Volumes in Kubernetes :
+
+
+                            Persistent Volumes  :  A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by 
+                                                   an administrator or dynamically provisioned using Storage Classes. 
+                                                   PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. 
+
+                            Projected Volumes   :  A projected volume maps several existing volume sources into the same directory.
+                                                    Currently, the following types of volume sources can be projected:
+                                                                secret
+                                                                downwardAPI
+                                                                configMap
+                                                                serviceAccountToken
+
+
+                            Ephemeral Volumes   :  volumes follow the Pod's lifetime and get created and deleted along with the Pod
+
+
+
+                    ---------------------------------------------------------------------------
+					|                  ReplicationController					 			 |
+					---------------------------------------------------------------------------
+
+                    Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. 
+                    It is responsible for making sure that the specified number of pod replicas are running at any point of time. 
+                    It is used in time when one wants to make sure that the specified number of pod or at least one pod is running. 
+                    It has the capability to bring up or down the specified no of pod.
 
 
 
@@ -37,6 +172,7 @@ diff types of object available in k8s are :
                     more powerful than replicaset  , it can manage multiple replicaset
 	                we can do updates and rollbacks using deployment but it is not possible in case of replicaset
 					it deploys pods using replicaset only
+                    it is abstraction on replica set that is abstraction on pod that is abstraction on container
 
                     A Deployment provides declarative updates for Pods and ReplicaSets.
 
@@ -100,20 +236,27 @@ diff types of object available in k8s are :
                     5. Limit Ranges : when node reaches its limit 
 
 					---------------------------------------------------------------------------
-					|                  Namespace					 				 |
+					|                      StatefulSets     				 				 |
 					---------------------------------------------------------------------------
+
+                    there will be data inconsistancy if 2 or more pods performing same operation at same/different time cauing data loss/error 
+                    like transaction control in database
+
+                    so that satefulsets are used in stateful operations like database 
+
+                    because of that stateful sets are used to manage stateful pods not the deployments
+
+                    it also manages replication of pods just like deployment
+
+                    it sures that read and write in this pods are synchronized
+
+                    it is difficult than deployments 
 
 					---------------------------------------------------------------------------
 					|                  DaemonSets					 				 |
 					---------------------------------------------------------------------------
 
-					---------------------------------------------------------------------------
-					|                  kubectl get nodes 					 				 |
-					---------------------------------------------------------------------------
-
-					---------------------------------------------------------------------------
-					|                  kubectl get nodes 					 				 |
-					---------------------------------------------------------------------------
+	
 
 
     
@@ -122,11 +265,10 @@ diff types of object available in k8s are :
 	
 	  ----- 
 
-You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate.
+ You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
 
 
-    StatefulSets
     
-    Services
-    ConfigMaps
-    Volumes
+    
+  

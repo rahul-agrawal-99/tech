@@ -1,0 +1,363 @@
+                                       _          _                          _            
+                                      | | ___   _| |__   ___ _ __ _ __   ___| |_ ___  ___ 
+                                      | |/ / | | | '_ \ / _ \ '__| '_ \ / _ \ __/ _ \/ __|
+                                      |   <| |_| | |_) |  __/ |  | | | |  __/ ||  __/\__ \
+                                      |_|\_\\__,_|_.__/ \___|_|  |_| |_|\___|\__\___|____/                                                                                     
+
+                                         ___    ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___ 
+                                        / __|  / _ \  | '_ ` _ \  | '_ ` _ \   / _` | | '_ \   / _` | / __|
+                                       | (__  | (_) | | | | | | | | | | | | | | (_| | | | | | | (_| | \__ \
+                                        \___|  \___/  |_| |_| |_| |_| |_| |_|  \__,_| |_| |_|  \__,_| |___/
+                                            
+
+
+        Basic structure of commands
+
+
+                Most of the commands are in the form of:
+
+                    *****************************************************************************************************************************************
+										
+                                            kubectl     ACTION_TYPE     OBJ_TYPE    OBJ_NAME     OBJ_PARAMETER
+
+                    *****************************************************************************************************************************************
+
+                                                                      _   
+                                                            __ _  ___| |_ 
+                                                            / _` |/ _ \ __|
+                                                            | (_| |  __/ |_ 
+                                                            \__, |\___|\__|
+                                                            |___/          
+
+
+                ACTION_TYPE    " get "         does'nt require obj_name as we only retriving info about that obj type
+                                                but name can be passed to get info about specific named obj type 
+
+                OBJ_TYPE    :
+
+                                  all               
+
+                                  pods
+
+                                  ns      or     namespace
+
+                                  Services
+
+                                  deploy    or      deployment
+
+                                  nodes 
+
+                                  replicationcontroller
+
+                                  rs         or        replicaset
+
+                        
+                        e.g.      kubectl get pods    OR     
+                        
+                                  kubectl get pods,nodes         ---for getting 2 types info in single command
+
+
+                OBJ_PARAMETER  / flags  :
+
+
+                                    -o wide            get detailed info about that obj type
+
+                                    --show-labels            get labels if assigned
+
+                                    -l key=value            get only obj type resources having label key and value as value
+
+                                    -l key!=value 
+
+                                    -n NAME_OF_NAMESPACE        get obj type if it is in that namesapce only except for ns 
+
+                Special feature :     selector
+
+                        kubectl     get    OBJ_TYPE     'KEY in (value1,value2,value3)'    --- list the pods having key as value1 or value2 or value3
+
+						also can be used with selector like notin and exist
+
+
+                                                                 _       _          _ 
+                                                                | | __ _| |__   ___| |
+                                                                | |/ _` | '_ \ / _ \ |
+                                                                | | (_| | |_) |  __/ |
+                                                                |_|\__,_|_.__/ \___|_|
+                                                                                    
+
+
+                ACTION_TYPE    " label "         here we need to provide key-value pair if we are assigning labels
+
+                                            kubctl  label     OBJ_TYPE   OBJ_NAME     KEY=VALUE
+
+                                                e.g       kubectl label node node12 hardware=t2.medium
+
+                OBJ_TYPE    :
+
+                                  pods
+
+                                  ns 
+
+                                  Services
+
+                                  deploy 
+
+                                  nodes 
+
+                                  replicationcontroller
+
+
+                OBJ_PARAMETER  / flags  :
+
+                                --overwrite          if key value pair already exist  e.g. (  kubectl label --overwrite pods podname status=unhealthy  )
+
+                                --all                label all obj type at once     e.g.  ( kubectl label pods --all status=unhealthy  )
+
+                                --resource-version=N     label obj type only if resource is unchanged from version  N  
+                                                        e.g (   kubectl label pods foo status=unhealthy --resource-version=1  ) 
+                                                                    -- Update pod 'foo' only if the resource is unchanged from version 1
+
+    
+
+
+
+
+
+    Update pod 'foo' by removing a label named 'bar' if it exists # Does not require the --overwrite flag
+
+kubectl label pods foo bar-
+
+
+
+
+                                                                     __| | ___   ___    ___   _ __  (_) | |__     ___ 
+                                                                    / _` |/ _ \ / __|  / __| | '__| | | | '_ \   / _ \
+                                                                   | (_| |  __/ \__ \ | (__  | |    | | | |_) | |  __/
+                                                                    \__,_|\___| |___/  \___| |_|    |_| |_.__/   \___|
+                                                                        
+
+
+
+                ACTION_TYPE    " describe "         give detailed info
+
+                                            kubctl  label     OBJ_TYPE   OBJ_NAME     KEY=VALUE
+
+                                                e.g       kubectl label node node12 hardware=t2.medium
+
+                OBJ_TYPE    :
+
+                                  pods
+
+                                  ns 
+
+                                  Services
+
+                                  deploy 
+
+                                  nodes 
+
+                                  replicationcontroller
+
+
+                OBJ_PARAMETER  / flags  :
+
+
+                                   
+
+
+
+
+
+
+                                                        _                 
+                                                        | | ___   __ _ ___ 
+                                                        | |/ _ \ / _` / __|
+                                                        | | (_) | (_| \__ \
+                                                        |_|\___/ \__, |___/
+                                                                |___/     
+
+
+                                     
+
+
+
+
+
+     _          _          _          
+  __| |   ___  | |   ___  | |_    ___ 
+ / _` |  / _ \ | |  / _ \ | __|  / _ \
+| (_| | |  __/ | | |  __/ | |_  |  __/
+ \__,_|  \___| |_|  \___|  \__|  \___|
+                                      
+                         _         
+  __ _   _ __    _ __   | |  _   _ 
+ / _` | | '_ \  | '_ \  | | | | | |
+| (_| | | |_) | | |_) | | | | |_| |
+ \__,_| | .__/  | .__/  |_|  \__, |
+        |_|     |_|          |___/ 
+
+
+                              _          
+  ___   _ __    ___    __ _  | |_    ___ 
+ / __| | '__|  / _ \  / _` | | __|  / _ \
+| (__  | |    |  __/ | (_| | | |_  |  __/
+ \___| |_|     \___|  \__,_|  \__|  \___|
+                                         
+
+                      _        
+ ___    ___    __ _  | |   ___ 
+/ __|  / __|  / _` | | |  / _ \
+\__ \ | (__  | (_| | | | |  __/
+|___/  \___|  \__,_| |_|  \___|
+                               
+
+
+
+
+
+
+
+
+	
+
+			
+						
+
+
+	5. config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+
+		config file contains cluster , user and context .
+
+				cluster = > https endpoints for cluster
+				user = >  credential to communicate to cluster
+				context = >   cluster + user
+
+
+
+	7. get list of name spaces available
+					---------------------------------------------------------------------------
+					|                		 kubectl get ns				  |
+					---------------------------------------------------------------------------
+
+				Namespace provides an additional qualification to a resource name. This is helpful when multiple teams are using the same cluster and there is a potential of 				name collision. It can be as a virtual wall between multiple clusters.
+
+				Functionality of Namespace
+					Following are some of the important functionalities of a Namespace in Kubernetes −
+
+												Namespaces help pod-to-pod communication using the same namespace.
+
+												Namespaces are virtual clusters that can sit on top of the same physical cluster.
+
+												They provide logical separation between the teams and their environments.
+
+	8. get desciption of pod available
+					---------------------------------------------------------------------------
+					|     		kubectl describe pod POD_NAME -n NS_NAME		  | if NS_NAME is not mentioned then it search in all the availble ns
+					---------------------------------------------------------------------------
+												
+
+	9. get all info about status and pods 
+
+					---------------------------------------------------------------------------
+					|              	 kubectl get all		 								  |
+					---------------------------------------------------------------------------
+
+	10. delete a pod from specific namespace
+					---------------------------------------------------------------------------
+					|         kubectl delete pod POD_NAME -n NS_NAME		 	 |    --- use -n only if 2 pods in diff ns have same name
+					---------------------------------------------------------------------------
+
+
+				delete pod using lable :
+
+						kubectl delete pod -l key=value           ---- delete all the pods having lable as key and it value is value
+
+	11. get logs inside pod for troubleshooting a problem causing sometimes failures
+
+					---------------------------------------------------------------------------
+					|           		 kubectl logs POD_NAME    						  |
+					---------------------------------------------------------------------------
+
+	12. assign label to a pod or any other resource
+
+					---------------------------------------------------------------------------
+					|           	kubectl lable Resource_TYPE Resource_NAME KEY=VALUE  		|
+					---------------------------------------------------------------------------
+
+					e.g.  kubectl lable pods mypod1 name=lable1
+
+
+	
+
+	2. get context by using
+
+					---------------------------------------------------------------------------
+					|                			 kubectl config current-context				  |     list a current cluster config is locating
+					---------------------------------------------------------------------------
+			A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. 			By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster
+
+
+			use =>  kubectl config get-contexts  --- list all the cluster that are configured to master
+
+
+
+
+
+
+					***************************************************************************************************
+									Kubernetes Deployment commands																	***************************************************************************************************
+
+					Deployment is getting cluster from actual state to desired state at controlled rate
+
+	1. build yaml file containg info to get in desired state known as manifest
+
+		required details for manifest :
+
+				apiVersion - Which version of the Kubernetes API you're using to create this object
+				kind - What kind of object you want to create
+				metadata - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+				spec - What state you desire for the object
+
+		it will create deployment(metadata -> name) and replica set named as mentioned in metadata -> name ,  like =>  name-rs_id-hash  
+
+		Replica Set ensures how many replica of pod should be running. It can be considered as a replacement of replication controller. The key difference between the replica set 		and the replication controller is, the replication controller only supports equality-based selector whereas the replica set supports set-based selector.
+		However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features
+			You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define 			Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+
+	2. apply yml file
+					---------------------------------------------------------------------------
+					|                kubectl apply -f /PATH_TO_FILE/FILENAME.yml 		  |
+					---------------------------------------------------------------------------
+
+	3. get list of replica sets available
+					---------------------------------------------------------------------------
+					|                		 kubectl get rs				  |   use --watch to see rs in real time , i.e. creating and deleting
+					--------------------------------------------------------------------------- 
+
+
+	4. get list of deployment
+					---------------------------------------------------------------------------
+					|                		 kubectl get deploy			  |  (kubectl delete deploy NAME)  to delete 
+					--------------------------------------------------------------------------- 
+
+	5. get desciption of deployment
+					---------------------------------------------------------------------------
+					|               kubectl describe deployments DEPLOY_NAME		  |   
+					--------------------------------------------------------------------------- 
+	6. get desciption of rs
+					---------------------------------------------------------------------------
+					|		 kubectl describe rs/RS_NAME  				|   
+					--------------------------------------------------------------------------- 
+
+                                                                                                
+				deploy pod on only on specific node using node selector
+
+
+					then in yml file of manifest mention as
+
+							spec:
+								nodeSelector:
+									hardware = t2.medium       # create pod on only instance/node having lable as key=hardware and value = t2.medium
+							
+						# if no node having this lable , then pod will not be deployed it will be in pending state
+
