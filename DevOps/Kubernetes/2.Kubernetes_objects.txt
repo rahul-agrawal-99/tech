@@ -1,0 +1,132 @@
+What are kubernetes objects:
+
+
+diff types of object available in k8s are :
+
+
+					---------------------------------------------------------------------------
+					|                  Pod					 			                	 |
+					---------------------------------------------------------------------------
+
+                    kubectl exec POD_NAME -- CMD       it will execute CMD in the pod POD_NAME
+
+
+
+
+                    ---------------------------------------------------------------------------
+					|                  ReplicationController					 				 |
+					---------------------------------------------------------------------------
+
+
+
+
+                    --------------------------------------------------------------------------
+					|                  ReplicaSet  				 				 |
+					---------------------------------------------------------------------------
+                      --- advanced version of ReplicationController , it support equality as well as set based selectors
+
+                                A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. 
+                                As such, it is often used to guarantee the availability of a specified number of identical Pods.
+
+
+					---------------------------------------------------------------------------
+					|                         Deployment   				 				 |
+					---------------------------------------------------------------------------
+
+
+                    more powerful than replicaset  , it can manage multiple replicaset
+	                we can do updates and rollbacks using deployment but it is not possible in case of replicaset
+					it deploys pods using replicaset only
+
+                    A Deployment provides declarative updates for Pods and ReplicaSets.
+
+                    Naming in deployment :
+
+                            Deployment : mydeploy
+
+                            replicaset(rs) : mydeploy-rs_id
+
+                            pods : mydeploy-rs_id-pod_id
+
+
+                    Create a Deployment to rollout a ReplicaSet. The ReplicaSet creates Pods in the background. Check the status of the rollout to see if it succeeds or not.
+
+                    Declare the new state of the Pods by updating the PodTemplateSpec of the Deployment. 
+                    A new ReplicaSet is created and the Deployment manages moving the Pods from the old ReplicaSet to the new one at a controlled rate. 
+                    Each new ReplicaSet updates the revision of the Deployment.
+
+                    Rollback to an earlier Deployment revision if the current state of the Deployment is not stable. Each rollback updates the revision of the Deployment.
+
+                    Scale up the Deployment to facilitate more load.
+
+                    Pause the rollout of a Deployment to apply multiple fixes to its PodTemplateSpec and then resume it to start a new rollout.
+
+                    Use the status of the Deployment as an indicator that a rollout has stuck.
+
+                    Clean up older ReplicaSets that you don't need anymore.
+
+                    Everytime when deploy named <deployment-name> is updated or runned , it will create version for that and using rollout we can rollback 
+                    to any version of that deployment
+
+
+
+                    In order to rollout back to previous specific version we use :
+
+                            kubectl rollout status deployment <deployment-name>
+
+                            kubctl rollout undo deployment <deployment-name> --to-revision=<revision-number>          -- get rivision number using history commnd
+
+                    To see the rollout history of a deployment we use :
+
+                            kubectl rollout history deployment <deployment-name>
+
+
+                    To change scale of deployments use :
+
+                            kubectl scale --replicas=<number-of-replicas> deployment <deployment-name> 
+
+
+                    After changing some of the deployment parameters and after applying again will lead to create new replicaset 
+                    previous replicaset will remain as it is , only pods inside that will be terminated 
+                    new pods will be created inside the new replicaset and no. of pods will be equal to number of replicas specified in deployment
+
+
+                    Deploy ment may fails due to Following reasons :
+
+                    1. insufficient quota on nodes to deploy new pods
+                    2. Readiness probe failure   -> occures when node is not ready to serve new pods 
+                    3. Image pull Error : mentoined container image is not available or it is not in local registry and imagePullPolicy is set to never
+                    4. insufficient Permissions
+                    5. Limit Ranges : when node reaches its limit 
+
+					---------------------------------------------------------------------------
+					|                  Namespace					 				 |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|                  DaemonSets					 				 |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|                  kubectl get nodes 					 				 |
+					---------------------------------------------------------------------------
+
+					---------------------------------------------------------------------------
+					|                  kubectl get nodes 					 				 |
+					---------------------------------------------------------------------------
+
+
+    
+     (Manages Pods)       --- supoorts on equality based selectors
+    DeploymentController (Manages Pods)
+	
+	  ----- 
+
+You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+
+    StatefulSets
+    
+    Services
+    ConfigMaps
+    Volumes
