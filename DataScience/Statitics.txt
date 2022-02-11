@@ -328,7 +328,11 @@ Conditional probability is defined as the probability of an event A, given that 
 
 			P(A|B) = P(A ∩ B) / P(B)  , here event a is occuring which is influenced by event b which is already occured
 
-			P(A|B) = P(B|A)*P(A) / P(B) ---baye's therom
+			 P(A and B)  = P(A) * P(B/A)          And   Also   P(A and B)  =  P(B and A)
+
+			P(A|B) = P(B|A)*P(A) / P(B)  ---baye's therom
+
+g g g    r r      r|g  = 2/5 + 3/4  =   8 + 15/20 = 23/20   g|r  =  3/5 + 1/2 = 5 + 6 / 10 = 11/10 
 
 
 
