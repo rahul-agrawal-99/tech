@@ -319,4 +319,3 @@ You describe a desired state in a Deployment, and the Deployment Controller chan
 
     
     
-  
