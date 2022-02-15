@@ -1,0 +1,24 @@
+
+apiVersion: apps/v1                           
+kind: ReplicaSet                                    
+metadata:
+  name: myrsnginx
+spec:
+  replicas: 2  
+  selector:                         # Required Field 
+    matchExpressions:                             # these must match the labels , it only can have format like key , operator , values  . other than that not allowed
+      - {key: myname, operator: In, values: [testubunuturs]}
+      - {key: env, operator: NotIn, values: [production]}
+   
+  template:      
+    metadata:             # Required Field 
+      name: testrs
+      labels:                     # Required Field   , labels key should be matched with selector      
+        myname: testubunuturs
+    spec:                       # Required Field  , spec -> spec -> conatainers 
+     containers:
+
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80

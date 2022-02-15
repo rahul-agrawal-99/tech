@@ -1,0 +1,122 @@
+Every minifest has 3 main parts
+
+  1. metadata 
+  2. specification
+  3. status               , with every apply status get updated based on spec , done by kubernetes after apply 
+
+
+---         # init
+
+# ---------------                 Pod                       ------------------------------------
+
+
+# apiVersion: v1
+# kind: Pod
+# metadata: 
+#   name: pod1
+#   labels: 
+#     app: app1
+#     test: test
+#   name: testpod4
+# spec: 
+#   containers:               #  for multicontainer pod
+#     - name: c00
+#       image: httpd
+#     - name: ubuntu
+#       image: ubuntu
+#   imagePullPolicy: never     # use local docker registry only , if image not found , dont dowmload from server
+
+
+# ---------------                 Replicaset                      ------------------------------------
+
+
+# apiVersion: apps/v1
+# kind: ReplicaSet
+# metadata:
+#   name: test-rs
+#   labels:
+#     app: testapp-from-rs
+# spec:
+#   replicas: 1
+#   selector:       # Required Field 
+#     matchLabels:    # Required Field 
+#       tier: fro             # should be matched with template -> metadata -> labels -> key -> value
+#   template:
+#     metadata:
+#       labels:         # Required Field 
+#         tier: fro
+#     spec:
+#       containers:
+#       - name: ubu
+#         image: ubuntu
+#         command: ["/bin/bash", "-c", "while true; do echo echokadcbk ; sleep 10 ; done"]
+
+
+# ##     Using Operators 
+
+# apiVersion: apps/v1                           
+# kind: ReplicaSet                                    
+# metadata:
+#   name: myrs
+# spec:
+#   replicas: 2  
+#   selector:                         # Required Field 
+#     matchExpressions:                             # these must match the labels , it only can have format like key , operator , values  . other than that not allowed
+#       - {key: myname, operator: In, values: [testubunuturs]}
+#       - {key: env, operator: NotIn, values: [production]}
+   
+#   template:      
+#     metadata:             # Required Field 
+#       name: testrs
+#       labels:                     # Required Field   , labels key should be matched with selector      
+#         myname: testubunuturs
+#     spec:                       # Required Field  , spec -> spec -> conatainers 
+#      containers:
+#        - name: c00
+#          image: ubuntu
+#          command: ["/bin/bash", "-c", "while true; do echo echokadcbk ; sleep 10 ; done"]
+
+
+
+# ---------------               Deployment                     ------------------------------------
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nginx-deployment
+# spec:
+#   selector:
+#     matchLabels:
+#       app: nginx
+#   replicas: 2 # tells deployment to run 2 pods matching the template
+#   template:
+#     metadata:
+#       labels:
+#         app: nginx
+#     spec:
+#       containers:
+#       - name: nginx
+#         image: nginx
+#         ports:
+#         - containerPort: 80
+
+
+
+
+
+# ---------------               Services                     ------------------------------------
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx-app
+  # type: LoadBalancer      # if service needs external ip
+  ports:
+    - protocol: TCP
+      port: 80         #    listining  on 80 from usrs
+      targetPort: 8080       # directing request to port 8080 of the pods having opend 8080

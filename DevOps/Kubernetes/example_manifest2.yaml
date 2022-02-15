@@ -53,27 +53,7 @@
 #          image: httpd
 
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: httpd-deployment-nautilus
-  labels:
-    app: httpd_app_nautilus
-spec:
-  replicas: 4
-  selector:
-    matchLabels:
-      app: httpd_app_nautilus
-  template:
-    metadata:
-      labels:
-        app: httpd_app_nautilus
-    spec:
-      containers:
-        - name: ubuntu-image
-          image: ubuntu
-          ports:
-            - containerPort: 80
+
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
@@ -96,23 +76,3 @@ spec:
 #           ports:
 #             - containerPort: 80
 
-# kind: ReplicaSet                                    
-# apiVersion: apps/v1                            
-# metadata:
-#   name: myrs
-# spec:
-#   replicas: 2  
-#   selector:                  
-#     matchExpressions:                             # these must match the labels
-#       - {key: myname, operator: In, values: [Bhupinder, Bupinder, Bhopendra]}
-#       - {key: env, operator: NotIn, values: [production]}
-#   template:      
-#     metadata:
-#       name: testpod7
-#       labels:              
-#         myname: Bhupinder
-#     spec:
-#      containers:
-#        - name: c00
-#          image: ubuntu
-#          command: ["/bin/bash", "-c", "while true; do echo Technical-Guftgu; sleep 5 ; done"]
