@@ -20,7 +20,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                  Pod					 			                	 |
+					|                  Pod					 	        |
 					---------------------------------------------------------------------------
 
                     it is smalles unit of k8s, it is used to run application on k8s cluster.
@@ -39,7 +39,7 @@ diff types of object available in k8s are :
                     we can get in to pod also with using exec 
 
 					---------------------------------------------------------------------------
-					|                   Services				 			                	 |
+					|                   Services				         	 |
 					---------------------------------------------------------------------------
 
                     services are attached to pods , even if pod dies , services remain as it is and can be attched to new pod 
@@ -71,8 +71,8 @@ diff types of object available in k8s are :
                         3. LoadBalancer :   
 
 
-                    ---------------------------------------------------------------------------
-					|                             Ingress 					 				 |
+               			       ---------------------------------------------------------------------------
+					|                             Ingress 					 |
 					---------------------------------------------------------------------------
 
 
@@ -82,8 +82,8 @@ diff types of object available in k8s are :
 
 
 
-                    ---------------------------------------------------------------------------
-					|                               configmap 				 				 |
+           			         ---------------------------------------------------------------------------
+					|                               configmap 					 |
 					---------------------------------------------------------------------------
 
                     In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. 
@@ -103,8 +103,8 @@ diff types of object available in k8s are :
 
 
 
-                    ---------------------------------------------------------------------------
-					|                           secreats				 		        	 |
+                    			---------------------------------------------------------------------------
+					|                           secreats				   	 |
 					---------------------------------------------------------------------------
 
                     Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
@@ -155,8 +155,8 @@ diff types of object available in k8s are :
 
 
 
-                    ---------------------------------------------------------------------------
-					|                  ReplicationController					 			 |
+			    		---------------------------------------------------------------------------
+					|                  ReplicationController		 			 |
 					---------------------------------------------------------------------------
 
                     Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. 
@@ -166,8 +166,8 @@ diff types of object available in k8s are :
 
 
 
-                    --------------------------------------------------------------------------
-					|                  ReplicaSet  				 				 |
+                   			 --------------------------------------------------------------------------
+					|                  ReplicaSet  						 |
 					---------------------------------------------------------------------------
                       --- advanced version of ReplicationController , it support equality as well as set based selectors
 
@@ -176,7 +176,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                         Deployment   				 				 |
+					|                         Deployment   					 |
 					---------------------------------------------------------------------------
 
 
@@ -247,7 +247,7 @@ diff types of object available in k8s are :
                     5. Limit Ranges : when node reaches its limit 
 
 					---------------------------------------------------------------------------
-					|                      StatefulSets     				 				 |
+					|                      StatefulSets     				 |
 					---------------------------------------------------------------------------
 
                     there will be data inconsistancy if 2 or more pods performing same operation at same/different time cauing data loss/error 
@@ -268,7 +268,7 @@ diff types of object available in k8s are :
                                     each has a persistent identifier that it maintains across any rescheduling.
 
 					---------------------------------------------------------------------------
-					|                            DaemonSets					 				 |
+					|                            DaemonSets					 |
 					---------------------------------------------------------------------------
 
                     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. 
@@ -282,7 +282,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                               Namespace				 				 |
+					|                               Namespace		    		 |
 					---------------------------------------------------------------------------
 
                     namespaces provides a mechanism for isolating groups of resources within a single cluster. 
@@ -296,7 +296,7 @@ diff types of object available in k8s are :
 
 	
 					---------------------------------------------------------------------------
-					|                  Persistent Volume Claim		(PVC)	 				 |
+					|                  Persistent Volume Claim		(PVC)	 	 |
 					---------------------------------------------------------------------------
 
 
@@ -304,7 +304,7 @@ diff types of object available in k8s are :
 
 	
 					---------------------------------------------------------------------------
-					|                       Storage Class		 				 |
+					|                       Storage Class		 			 |
 					---------------------------------------------------------------------------
 
     
