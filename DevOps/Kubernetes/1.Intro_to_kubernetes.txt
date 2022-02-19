@@ -137,7 +137,7 @@ it checks etcd via server and commands           |						/
 
 			# Kubernetes Proxy Service (each pod has ip to communicate with other pods or external network )
 
-					This is a proxy service which runs on each node and helps in making services available to the external host. It helps in forwarding the request to 					correct containers and is capable of performing primitive load balancing. It makes sure that the networking environment is predictable and accessible 					and at the same time it is isolated as well. It manages pods on node, volumes, secrets, creating new containers’ health checkup, etc.
+					This is a proxy service which runs on each node and helps in making services available to the external host. It helps in forwarding the request to 					correct containers and is capable of performing primitive load balancing. It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well. It manages pods on node, volumes, secrets, creating new containers’ health checkup, etc.
 
 		
 			# Container Engine (e.g, Docker)
@@ -166,7 +166,16 @@ Types of Pod
   							 - name: database
     							   image: mongoDB
 
+		Pod is running and has two Containers. Container 1 exits with failure.
 
+				1.Log failure event.
+
+				2.If restartPolicy is:
+
+						Always: Restart Container; Pod phase stays Running.
+						OnFailure: Restart Container; Pod phase stays Running.
+						Never: Do not restart Container; Pod phase stays Running
+						So pod is not restarted or the other container is not restarted , only the exited container is restarted based on the restartPolicy
 
 
 

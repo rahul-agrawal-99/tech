@@ -39,7 +39,7 @@ diff types of object available in k8s are :
                     we can get in to pod also with using exec 
 
 					---------------------------------------------------------------------------
-					|                   Services				         	 |
+					|                                    Services				         	 |
 					---------------------------------------------------------------------------
 
                     services are attached to pods , even if pod dies , services remain as it is and can be attched to new pod 
@@ -61,7 +61,7 @@ diff types of object available in k8s are :
 
                     there are 3 types available in service :
 
-                        1. ClusterIP   :    Default , accessible only within cluster 
+                        1. ClusterIP   :    Default , accessible only within cluster (cluster can contains multiple nodes)
 
                         2. NodePort    :     can be accessible static port on each node , this static port in defined in .spec.ports.nodePort
                                                 static port should be between 30000 - 32767 , other than that not accepted
@@ -70,9 +70,15 @@ diff types of object available in k8s are :
 
                         3. LoadBalancer :   
 
+                        4. Headless :   
 
-               			       ---------------------------------------------------------------------------
-					|                             Ingress 					 |
+
+
+                    ClusterIP < Nodeport < LoadBalancer 
+
+
+               		---------------------------------------------------------------------------
+					|                                         Ingress 	        				 |
 					---------------------------------------------------------------------------
 
 
@@ -82,8 +88,8 @@ diff types of object available in k8s are :
 
 
 
-           			         ---------------------------------------------------------------------------
-					|                               configmap 					 |
+           			 ---------------------------------------------------------------------------
+					|                               configmap               				 |
 					---------------------------------------------------------------------------
 
                     In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. 
@@ -103,8 +109,8 @@ diff types of object available in k8s are :
 
 
 
-                    			---------------------------------------------------------------------------
-					|                           secreats				   	 |
+                    ---------------------------------------------------------------------------
+					|                                 secreats			        	   	 |
 					---------------------------------------------------------------------------
 
                     Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
@@ -143,6 +149,25 @@ diff types of object available in k8s are :
                                                    an administrator or dynamically provisioned using Storage Classes. 
                                                    PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. 
 
+                                            e.g. hostpath  , here both pod and host can write and read data
+
+                                            apiVersion: v1
+                                            kind: Pod
+                                            metadata:
+                                            name: myvolhostpath
+                                            spec:
+                                            containers:
+                                            - image: centos
+                                                name: testc
+                                                command: ["/bin/bash", "-c", "sleep 15000"]
+                                                volumeMounts:
+                                                - mountPath: /tmp/hostpath
+                                                name: testvolume
+                                            volumes:
+                                            - name: testvolume
+                                                hostPath:
+                                                path: /tmp/data   # at this location of host machine 
+
                             Projected Volumes   :  A projected volume maps several existing volume sources into the same directory.
                                                     Currently, the following types of volume sources can be projected:
                                                                 secret
@@ -153,10 +178,27 @@ diff types of object available in k8s are :
 
                             Ephemeral Volumes   :  volumes follow the Pod's lifetime and get created and deleted along with the Pod
 
+                                        e.g.  = emptydir  , here in a single pod we can share same volume among different containers
+
+                                          - name: c1
+                                            image: centos
+                                            command: ["/bin/bash", "-c", "sleep 15000"]
+                                            volumeMounts:                                    
+                                            - name: xchange
+                                                mountPath: "/tmp/xchange"               # avilable in this path 
+                                         - name: c2
+                                            image: centos
+                                            command: ["/bin/bash", "-c", "sleep 10000"]
+                                            volumeMounts:
+                                            - name: xchange
+                                                mountPath: "/tmp/data"
+                                         - name: xchange
+                                            emptyDir: {}
 
 
-			    		---------------------------------------------------------------------------
-					|                  ReplicationController		 			 |
+
+			    	---------------------------------------------------------------------------
+					|                            ReplicationController		     			 |
 					---------------------------------------------------------------------------
 
                     Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. 
@@ -166,8 +208,8 @@ diff types of object available in k8s are :
 
 
 
-                   			 --------------------------------------------------------------------------
-					|                  ReplicaSet  						 |
+                   	--------------------------------------------------------------------------
+					|                                    ReplicaSet  						 |
 					---------------------------------------------------------------------------
                       --- advanced version of ReplicationController , it support equality as well as set based selectors
 
@@ -176,7 +218,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                         Deployment   					 |
+					|                         Deployment   			                		 |
 					---------------------------------------------------------------------------
 
 

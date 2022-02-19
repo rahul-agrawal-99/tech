@@ -93,7 +93,7 @@
 
                                             kubctl  create     OBJ_TYPE   OBJ_NAME     
 
-                                                e.g       kubectl label node node12 hardware=t2.medium
+                                                e.g       kubectl create pods 
 
                 OBJ_TYPE    :
 
@@ -174,18 +174,21 @@
                                      
                 ACTION_TYPE    " exec "        executing commands inside pod
 
-                                            kubctl  exec POD_NAME 
+                                            kubctl exec POD_NAME -it -- CMD
 
-                                                e.g       kubectl logs pod-afcbsib-afcbs
+                                                e.g       kubectl exec testpod -it -- bin/bash                  single image pod
+                                                e.g       kubectl exec testpod -it -c c00 -- bin/bash           multi container pod
 
 
 
                 OBJ_PARAMETER  / flags  :
 
 
-                                -- CMD       it will execute CMD in the pod POD_NAME   , e.g    kubctl  exec mypod -- touch ww.txt
+                                CMD       it will execute CMD in the pod POD_NAME   , e.g    kubctl  exec mypod -- touch ww.txt
 
                                 -it          get directly in container cmd     , e.g.      kubctl  exec -it  mypod -- bin/bash
+
+                                -c CONTAINER_NAME        get inside specific container bash 
 
 
 
@@ -358,11 +361,14 @@ kubectl label pods foo bar-
 
 
 
-                ACTION_TYPE    " create "        create an object imperatively
+                ACTION_TYPE    " scale "        scale the rs manually 
 
                                             kubctl  create     OBJ_TYPE   OBJ_NAME     
 
-                                                e.g       kubectl label node node12 hardware=t2.medium
+                                                e.g       kubectl scale --replicas=3 rs/foo                                 # Scale a replicaset named 'foo' to 3
+                                            kubectl scale --replicas=3 -f foo.yaml                            # Scale a resource specified in "foo.yaml" to 3
+                                            kubectl scale --current-replicas=2 --replicas=3 deployment/mysql  # If the deployment named mysql's current size is 2, scale mysql to 3
+                                            kubectl scale --replicas=5 rc/foo rc/bar rc/baz                   # Scale multiple replication controllers
 
                 OBJ_TYPE    :
 

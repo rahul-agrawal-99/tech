@@ -1,24 +1,20 @@
-
-apiVersion: apps/v1                           
-kind: ReplicaSet                                    
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: myrsnginx
+   name: mydeployments
 spec:
-  replicas: 2  
-  selector:                         # Required Field 
-    matchExpressions:                             # these must match the labels , it only can have format like key , operator , values  . other than that not allowed
-      - {key: myname, operator: In, values: [testubunuturs]}
-      - {key: env, operator: NotIn, values: [production]}
-   
-  template:      
-    metadata:             # Required Field 
-      name: testrs
-      labels:                     # Required Field   , labels key should be matched with selector      
-        myname: testubunuturs
-    spec:                       # Required Field  , spec -> spec -> conatainers 
-     containers:
-
-      - name: nginx
-        image: nginx:1.14.2
-        ports:
-        - containerPort: 80
+   replicas: 1
+   selector:      # tells the controller which pods to watch/belong to
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: testpod1
+       labels:
+         name: deployment
+     spec:
+      containers:
+        - name: c00
+          image: httpd
+          ports:
+          - containerPort: 80
