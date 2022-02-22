@@ -64,6 +64,8 @@ Architecture :
 											cont2
 
 
+	cluster -> nodes -> namesapce -> pods -> containers
+
 	Kubernetes - Master Machine Components
 
 
