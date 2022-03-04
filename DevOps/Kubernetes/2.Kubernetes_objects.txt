@@ -38,6 +38,9 @@ diff types of object available in k8s are :
 
                     we can get in to pod also with using exec 
 
+                    if pod having resource quota that has limit exceeding limits defined in limit range / service quota , pod will not created
+                    same with request , if it is below the mentioned it will not created
+
 					---------------------------------------------------------------------------
 					|                                    Services				         	 |
 					---------------------------------------------------------------------------
@@ -324,7 +327,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                               Namespace		    		 |
+					|                               Namespace		    	            	 |
 					---------------------------------------------------------------------------
 
                     namespaces provides a mechanism for isolating groups of resources within a single cluster. 
@@ -334,9 +337,81 @@ diff types of object available in k8s are :
 
                     By default namespace is :  default
 
-                    using tool kubens we change default namesapce to any names pace we want
+                    using tool kubens we change default namesapce to any names space we want
 
+                    Resource Quoto is allocated to namespace , all the objects created in that namespace can not use exceed resource qutoa limit
+
+
+
+                    By default resource quota is set to 0 means no limit to access resources
+
+                    we can define resurce qutoa on   1. Ram   2. storage    3. CPU
+
+                    here we have 2 options :
+                            1. Request  => amout of resources object needed , , if not mentioned by default it is same as limit
+
+                            2. Limit  => maximum resources object can use , if not mentioned by default it is maximum available
+                    
+                    we can use resurce quota imperatively as well as declaratively
+
+                    we can use resource quota declaratively by using :
+
+                            kubectl create quota <quota-name> --hard=<resource-name>=<value>
+
+                            memory refers to RAM
+
+                                    resource-name can be = 
+
+                                          limits.<Resource-Object>=Value      e.g.  limits.cpu: "400m"
+
+                                          requests.<Resource-Object>=Value      e.g.  requests.memory: "200Mi"
+  
+                                only   cpu considered	Same as requests.cpu
+                    
+                    The resource quota is the total available resources for a particular namespace, while limit range is used to assign limits for containers(Pods) running inside the namespace.
+                    ResourceQuota is for limiting the total resource consumption of a namespace
+                    LimitRangeis for managing constraints at a pod and container level within the project.
 	
+					---------------------------------------------------------------------------
+					|                            ResourceQuota                  	 	 |
+					---------------------------------------------------------------------------
+
+                    we can define ResourceQuota using declarative method
+
+                    The name of a ResourceQuota object must be a valid DNS subdomain name.
+
+                    If creating or updating a resource violates a quota constraint, the request will fail with 
+                    HTTP status code 403 FORBIDDEN with a message explaining the constraint that would have been violated.
+
+                    it will applied to current namespace only , every object created in that namespace will be checked against quota
+
+
+					---------------------------------------------------------------------------
+					|                             Limit Range	                     	 |
+					---------------------------------------------------------------------------
+
+                    it used to set limit on object's max resource use
+
+                    Within a namespace, a Pod or Container can consume as much CPU and memory as defined by the namespace's resource quota.
+
+                    There is a concern that one Pod or Container could monopolize all available resources.
+                     
+                    A LimitRange is a policy to constrain resource allocations (to Pods or Containers) in a namespace.
+
+                    LimitRange provides to Enforce minimum and maximum compute resources usage per Pod n a namespace.
+                    Also Enforce minimum and maximum storage request per PersistentVolumeClaim in a namespace.
+
+                    name of a LimitRange object must be a valid DNS subdomain name
+
+                    LimitRange validations occurs only at Pod Admission stage, not on Running Pods.
+
+                    If any container in that Pod does not specify its own CPU request and limit, the control plane assigns the default CPU request and limit to that container. i.e. which is mentioned in LimitRange Object
+
+                    When creating a LimitRange object, you can specify limits on huge-pages or GPUs as well. However, when both default and defaultRequest are specified on these resources, the two values must be the same.
+
+                    
+
+
 					---------------------------------------------------------------------------
 					|                  Persistent Volume Claim		(PVC)	 	 |
 					---------------------------------------------------------------------------

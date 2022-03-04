@@ -1,11 +1,13 @@
-kind: Pod
 apiVersion: v1
+kind: Pod
 metadata:
-  name: ubupod
-  # name: testpod
+  name: default-cpu-demo-3
 spec:
   containers:
-    - name: c00
-      image: ubuntu
-      command: ["/bin/bash", "-c", "while true; do echo Hello-Bhupinder; sleep 5 ; done"]
-  
+  - name: default-cpu-demo-3-ctr
+    image: nginx
+    resources:
+      requests:
+        memory: "300Mi"
+      limits:
+        cpu: "400m"

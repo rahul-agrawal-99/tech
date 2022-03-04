@@ -26,6 +26,20 @@ Every minifest has 3 main parts
 #       image: ubuntu
 #   imagePullPolicy: never     # use local docker registry only , if image not found , dont dowmload from server
 
+#     ----  Using resource quota ----
+
+# spec:
+#   containers:
+#   - name: resource
+#     image: centos
+#     command: ["/bin/bash", "-c", "while true; do echo junkJunk; sleep 5 ; done"]
+#     resources:                                          
+#       requests:
+#         memory: "64Mi"
+#         cpu: "100m"
+#       limits:
+#         memory: "128Mi"
+#         cpu: "200m"
 
 # ---------------                 Replicaset                      ------------------------------------
 
@@ -108,15 +122,101 @@ Every minifest has 3 main parts
 # ---------------               Services                     ------------------------------------
 
 
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: nginx-service
+# spec:
+#   selector:
+#     app: nginx-app
+#   # type: LoadBalancer      # if service needs external ip
+#   ports:
+#     - protocol: TCP
+#       port: 80         #    listining  on 80 from usrs
+#       targetPort: 8080       # directing request to port 8080 of the pods having opend 8080
+
+
+
+# ---------------                NameSpace                     ------------------------------------
+
+#  creating namespcae named dev
+
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#    name: dev
+#    labels:
+#      name: dev
+
+# ---------------              Resource Quota                     ------------------------------------
+
 apiVersion: v1
-kind: Service
+kind: ResourceQuota
 metadata:
-  name: nginx-service
+   name: myquota
 spec:
-  selector:
-    app: nginx-app
-  # type: LoadBalancer      # if service needs external ip
-  ports:
-    - protocol: TCP
-      port: 80         #    listining  on 80 from usrs
-      targetPort: 8080       # directing request to port 8080 of the pods having opend 8080
+  hard:
+    limits.cpu: "400m"
+    limits.memory: "400Mi"
+    requests.cpu: "200m"
+    requests.memory: "200Mi"
+
+  #       
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-counts
+spec:
+  hard:
+    configmaps: "10" 
+    persistentvolumeclaims: "4" 
+    replicationcontrollers: "20" 
+    secrets: "10" 
+    services: "10"
+
+# ---------------                 Limit Range                     ------------------------------------
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  limits:
+  - default:         #  same value as max if default is not specified
+      cpu: 1
+    defaultRequest:
+      cpu: 0.5
+    type: Container
+
+#        With Max  and min config
+
+apiVersion: "v1"
+kind: "LimitRange"
+metadata:
+  name: "resource-limits" 
+spec:
+  limits:
+    -
+      type: "Pod"
+      max:
+        cpu: "2" 
+        memory: "1Gi" 
+      min:
+        cpu: "200m" 
+        memory: "6Mi" 
+    -
+      type: "Container"
+      max:
+        cpu: "2" 
+        memory: "1Gi" 
+      min:
+        cpu: "100m" 
+        memory: "4Mi" 
+      default:
+        cpu: "300m" 
+        memory: "200Mi" 
+      defaultRequest:
+        cpu: "200m" 
+        memory: "100Mi" 
+      maxLimitRequestRatio:
+        cpu: "10" 
