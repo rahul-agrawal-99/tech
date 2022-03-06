@@ -11,7 +11,7 @@
             Helm is a tool that streamlines installing and managing Kubernetes applications.
             Think of it like Apt/Yum/Homebrew for K8S. Helm uses a packaging format called charts. 
             A chart is a collection of files/manifest that describe a related set of Kubernetes resources.
-            remote repo of helm is known as helmhub
+            remote repo of helm is known as helmhub (Now artifacthub)
             A single chart might be used to deploy something simple, like a memcached pod, or something complex, like a full web app stack with HTTP servers, databases, caches, and so on.
             it is written/designed in Go .
 
@@ -55,18 +55,24 @@
 
             helm repo list      => list all the repos available locally
 
+            helm list          => see installed charts
+
             helm repo add [NAME] [URL] [flags]        =>  download repo locally from server
                                         e.g.  helm repo add stable https://charts.helm.sh/stable  # add stable repo
+                                        Or    helm repo add bitnami https://charts.bitnami.com/bitnami  # add bitnami repo
 
             helm repo remove [NAME]             =>  remove the repo from locally
 
             helm search repo [NAME] [flags]          =>  search for charts in the local repos
+
+                    Show is used to view details before installing.
             
             helm show values [NAME]           =>  show the values of the chart before applying it
 
             helm show all [NAME]           =>  show the all the details of the chart before applying it
 
-            helm  show chart [NAME]           =>  show the chart details 
+            helm show chart [NAME]           =>  show the chart details 
+
 
             helm create [NAME]            => create a new chart with the given name
 
@@ -74,7 +80,7 @@
 
                    [NAME]
                     ├── charts
-                    ├── Chart.yaml
+                    ├── Chart.yaml    => we can edit this file to change the values that to be applied on the chart
                     ├── templates
                     │   ├── deployment.yaml
                     │   ├── _helpers.tpl
@@ -87,6 +93,37 @@
                     │       └── test-connection.yaml
                     └── values.yaml
 
-            helm install [NAME]         =>  This command installs a chart archive/release
+            helm install [NAME] REPO_NAME/[PKG_NAME]        =>  This command installs a chart archive/release
 
-            helm uninstall [NAME]         =>  This command uninstalls a chart archive/release
+            helm install --dry-run [NAME] REPO_NAME/[PKG_NAME]        =>  we can see installation steps 
+                                                                        without actually installing the chart ,simulate an install
+
+            helm install --timeout 20s [NAME] REPO_NAME/[PKG_NAME]        => time to wait for any individual Kubernetes operation 
+                                                                        (like Jobs for hooks) (default 5m0s)
+
+            helm install [NAME] REPO_NAME/[PKG_NAME] --set VARIABLE=VALUE         =>  Set value to variable imperatively
+
+                                        e.g. helm install --set replicas=3 myapp myrepo/mychart
+
+            helm install REPO_NAME/[PKG_NAME] .         =>  after pulling install chart with Values.yaml file
+
+                                        e.g. helm install myapp . 
+
+                    Get is used to view details  After installing.
+            
+            helm get values [NAME]           =>  get the user defined values (using --set or file )of the chart after applying it
+            
+            helm get manifest [NAME]           =>  get the manifest of the chart that is applied
+
+            helm status [NAME]        =>  show the status of the release
+
+            helm uninstall [NAME]         =>  This command uninstalls a chart archive/release 
+                                                Also ( helm delete [NAME] )        can be used
+
+            helm history [NAME]        =>  show the history of the releases of that chart [NAME]
+
+            helm upgrade [NAME] REPO_NAME/[PKG_NAME] [flags]        =>  This command upgrades a chart archive/release
+
+            helm pull REPO_NAME/[PKG_NAME] [flags]        =>  This command pulls/downloads a chart in tar format 
+
+            helm pull --untar [NAME] [flags]        =>  This command pulls and untars a chart 
