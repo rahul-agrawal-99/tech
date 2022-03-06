@@ -41,6 +41,59 @@ diff types of object available in k8s are :
                     if pod having resource quota that has limit exceeding limits defined in limit range / service quota , pod will not created
                     same with request , if it is below the mentioned it will not created
 
+
+                    --------------------   Init Containers  ---------------------------------
+
+                    Init containers can contain utilities or setup scripts not present in an app image.
+
+                    Pod can have multiple containers running apps within it, but it can also have one or more init containers, which are run before the app containers are started.
+
+                    If a Pod's init container fails, the kubelet repeatedly restarts that init container until it succeeds.
+                    if init succeeds then only app container will be started
+
+                    To specify an init container for a Pod, add the initContainers field into the Pod specification, as an array of container items (similar to the app containers field and its contents). 
+
+                    init containers do not support lifecycle, livenessProbe, readinessProbe, or startupProbe because they must run to completion before the Pod can be ready.
+
+                    specifying multiple init containers for a Pod, kubelet will runs each init container sequentially . 
+                    Each init container must succeed before the next can run.
+
+
+                    ------------------------ Pod lifecycle ---------------------------------
+
+                    Phases of a Pod =:
+
+                    Pending	=> Pod has been accepted by the Kubernetes cluster, but is waiting for resources to be allocated.
+                                This includes time a Pod spends waiting to be scheduled as well as the time spent downloading container images over the network.
+
+                    Running	=>  Pod has been bound to a node, and all of the containers have been created. 
+                                At least one container   is still running, or is in the process of starting or restarting.
+
+                    Succeeded =>  All containers in the Pod have terminated in success, and will not be restarted.	
+
+                    Failed	 =>  All containers in the Pod have terminated, and at least one container has terminated in failure
+
+                    Unknown	 =>   For some reason the state of the Pod could not be obtained. 
+                                    This phase typically occurs due to an error in communicating with the node 
+                                    where the Pod should be running.
+
+                    Terminating status is not one of the Pod phases. A Pod is granted a term to terminate gracefully, which defaults to 30 seconds.
+
+                    init:N/M means the Pod has M Init Containers, and N have completed so far.
+
+                    ------------------------ Pod Conditions ---------------------------------
+
+                    all of the following has boolean value true or false , we can get this using describe
+
+                    PodScheduled =: the Pod has been scheduled to a node.
+
+                    ContainersReady =: all containers in the Pod are ready.
+
+                    Initialized =: all init containers have completed successfully.
+
+                    Ready =: the Pod is able to serve requests and 
+                                should be added to the load balancing pools of all matching Services.
+
 					---------------------------------------------------------------------------
 					|                                    Services				         	 |
 					---------------------------------------------------------------------------
@@ -319,11 +372,14 @@ diff types of object available in k8s are :
                     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. 
                     As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
 
-                    Some typical uses of a DaemonSet are:
+                    Daemonset is another controller that manages pods like Deployments, ReplicaSets, and StatefulSets. It was created for one particular purpose: ensuring that the pods it manages to run on all the cluster nodes. As soon as a node joins the cluster, the DaemonSet ensures that it has the necessary pods running on it. When the node leaves the cluster, those pods are garbage collected.
 
-                        running a cluster storage daemon on every node
-                        running a logs collection daemon on every node
-                        running a node monitoring daemon on every node
+                    By default, a DaemonSet schedules its pods on all the cluster nodes
+
+                    Also DaemonSets allow you to select which nodes you want to run the pods on. 
+                    With nodeSelector, you can select nodes by their labels
+
+                 
 
 
 					---------------------------------------------------------------------------
@@ -385,6 +441,7 @@ diff types of object available in k8s are :
 
                     it will applied to current namespace only , every object created in that namespace will be checked against quota
 
+                    with resource quota we can define max pods will be created inside a namesapce
 
 					---------------------------------------------------------------------------
 					|                             Limit Range	                     	 |
@@ -432,6 +489,25 @@ diff types of object available in k8s are :
 
                     Using liveness we can check if the service inside pod is running properly or not.
                     
+
+					---------------------------------------------------------------------------
+					|                                   Job     		 	        		 |
+					---------------------------------------------------------------------------
+
+                    performs batch operations
+
+                    like for log opearations we need to terminate pod after successful completion of log operations
+                    Kubernetes Jobs ensure that one or more pods execute their commands and exit successfully.
+
+                    When all the pods have exited without errors, the Job gets completed. When the Job gets deleted, any created pods get deleted as well.
+
+                    Pods gets deleted after successful ecxecution of job , but job remains , we need to delete manually 
+
+                    lifecycle:
+                        1. job is created
+                        2. pods are created according to job spec
+                        3. containers inside pod perform operation that are mentioned.
+                        4. when all containers are done , pod gets terminated, job is completed
 
     
      

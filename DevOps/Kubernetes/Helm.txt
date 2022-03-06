@@ -6,11 +6,87 @@
                                                                         
 
 
-            About Helm : 
+        About Helm : 
+
+            Helm is a tool that streamlines installing and managing Kubernetes applications.
+            Think of it like Apt/Yum/Homebrew for K8S. Helm uses a packaging format called charts. 
+            A chart is a collection of files/manifest that describe a related set of Kubernetes resources.
+            remote repo of helm is known as helmhub
+            A single chart might be used to deploy something simple, like a memcached pod, or something complex, like a full web app stack with HTTP servers, databases, caches, and so on.
+            it is written/designed in Go .
+
+            Helm 3 has a client-only(single-service) architecture with the client still called helm .
+            only one executable is rewsponcible for implementing helm .
+            in-cluster-Tiller(server) is now removed which is in helm2 , also it was risky to use 
+
+            in short , we make template and in the time of deployment , we need only to fill values like how many replicas etc. as per the requirement. 
+            we can set a variable and at the time of deployment we can define a value , some values can be hardcoded
+            e.g.   replicas: 3    # hard-coded    
+            
+                or      
+                    replicas: {{ values.replicacount }}   
+                        # dynamic , in values file , there is variable named replicacount having some value
+
+
+                        ------     Helm   Objects    ------
+
+                Chart 
+
+                    They are simply combined yaml manifest into single package that can be installed on Kubernetes cluster.
+
+
+
+                Release
+
+                    it is an instance of chart that is get created every time a chart is installed on cluster.
+                    using release , with can be used to manage the chart. so that we can rollback to previous version of charts easily.
+
+
+                Repository
+
+                    location where helm stores the charts. we can share charts with other people.
 
 
 
 
+        Helm commands :
 
+        helm repo     
 
-            File structure:
+            helm repo list      => list all the repos available locally
+
+            helm repo add [NAME] [URL] [flags]        =>  download repo locally from server
+                                        e.g.  helm repo add stable https://charts.helm.sh/stable  # add stable repo
+
+            helm repo remove [NAME]             =>  remove the repo from locally
+
+            helm search repo [NAME] [flags]          =>  search for charts in the local repos
+            
+            helm show values [NAME]           =>  show the values of the chart before applying it
+
+            helm show all [NAME]           =>  show the all the details of the chart before applying it
+
+            helm  show chart [NAME]           =>  show the chart details 
+
+            helm create [NAME]            => create a new chart with the given name
+
+                after creating a new chart , we get dir named as NAME and file structure as shown below
+
+                   [NAME]
+                    ├── charts
+                    ├── Chart.yaml
+                    ├── templates
+                    │   ├── deployment.yaml
+                    │   ├── _helpers.tpl
+                    │   ├── hpa.yaml
+                    │   ├── ingress.yaml
+                    │   ├── NOTES.txt
+                    │   ├── serviceaccount.yaml
+                    │   ├── service.yaml
+                    │   └── tests
+                    │       └── test-connection.yaml
+                    └── values.yaml
+
+            helm install [NAME]         =>  This command installs a chart archive/release
+
+            helm uninstall [NAME]         =>  This command uninstalls a chart archive/release

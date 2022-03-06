@@ -250,20 +250,20 @@ kubectl label pods foo bar-
 
 
 
-
-                                                                     __| | ___   ___    ___   _ __  (_) | |__     ___ 
-                                                                    / _` |/ _ \ / __|  / __| | '__| | | | '_ \   / _ \
-                                                                   | (_| |  __/ \__ \ | (__  | |    | | | |_) | |  __/
-                                                                    \__,_|\___| |___/  \___| |_|    |_| |_.__/   \___|
+                                        __                           _   _
+                                     __| | ___   ___    ___   _ __  (_) | |__     ___ 
+                                    / _` |/ _ \ / __|  / __| | '__| | | | '_ \   / _ \
+                                   | (_| |  __/ \__ \ | (__  | |    | | | |_) | |  __/
+                                    \__,_|\___| |___/  \___| |_|    |_| |_.__/   \___|
                                                                         
 
 
 
                 ACTION_TYPE    " describe "         give detailed info
 
-                                            kubctl  label     OBJ_TYPE   OBJ_NAME     KEY=VALUE
+                                            kubctl  describe     OBJ_TYPE   OBJ_NAME  
 
-                                                e.g       kubectl label node node12 hardware=t2.medium
+                                                e.g       kubectl describe nodes minikube
 
                 OBJ_TYPE    :
 
@@ -282,23 +282,19 @@ kubectl label pods foo bar-
 
                 OBJ_PARAMETER  / flags  :
 
+                        | grep -A 5 TYPE    => get only those TYPE info 
 
-                                   
-
-
-
+                                e.g.  kubectl describe pods myapp-pod | grep -A 5 Conditions
 
 
 
 
+                                  _          _          _          
+                               __| |   ___  | |   ___  | |_    ___ 
+                              / _` |  / _ \ | |  / _ \ | __|  / _ \
+                             | (_| | |  __/ | | |  __/ | |_  |  __/
+                              \__,_|  \___| |_|  \___|  \__|  \___|
 
-
-                                                _          _          _          
-                                             __| |   ___  | |   ___  | |_    ___ 
-                                            / _` |  / _ \ | |  / _ \ | __|  / _ \
-                                           | (_| | |  __/ | | |  __/ | |_  |  __/
-                                            \__,_|  \___| |_|  \___|  \__|  \___|
-                                                                                
 
                 ACTION_TYPE    " delete "           delete the object resource
 
@@ -395,6 +391,17 @@ kubectl label pods foo bar-
 
 
                                 --image=IMG_NAME            ------ image should be in registry of minikube docker
+
+
+            ------------   horizontal pod autoscale ----------------------------
+
+            kubectl autoscale OBJ_TYPE OBJ_NAME --cpu-percent=20 --min=1 --max=10        # based on cpu utilization
+
+
+            kubectl autoscale deployment mydeploy --cpu-percent=20 --min=1 --max=10
+
+                    # here if replicas set to e.g. 5 and cpu utilization is less than desired 
+                        then replicas will be reduced to min = 1
 
 
 

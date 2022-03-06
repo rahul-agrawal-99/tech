@@ -250,3 +250,19 @@ Types of Pod
 
 
 
+
+HPA  (horizontal pod autoscale)
+
+using resource metric (like cpu , memory) , we can do autoscaling of pods
+
+in order to use HPA , we nedd to install metric server on cluster
+
+here we set desired value and if the current value is more than desired value then it will scale up the pod
+
+e.g. if current metric value is 200m and desired value is 100m then replicas will be doubled, since 200.0 / 100.0 == 2.0
+
+in case of downscaling , we have cooldown period 
+if the current value is less than desired value for cooldown period of time then it will scale down the pod
+
+
+

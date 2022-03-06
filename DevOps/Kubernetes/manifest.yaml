@@ -41,6 +41,26 @@ Every minifest has 3 main parts
 #         memory: "128Mi"
 #         cpu: "200m"
 
+
+#     ----  Using Init pod ----
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:               
+    - name: c01
+      image: ubuntu
+      command: ['bin/bash', '-c', 'echo The app is running! && sleep 100']
+  initContainers:     # this is for init container , it will run before main container
+    - name: c00
+      image: ubuntu
+      command: ['bin/bash', '-c', 'echo The app is running! && sleep 100']
+ 
+
 # ---------------                 Replicaset                      ------------------------------------
 
 
@@ -175,6 +195,21 @@ spec:
     secrets: "10" 
     services: "10"
 
+#      -- define max resources 
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: res-counts
+spec:
+  hard:
+    pods: "2"      # max 2 pods can be created in this namespace
+status:
+  hard:
+    pods: "2"
+  used:
+    pods: "0"
+
 # ---------------                 Limit Range                     ------------------------------------
 apiVersion: v1
 kind: LimitRange
@@ -182,9 +217,9 @@ metadata:
   name: cpu-limit-range
 spec:
   limits:
-  - default:         #  same value as max if default is not specified
+  - default:         #   default limit , if max is not set it will get this value
       cpu: 1
-    defaultRequest:
+    defaultRequest:    # default request 
       cpu: 0.5
     type: Container
 
@@ -220,3 +255,74 @@ spec:
         memory: "100Mi" 
       maxLimitRequestRatio:
         cpu: "10" 
+# ---------------                Job                    ------------------------------------
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: testjob
+spec:
+  template:
+    metadata:
+      name: testjob
+    spec:
+      containers:
+      - name: counter
+        image: centos:7
+        command: ["bin/bash", "-c", "echo something; sleep 5"]
+      restartPolicy: Never
+#        --------------    parallelism
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: testjob
+spec:
+  parallelism: 5                           # Runs for pods in parallel
+  activeDeadlineSeconds: 10  # Timesout after 30 sec , all the mentioned pods will be terminated after 20sec and deleted after 
+                                      # 20 +10 = 30 sec 
+  template:
+    metadata:
+      name: testjob
+    spec:
+      containers:
+      - name: counter
+        image: centos:7
+        command: ["bin/bash", "-c", "echo something; sleep 20"]
+      restartPolicy: Never
+
+
+
+
+
+# ---------------             Cron   Job                    ------------------------------------
+
+# A cron job is simply a command, program, or shell script that is scheduled to run periodically. 
+# For example, a program that automatically executes log rotation must be run from time to time 
+#  * * * * *  command to execute
+#  ┬ ┬ ┬ ┬ ┬
+#  │ │ │ │ │
+#  │ │ │ │ │
+#  │ │ │ │ └───── day of week (0 - 7) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)
+#  │ │ │ └────────── month (1 - 12)
+#  │ │ └─────────────── day of month (1 - 31)
+#  │ └──────────────────── hour (0 - 23)
+#  └───────────────────────── min (0 - 59)
+
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+ name: sender
+spec:
+ schedule: "*/15 * * * *"
+ jobTemplate:
+   spec:
+     template:
+       spec:
+         containers:
+         - image: ubuntu
+           name: sender
+           command: ["bash","-c","echo 'Sending information to API/database'"]
+         restartPolicy: OnFailure
+
+#  above line will run every 15 sec and new pod will be created for every 15 sec , after completing the pod will be terminated and deleted
