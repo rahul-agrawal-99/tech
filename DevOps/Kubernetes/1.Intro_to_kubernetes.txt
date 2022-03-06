@@ -71,14 +71,34 @@ Architecture :
 
 	
 			# Controller Manager
-					This component is responsible for most of the collectors that regulates the state of cluster and performs a task. In general, it can be considered as 					a daemon which runs in nonterminating loop and is responsible for collecting and sending information to API server. It works toward getting the 					shared state of cluster and then make changes to bring the "current status" of the server to "desired state".The controller manager runs different 						kind of controllers to handle nodes, endpoints, etc.
+					This component is responsible for most of the collectors that regulates the state of cluster and performs a task.
+					In general, it can be considered asa daemon which runs in nonterminating loop and 
+							is responsible for collecting and sending information to API server. 
+
+					It works toward getting theshared state of cluster and then make changes to bring the "current status" of
+					  the server to "desired state".
+
+					The controller manager runs different kind of controllers to handle nodes, endpoints, etc.
+						like for every kind different controller is used
+
+					we can 
+
 
 			# etcd
-					It stores the configuration information which can be used by each of the nodes in the cluster. It is a high availability key value store that can be 					distributed among multiple nodes. It is accessible only by Kubernetes API server as it may have some sensitive information. It is a distributed key 					value Store which is accessible to all.
-
+					It stores the configuration information which can be used by each of the nodes in the cluster. 
+					It is a high availability key value store that can be distributed among multiple nodes. 
+					It is accessible only by Kubernetes API server as it may have some sensitive information. 
+					It is a distributed key value Store which is accessible to all.
+					it is used to store cluster data so that in case if one of the node or even master fails it can be recovered.
+					in EKS . every EKS cluster has its own etcd cluster , so it is not shared among nodes
+					as etcd is open source , it is used by many other projects also like coreOs container , uber M3 app
 			
 			# Scheduler
-					This is one of the key components of Kubernetes master. It is a service in master responsible for distributing the workload. It is responsible for 					tracking utilization of working load on cluster nodes and then placing the workload on which resources are available and accept the workload.The 					scheduler is responsible for workload utilization and allocating pod to new node.
+					This is one of the key components of Kubernetes master. 
+					It is a service in master responsible for distributing the workload. 
+					It is responsible fortracking utilization of working load on cluster nodes and 
+						then placing the workload on which resources are available and accept the workload.
+					The scheduler is responsible for workload utilization and allocating pod to new node.
 
 	
 			# API Server
@@ -145,39 +165,6 @@ it checks etcd via server and commands           |						/
 			# Container Engine (e.g, Docker)
 
 					The first requirement of each node is Docker which helps in running the encapsulated application containers in a relatively isolated but lightweight 					operating environment.
-
-
-
-
-		///  ***  POD    ***  ////
-
-
-
-
-Types of Pod
-	There are two types of Pods −
-
-		Single container pod - 
-				They can be simply created with the kubctl run command, where you have a defined image on the Docker registry which we will pull while creating a pod.
-			
-		Multi container pod - 
-				Multi container pods are created using yaml mail with the definition of the containers. 
-				defined in spec-> containers -> 
-  							 - name: Tomcat
-    							   image: tomcat: 8.0
-  							 - name: database
-    							   image: mongoDB
-
-		Pod is running and has two Containers. Container 1 exits with failure.
-
-				1.Log failure event.
-
-				2.If restartPolicy is:
-
-						Always: Restart Container; Pod phase stays Running.
-						OnFailure: Restart Container; Pod phase stays Running.
-						Never: Do not restart Container; Pod phase stays Running
-						So pod is not restarted or the other container is not restarted , only the exited container is restarted based on the restartPolicy
 
 
 
@@ -264,5 +251,29 @@ e.g. if current metric value is 200m and desired value is 100m then replicas wil
 in case of downscaling , we have cooldown period 
 if the current value is less than desired value for cooldown period of time then it will scale down the pod
 
+
+
+
+
+Tools can be used in Kubenetes :
+
+	Logging : FluentD , FluentBit
+	Monitering : DataDog , new Relic
+	Cost : Kubecost , CloudHealth
+	Storage : Portworx , Velero
+	Security : Aqua , Twistlock
+	Devops ; jenkins , gitlab
+
+
+Kubernaetes On Cloud 
+
+	AWS :
+		ECS (Elastic Container Service)  => control plane costs zero , only pay for workernode ($70 per month per node)
+											Requires creating cluster
+ 
+		EKS(Elastic Kubernetes Service)	=> control plane costs $144/month , only pay for workernode 
+											Requires creating cluster
+
+		Farget     => no cluster required , 
 
 

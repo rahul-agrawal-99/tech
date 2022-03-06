@@ -41,6 +41,22 @@ diff types of object available in k8s are :
                     if pod having resource quota that has limit exceeding limits defined in limit range / service quota , pod will not created
                     same with request , if it is below the mentioned it will not created
 
+                    Pod is running and has two Containers. Container 1 exits with failure.
+
+                        1.Log failure event.
+
+                        2.If restartPolicy is:
+
+                            Always: Restart Container; Pod phase stays Running.
+
+                            OnFailure: Restart Container; Pod phase stays Running.
+
+                            Never: Do not restart Container; Pod phase stays Running
+                                So pod is not restarted or the other container is not restarted , 
+                                only the exited container is restarted based on the restartPolicy
+
+
+
 
                     --------------------   Init Containers  ---------------------------------
 
@@ -142,6 +158,8 @@ diff types of object available in k8s are :
 
                     if request comes to the domain name , it will be routed to the service by ingress
 
+                    it is used in real world applications not the LoadBalancer
+
 
 
            			 ---------------------------------------------------------------------------
@@ -179,6 +197,8 @@ diff types of object available in k8s are :
                     such as avoiding writing confidential data to nonvolatile storage.
 
                     Secrets are similar to ConfigMaps but are specifically intended to hold confidential data.
+                    it is stored in etcd with base64 encoding , now we can encrypt it using KMS 
+                        so that only using application specific keys we can access the data 
 
 
 
@@ -379,6 +399,8 @@ diff types of object available in k8s are :
                     Also DaemonSets allow you to select which nodes you want to run the pods on. 
                     With nodeSelector, you can select nodes by their labels
 
+                    it is not possible in AWS EKS so we need to use sidecar instead of DaemonSets
+
                  
 
 
@@ -481,7 +503,16 @@ diff types of object available in k8s are :
 					|                       Storage Class		 			 |
 					---------------------------------------------------------------------------
              
+					---------------------------------------------------------------------------
+					|                              Network policy  	        	 			 |
+					---------------------------------------------------------------------------
 
+                    it is used to restrict network access to a pod or whole namespace
+
+                    with this , we can set policies so that only allowed namespaces traffic can come
+
+                    to use this , we need network policy agents like Antrea 
+             
 	
 					---------------------------------------------------------------------------
 					|                                Liveness		 	        		 |
@@ -518,6 +549,10 @@ diff types of object available in k8s are :
 You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate.
  You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
 
+
+Other Objects ;
+
+Custom Resource Definition (CRD) : used for custom controller
 
     
     
