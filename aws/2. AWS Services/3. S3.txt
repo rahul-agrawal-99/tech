@@ -1,0 +1,5 @@
+
+s3 => simple storage service 
+
+it is globlly available , not a region specific 
+multiple copies will be there across various regions

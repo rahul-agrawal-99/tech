@@ -23,3 +23,19 @@ tyeps of hypervisor :
 	run on top of the operating system (OS) of the host machine
 	host -> host OS -> type2 hypervisor -> VM -> guest OS
 	e.g vmware workstation
+
+virtual machine :
+
+	virtual machine is the virtualization/emulation of a computer system. Virtual machines are based on computer architectures and provide functionality of a physical computer. Their implementations may involve specialized hardware, software, or a combination. 
+
+Container :
+
+	A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.
+	container is scalable and can be used to run multiple applications on a single machine.
+
+Functions :
+
+	they are managed by providers , so it is also known as Serverless computing 
+	we have just upload the function code and it will be executed by the provider
+
+Just like virtual machines, containers allow developers to improve CPU and memory utilization of physical machines. Containers go even further, however, because they also enable microservice architectures, where application components can be deployed and scaled more granularly. This is an attractive alternative to having to scale up an entire monolithic application because a single component is struggling with load.

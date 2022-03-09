@@ -1,0 +1,133 @@
+"The cloud" refers to servers that are accessed over the Internet, and the software and databases that run on those servers.
+
+Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions distributed over multiple locations, each location being a data center.
+
+Infrastructure as a service are online services that provide high-level APIs used to dereference various low-level details of underlying network infrastructure like physical computing resources, location, data partitioning, scaling, security, backup etc.
+most of the CSP provides Iaas .
+4 core of Iaas is :      1. Compute         2. networking       3. Storage / database         4. Configurations
+
+Platform as a service (PaaS) is a cloud computing model where a third-party provider delivers hardware and software tools to users over the internet. Usually, these tools are needed for application development. A PaaS provider hosts the hardware and software on its own infrastructure.
+e.g. AWS Elastic Beanstalk , Heroku
+
+Software as a service is a software licensing and delivery model in which software is licensed on a subscription basis and is centrally hosted. SaaS is also known as "on-demand software" and Web-based/Web-hosted software. 
+SaaS examples: BigCommerce, Google Apps, Salesforce, Dropbox, MailChimp, ZenDesk, DocuSign, Slack, Hubspot. 
+
+Public Cloud : 
+
+    A public cloud is a platform that uses the standard cloud computing model to make resources -- such as virtual machines, applications or storage -- available to users remotely. Public cloud services may be free or offered through a variety of subscription or on-demand pricing schemes, including a pay-per-usage model.
+
+    Unlike private clouds, public clouds can save companies from the expensive costs of having to purchase, manage and maintain on-premises hardware and application infrastructure - the cloud service provider is held responsible for all management and maintenance of the system. Public clouds can also be deployed faster than on-premises infrastructures and with an almost infinitely scalable platform. Every employee of a company can use the same application from any office or branch using their device of choice as long as they can access the Internet. While security concerns have been raised over public cloud environments, when implemented correctly, the public cloud can be as secure as the most effectively managed private cloud implementation if the provider uses proper security methods, such as intrusion detection and prevention systems (IDPS).
+
+    Advatages : Scalability , Lower capital 
+
+    Best For : stratups , indivisuals 
+
+
+Private Cloud(On - premises) :
+
+    A private cloud is a cloud computing model where the cloud service provider is responsible for the hardware and software infrastructure. The cloud service provider is also responsible for the security of the cloud infrastructure. Private clouds are typically more expensive than public clouds, but they can be more flexible and can be deployed faster than public clouds. Private clouds can be deployed on-premises or in the cloud. e.g. Rackspace Openstack 
+
+    Advatages : Security , flexibility , Greater control and customization
+
+    Best For : Large companies , banks , Government 
+
+
+Hybrid Cloud :
+
+    A hybrid cloud is one in which applications are running in a combination of different environments. Hybrid cloud computing approaches are widespread because almost no one today relies entirely on the public cloud.
+
+    Hybrid cloud refers to a mixed computing, storage, and services environment made up of on-premises infrastructure, private cloud services, and a public cloud—such as Amazon Web Services (AWS) or Microsoft Azure—with orchestration among the various platforms. Using a combination of public clouds, on-premises computing, and private clouds in your data center means that you have a hybrid cloud infrastructure.
+
+    Best For :   insurance companies  , hospitals , banks
+
+Cross-Cloud :
+
+    Devolop an software using different cloud services of different providers.
+
+    like using AWS and Azure in the same project.
+
+    Anthos is GCP's Control plane for compute across multiple providers 
+
+
+
+12 business advantages of cloud computing.
+
+    Cost Savings
+    Security
+    Flexibility
+    Mobility
+    Insight
+    Increased Collaboration
+    Quality Control
+    Disaster Recovery
+    Loss Prevention
+    Automatic Software Updates
+    Competitive Edge
+    Sustainability
+
+Core advantages : 1. reliability , 2. scalability , 3. high Availabilty    4. Elasticity
+
+Disadvantages of cloud computing
+
+    Downtime
+    Security and privacy
+    Vulnerability to attack
+    Limited control and flexibility
+    Vendor lock-in (hard to migrate to new cloud providers)
+    Cost concerns
+
+
+Cloud providing Companies : Amazon, Google, Microsoft, Rackspace , Digital Ocean etc.
+
+CSP (Cloud Service Provider) : 
+
+    A company that provides multiple cloud services
+    that services chained together to form architecture.
+    this services are accessible via API (like shell , management console etc)) 
+    servies are billed according to the usage like per second , per hour etc.
+    srvices has built in monitering system
+    it offers IaaS (Infrastructure as a Service)
+    Also offers IAC (Infrastructure as a Code) for Automation
+
+        CSP provides all the above , if a company providing few of the services then it is just a cloud platform , like Twilio, harshicorp , databricks
+
+        AWS , GCP , Azure , alibaba are tier 1 cloud providers that are actual CSP
+
+        IBM cloud , Oracle cloud , Rackspace  are tier 2 CSP's that has specialised services in one of the domain
+
+        Digital Ocean , Linode are tier 3 CSP's that offers core Iaas services that are simple and cost effective
+
+
+
+
+
+Why AWS :
+
+    AWS is CSP(Cloud Service Provider) launched in 2006
+    in 2010 , all of amazon.com shifted to AWS
+    CEO of AWS is Adam Selipsky (Former CTO at Tablue)
+
+    using API we can interact aws services , we can use this api using management console , aws cli or aws SDK
+
+    Highly available :
+                service remain available by  ensuring no single point of failure and certain level of performance
+                achieved by using multiple availability zones and Elastic load balancers
+
+    High Scalability :
+
+                increase capacity as per demand based on vertical/horiiontal scaling
+
+    Highly Elastic :
+
+                ability to scale up and down as per demand of traffic , memory and computation
+                achieved using Auto Scaling groups 
+
+    Highly fault tolerant :
+
+                service remain available by  ensuring no single point of failure
+                achieved by using copies in  multiple availability zones so that after one server is down , other server can still work
+            
+    Highly Durable :
+
+                ability to recover from disaster and prevent data loss 
+                achieved by using cloudEndure Disaster Recovery (replicates data in low cost storing area so that data is not lost)

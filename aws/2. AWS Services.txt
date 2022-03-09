@@ -1,0 +1,141 @@
+
+Compute :
+
+        EC2   ==>    Virtual Servers in the Cloud
+
+        EC2 Image Builder   ==>    A managed service to automate build, customize and deploy OS images
+
+        Elastic Beanstalk   ==>    Run and Manage Web Apps
+
+        Lambda   ==>    Run Code without Thinking about Servers
+
+        Lightsail   ==>    Launch and Manage Virtual Private Servers
+
+        AWS Outposts   ==>    Run AWS Services On Premises
+
+        Serverless Application Repository   ==>    Assemble, deploy, and share serverless applications within teams or publicly
+
+
+Networking & Content Delivery:  
+
+        API Gateway   ==>    Build, Deploy and Manage APIs
+
+        AWS App Mesh   ==>    Easily monitor and control microservices
+
+        AWS Cloud Map   ==>    Build a dynamic map of your cloud
+
+        CloudFront   ==>    Global Content Delivery Network
+
+        Direct Connect   ==>    Dedicated Network Connection to AWS
+
+        Global Accelerator   ==>    Improve your application’s availability and performance using the AWS Global Network
+
+        Route 53   ==>    Scalable DNS and Domain Name Registration
+
+        VPC   ==>    Isolated Cloud Resources
+
+Container :
+
+        Elastic Container Registry   ==>    Fully-managed Docker container registry : Share and deploy container software, publicly or privately
+
+
+        Elastic Container Service   ==>    Highly secure, reliable, and scalable way to run containers
+
+
+        Elastic Kubernetes Service   ==>    The most trusted way to start, run, and scale Kubernetes
+
+
+        Red Hat OpenShift Service on AWS   ==>    Fully managed Red Hat OpenShift service on AWS
+
+Storage
+
+        AWS Backup   ==>    AWS Backup centrally manages and automates backups across AWS services
+
+        EFS   ==>    Managed File Storage for EC2
+
+        AWS Elastic Disaster Recovery   ==>    Scalable, cost-effective application recovery to AWS
+
+        FSx   ==>    Fully managed third-party file systems optimized for a variety of workloads
+
+        S3   ==>    Scalable Storage in the Cloud
+
+        S3 Glacier   ==>    Archive Storage in the Cloud
+
+        Storage Gateway   ==>    Hybrid Storage Integration
+
+Analytics
+
+        Athena   ==>    Query Data in S3 using SQL
+
+        CloudSearch   ==>     Managed Search Service
+
+        AWS Data Exchange   ==>    Easily exchange data in the cloud
+
+        Data Pipeline   ==>      Orchestration for Data-Driven Workflows
+
+        EMR   ==>      Managed Hadoop Framework
+
+        Amazon FinSpace   ==>      Store, catalog, prepare, and analyze financial industry data
+
+        AWS Glue   ==>     AWS Glue is a fully managed ETL (extract, transform, and load) service
+
+        AWS Glue DataBrew   ==>      Visual data preparation tool to clean and normalize data for analytics and machine learning
+
+        Kinesis   ==>      Work with Real-Time Streaming Data
+
+        AWS Lake Formation   ==>     AWS Lake Formation makes it easy to set up a secure data lake
+
+        MSK   ==>     Fully managed, highly available, and secure service for Apache Kafka
+
+        QuickSight   ==>     Fast, easy to use business analytics
+
+        Amazon Redshift   ==>     Fast, Simple, Cost-Effective Data Warehousing
+
+Database
+
+        Amazon DocumentDB     ==>    Fully-managed MongoDB-compatible database service
+
+        DynamoDB     ==>      Managed NoSQL Database      
+
+        ElastiCache     ==>    In-Memory Cache  
+
+        Amazon Keyspaces     ==>      Serverless Cassandra-compatible database
+        
+        Amazon MemoryDB for Redis     ==>      Fully managed, Redis-compatible, in-memory database service        
+
+        Neptune     ==>      Fast, reliable graph database built for the cloud
+        
+        Amazon QLDB     ==>      Fully managed ledger database
+        
+        RDS     ==>      Managed Relational Database Service
+        
+        Amazon Timestream     ==>      Amazon Timestream is a fast, scalable, and serverless time series database for IoT and
+                                         operational applications.
+                                        
+
+Security, Identity
+
+
+        Artifact     ==>    AWS Compliance Reports and Agreements
+
+        AWS Audit Manager     ==>    Continuously assess controls for risk and compliance
+
+        Certificate Manager     ==>    Provision, Manage, and Deploy SSL/TLS Certificates
+
+        Cognito     ==>    Consumer Identity Management and AWS Credentials for Federated Identities
+
+        Directory Service     ==>    Host and Manage Active Directory
+
+        AWS Firewall Manager     ==>    Central management of firewall rules
+
+        IAM     ==>    Manage access to AWS resources
+
+        Key Management Service     ==>    Securely Generate and Manage AWS Encryption Keys
+
+        AWS Network Firewall     ==>    AWS Network Firewall
+
+        Resource Access Manager     ==>    Share AWS resources with other accounts or AWS Organizations
+
+        Security Hub     ==>    AWS Security Hub is AWS’s security and compliance center
+
+        AWS Single Sign-On     ==>    Manage Single Sign-On (SSO) Access to AWS Accounts and Business Applications
