@@ -48,7 +48,13 @@ Cross-Cloud :
 
     Anthos is GCP's Control plane for compute across multiple providers 
 
+Vertical scaling (or scaling up/down) is upgrading or downgrading the hardware, for example, upgrading the size of an instance from t2.micro to t2.medium. Vertical scaling is commonly used for databases.
 
+Horizontal scaling (or scaling in/out) is increasing or decreasing the number of instances used by your application or system. For example, increasing the number of EC2 instances from 2 to 4. Horizontal scaling is commonly used for web applications
+
+Elasticity – The ability to horizontally scale, meaning the ability to add or remove servers of the same size.
+
+Scalability – The ability to horizontally or vertically scale.
 
 12 business advantages of cloud computing.
 
@@ -108,6 +114,11 @@ Why AWS :
     CEO of AWS is Adam Selipsky (Former CTO at Tablue)
 
     using API we can interact aws services , we can use this api using management console , aws cli or aws SDK
+    AWS SDK is available in most of programming languages like python ,c++ , ruby , java , javascript , php , node.js , GO etc. 
+
+    Also aws offers IAC with aws cloudformation(declarative tool in JSON/YML) and cloud development kit(imperative tool)
+
+    diff betn cdk and sdk is that cdk allows to make/remove resources while sdk allows to interact with resources directly.
 
     Highly available :
                 service remain available by  ensuring no single point of failure and certain level of performance
@@ -131,3 +142,33 @@ Why AWS :
 
                 ability to recover from disaster and prevent data loss 
                 achieved by using cloudEndure Disaster Recovery (replicates data in low cost storing area so that data is not lost)
+
+
+    Iaas services :  1. Bare metal EC2 (dedicated physical machine)  2. EC2  3.  ECS (elastic container service)
+
+    PaaS services :  1. Elastic beamstalk   
+
+    Saas services  :  1. Amazon WorkDocs
+
+    FaaS services :   1. AWS Lambda  
+
+    CaaS service :  1. Aws Farget (serverless container)
+
+
+
+
+
+
+
+
+AWS Snowball Edge is a type of Snowball device with on-board storage and compute power for select AWS capabilities. Snowball Edge can do local processing and edge-computing workloads in addition to transferring data between your local environment and the AWS Cloud.
+
+Each Snowball Edge device can transport data at speeds faster than the internet. This transport is done by shipping the data in the appliances through a regional carrier. The appliances are rugged, complete with E Ink shipping labels.
+
+
+
+
+
+
+
+

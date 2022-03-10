@@ -87,7 +87,7 @@ To perform statistical analysis of data, it is important to first understand var
 
 	it is property that can take any value like a variable can take diff. values with respect to age of person.
 	
-	maily 2 types of variable 
+	mainly 2 types of variable 
 	
 		1. Quantitative variable => it can be measured numerically or can say magnitudely like age, height of person , we can perform also math operations like +,- etc.
 						it can be used to plot graphs and has meaning in it without comparison
@@ -194,7 +194,7 @@ There are 4 tyeps :
 
 		Due to this, the value of variance calculated from sample data is higher than the value that could have been found out by using population data. The logic of doing that is 				to compensate our lack of information about the population data.
 		
-		A large variance indicates that numbers in the set are far from the mean and far from each other , Variance can lead to overfitting
+		A large variance indicates that numbers in the set are far from the mean and far from each other , high Variance can lead to overfitting
 
 
 	standard deviation 
@@ -234,7 +234,7 @@ There are 4 tyeps :
 			4. thirs quartile (q3) , 75 percentile
 			5. maximum     ( q3 - 1.5(IQR) )
 
-				value beyons minimum and maximum considerd as outlier , only minimum < VAlUE < maximum considerd as valid , Box Plot is drawn based on this values
+				value beyond minimum and maximum considerd as outlier , only minimum < VAlUE < maximum considerd as valid , Box Plot is drawn based on this values
 
 		get percentile using , np.percentile(df[col] ,[25,50,75]) ==> it will return array with three diff percentile values for that specific column
 
@@ -258,7 +258,7 @@ There are 4 tyeps :
 
 
 				------------|--------|--------|--------|--------||--------|--------|--------|--------|-----------   for noramal distribution
-					  4sd	    3sd	     2sd     1sd       mean      1sd	  2sd     3sd       4sd
+						  4sd	    3sd	     2sd     1sd       mean      1sd	  2sd     3sd       4sd
 
 
 									<----- 68 % ------>     this amount of data from total data lies in this region

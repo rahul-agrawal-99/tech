@@ -1,0 +1,11 @@
+policy is a JSON document that specifies what a user can do on AWS. This document consists of
+
+Actions: what actions you will allow. Each AWS service has its own set of actions. Resources: which resources you allow the action on. Effect: what the effect will be when the user requests access—either allow or deny.
+
+A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine whether the request is allowed or denied
+
+
+	
+An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it including assigning it to an EC2 instance.
+
+Trusted Advisor provides real time guidance to help you provision your resources following AWS best practices

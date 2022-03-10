@@ -1,0 +1,4 @@
+CloudFront also integrates with-AWS WAF, a web application firewall that helps protect web applications from common web exploits, and-AWS Shield, a managed DDoS protection service that safeguards web applications running on AWS.
+
+
+Amazon CloudFront employs a global network of edge locations and regional edge caches that cache copies of your content close to your viewers. Amazon CloudFront ensures that end-user requests are served by the closest edge location.

@@ -107,6 +107,10 @@ s3-bucket-id = bucketname  -- as it is unique throughout globally
 to list all availble buckets on acoount
 	aws s3 ls
 
+create new s3 bucket
+
+	aws s3 mb s3://<bucket-name>         ----- created in default region mentioned in aws configure
+
 to look objects inside bucket 
 	aws s3 ls s3://<s3-bucket-id>
 
@@ -114,6 +118,11 @@ to remove bucket
 	aws s3 rb s3://<bucketname>
 
 
+copy/ upload objects inside bucket
+
+	aws s3 cp <filename-path> s3://<bucketname>/<filename>
+
+				e.g aws s3 cp file.txt s3://<bucketname>/test.txt
 
 
 

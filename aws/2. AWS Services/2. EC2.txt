@@ -1,0 +1,35 @@
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. It is designed to make web-scale-cloud computing-easier for developers.
+
+EC2 is back bone of aws because many of the services uses ec2 for their purpoes like S3 , RDS , Lambda
+
+Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. It is designed to make web-scale-cloud computing-easier for developers.
+
+Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.
+
+it provides Virtual servers in the Cloud.
+
+
+EC2 pricing depends on :
+    AMI Type
+    Instance Type
+    Region
+
+AWS requires a minimum 1-year term, and a successful billing history is needed before you can purchase No Upfront Reserved Instances.
+AWS requires a minimum 1-year term on their contracts for reserved instances.
+
+Spot instances are cheap, but they are only for Applications that have flexible start and end times, Applications that are only feasible at very low compute prices, or Users with urgent computing needs for large amounts of additional capacity.
+
+AWS Auto Scaling enables you to configure automatic scaling for the scalable AWS resources for your application in a matter of minutes. AWS Auto Scaling uses the Auto Scaling and Application Auto Scaling services to configure scaling policies for your scalable AWS resources.
+
+An Amazon Machine Image (AMI) provides the information required to launch an instance, which is a virtual server in the cloud. You specify an AMI when you launch an instance, and you can launch as many instances from the AMI as you need. You can also launch instances from as many different AMIs as you need.
+
+
+AWS lightsail is a web service that provides a fully managed, high-performance platform for hosting your websites and applications.
+it is simpler version of Amazon EC2
+
+
+Aws has Nitro sytem which is combination of dedicated hardware and lightweight hardware enabling faster innovation and enhancd security.
+all new ec2 instances has this nitro system 
+
+
+

@@ -3,3 +3,42 @@ s3 => simple storage service
 
 it is globlly available , not a region specific 
 multiple copies will be there across various regions
+
+s3 provides unlimited storage 
+
+Each object does have a limitation in S3, but you can store virtually unlimited amounts of data. Also each object gets a directly accessible URL
+
+Incorrect. Using encryption for s3 does not impact your costing.
+
+Incorrect. The number of buckets you have in s3 does not factor into costing.
+
+The storage class used for the objects stored.
+
+Amazon S3 offers a range of storage classes designed for different use cases with different pricing: - 
+- S3 Standard for general-purpose storage of frequently accessed data; 
+- S3 Intelligent-Tiering for data with unknown or changing access patterns; 
+- S3 Standard-Infrequent Access (S3 Standard-IA) 
+- S3 One Zone-Infrequent Access (S3 One Zone-IA) for long-lived, but less frequently accessed data 
+- S3 Glacier (S3 Glacier) for long-term archive and digital preservation.
+
+The volume of storage billed in a month is based on the average storage used throughout the month (per GB). This includes all object data and metadata stored in buckets that you created under your AWS account. AWS measure your storage usage in “TimedStorage-ByteHrs,” which are added up at the end of the month to generate your monthly charges.
+
+
+
+disaster recovery deployment technique:
+
+    	
+        A multi-site solution runs in AWS as well as on your existing on-site infrastructure,in an active-active configuration. The data replication method that you employ will be determined by the recovery pointthat you choose. For more information about recovery point options, see the Recovery Time Objective and Recovery Point Objective section in this whitepaper.
+
+        	
+        The term warm standby is used to describe a DR scenario in which a scaled-down version of a fully functional environment is always running in the cloud. A warm standby solution extends the pilot light elements and preparation. It further decreases the recovery time because some services are always running.
+
+        This scenario is similar to a backup-and-restore scenario. For example, with AWS you can maintain a pilot light by configuring and running the most critical core elements of your system in AWS. When the time comes for recovery, you can rapidly provision a full-scale production environment around the critical core
+
+
+Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and an S3 bucket. Transfer Acceleration takes advantage of Amazon CloudFront’s globally distributed edge locations. As the data arrives at an edge location, data is routed to Amazon S3 over an optimized network path.
+
+S3 buckets stores objects in the form of key - value , key is name of object and value contains sequance of Byte
+also it contains version ID if versioning is enabled and metadata 
+
+

@@ -1,4 +1,11 @@
+In AWS , there are regions with each region separated in a separate geographic area. Each region has multiple, isolated locations known as Availability Zones. An availability zone is used to host resources in a specific region.
+
+region is a geographical area divided into Availability Zones. Each region contains at least two Availability Zones.
+
+
 A stateful firewall inspects everything inside data packets, the characteristics of the data, and its channels of communication. Stateful firewalls examine the behavior of data packets, and if anything seems off, they can filter out the suspicious data. Also, a stateful firewall can track how the data behaves, cataloging patterns of behavior. 
+
+
 
 Stateless firewalls make use of a data packet's source, destination, and other parameters to figure out whether the data presents a threat. These parameters have to be entered by either an administrator or the manufacturer via rules they set beforehand. If a data packet goes outside the parameters of what is considered acceptable, the stateless firewall protocol will identify the threat and then restrict or block the data housing it.
 *****************************************************************************************************************************************************************************************
@@ -184,5 +191,6 @@ site to site vpn demo with 2 vpc in diff regions
 10]  to verify connection , launch instance in r1 with SG with all TCP , SSh and ICMP allowed source to anywhere and ping the private ip of r2's instance , if ping sucessful then all set
 
 
+network access control list (ACL)-is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. You might set up network ACLs with rules similar to your security groups in order to add an additional layer of security to your VPC.
 
-
+A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. When you launch an instance in a VPC, you can assign the instance to up to five security groups. Security groups act at the instance level. Below is an example of a security group which has inbound rules. The below rule states that users can only SSH into EC2 instances that are attached to this security group.
