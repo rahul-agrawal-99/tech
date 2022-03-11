@@ -4,22 +4,25 @@ s3 => simple storage service
 it is globlly available , not a region specific 
 multiple copies will be there across various regions
 
-s3 provides unlimited storage 
+s3 provides unlimited storage (we can store object having size 0byte to 5TB)
 
 Each object does have a limitation in S3, but you can store virtually unlimited amounts of data. Also each object gets a directly accessible URL
 
-Incorrect. Using encryption for s3 does not impact your costing.
+S3 buckets stores objects in the form of key - value , key is name of object and value contains sequance of Byte
+also it contains version ID if versioning is enabled and metadata 
+by default we can create 100 buckets
 
-Incorrect. The number of buckets you have in s3 does not factor into costing.
-
+Using encryption for s3  impact your costing.
+The number of buckets you have in s3 does  factor into costing.
 The storage class used for the objects stored.
 
-Amazon S3 offers a range of storage classes designed for different use cases with different pricing: - 
-- S3 Standard for general-purpose storage of frequently accessed data; 
-- S3 Intelligent-Tiering for data with unknown or changing access patterns; 
-- S3 Standard-Infrequent Access (S3 Standard-IA) 
+Amazon S3 offers a range of storage classes designed for different use cases with different pricing(down the index cheaper the pricing): - 
+- S3 Standard for general-purpose storage of frequently accessed data;   (13 9's durabilty) 
+- S3 Intelligent-Tiering for data with unknown or changing access patterns;  (uses ML to analyze object usage , data is stored in class effective class withput downgrading performance)
+- S3 Standard-Infrequent Access (S3 Standard-IA)  (retrival fee)
 - S3 One Zone-Infrequent Access (S3 One Zone-IA) for long-lived, but less frequently accessed data 
-- S3 Glacier (S3 Glacier) for long-term archive and digital preservation.
+- S3 Glacier (S3 Glacier) for long-term archive and digital preservation. (requires minutes to  hours to get data)
+-S3 Glacier Deep Archieve (lowest cost for storage but requires houres to get data)
 
 The volume of storage billed in a month is based on the average storage used throughout the month (per GB). This includes all object data and metadata stored in buckets that you created under your AWS account. AWS measure your storage usage in “TimedStorage-ByteHrs,” which are added up at the end of the month to generate your monthly charges.
 
@@ -38,7 +41,5 @@ disaster recovery deployment technique:
 
 Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and an S3 bucket. Transfer Acceleration takes advantage of Amazon CloudFront’s globally distributed edge locations. As the data arrives at an edge location, data is routed to Amazon S3 over an optimized network path.
 
-S3 buckets stores objects in the form of key - value , key is name of object and value contains sequance of Byte
-also it contains version ID if versioning is enabled and metadata 
 
 

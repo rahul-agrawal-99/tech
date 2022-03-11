@@ -139,3 +139,13 @@ Security, Identity
         Security Hub     ==>    AWS Security Hub is AWS’s security and compliance center
 
         AWS Single Sign-On     ==>    Manage Single Sign-On (SSO) Access to AWS Accounts and Business Applications
+
+
+AWS Abbrivations :
+
+asn             : autonomous system number
+vpc wizard      : pre configured vpc templates by aws
+virtual private gateway = vpn like , setup vpn gateway at aws side with route table entry as dest= client's cidr and target as vpg and in clients side setup gateway then it will allow as 			like 2 vpc peering connection , communaication is encrypted used for connecting data center or offices to aws , also can be utilized as hub that is connects 2 or more 				clients datacenter whrer as aws acts as HUB , You cannot create an AWS Managed VPN connection between two VPCs.
+
+
+

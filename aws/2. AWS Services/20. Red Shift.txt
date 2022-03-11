@@ -1,0 +1,31 @@
+Companies has millions of rows of data so they need faster way to get analytic report on the data.
+
+Data warehousing  is a process of converting raw data into structured data in order perform BI on it .
+if data is not structered then we need to perform ELT on it.
+
+
+
+Benefits of a data warehouse include the following:
+
+    Informed decision making
+    Consolidated data from many sources
+    Historical data analysis
+    Data quality, consistency, and accuracy
+    Separation of analytics processing from transactional databases, which improves performance of both systems
+
+
+data warehouse is specially designed for data analytics, which involves reading large amounts of data to understand relationships and trends across the data. 
+A database is used to capture and store data, such as recording details of a transaction.
+purpoes of data warehousing is Batch reporting, BI, and visualizations.
+
+A data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. It can store data in its native format and process any variety of it, ignoring size limits.
+it is used for Machine learning, exploratory analytics, data discovery, streaming, operational analytics, big data, and profiling
+
+
+A data mart is a data warehouse that serves the needs of a specific team or business unit, like finance, marketing, or sales. 
+It is smaller, more focused, and may contain summaries of data that best serve its community of users. 
+A data mart might be a portion of a data warehouse, too.
+
+                  *********      Redshift   ************
+
+Amazon Redshift is our fast, fully-managed, and cost-effective data warehouse service. It gives you petabyte-scale data warehousing and exabyte-scale data lake analytics together in one service, for which you only pay for what you use.

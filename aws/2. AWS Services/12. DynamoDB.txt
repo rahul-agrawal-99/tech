@@ -1,0 +1,24 @@
+it is serverless NoSQL Key-value and document database.
+it is designed to scale to billions of records with guarrentied consistant data return in less than seconds
+it is cost effective and very fast
+
+in 2019 , amazon.com shifted completely from oracle db to dynamodb
+
+
+      ***********      Document DB      ***********
+
+      it is mongodb competible NoSQL document database 
+
+
+      ***********      AWS KeY-Space      ***********
+
+      it is fully managed apache cassndra database.
+      cassandra is NoSQL key-value database similar to dynamodb but with additional features like clustering and sharding.
+
+
+      ***********     Neptune     ***********
+
+      Amazon Neptune is a fast, scalable graph database service. Neptune efficiently stores and navigates highly connected data. 
+      Its query processing engine is optimized for leading graph query languages, Apache TinkerPop™ Gremlin and the W3C’s RDF SPARQL.
+       Neptune provides high performance through the open and standard APIs of these graph frameworks. And, Neptune is fully 
+       managed, so you no longer need to worry about database management tasks such as hardware provisioning, software patching, setup, configuration, or backups.

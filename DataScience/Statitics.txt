@@ -411,6 +411,9 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 
 		covariance gives the direction but correlation gives the direction and the strength of the correlation
 
+		correlation or dependence is any statistical relationship, whether causal or not, between two random variables or bivariate data. 
+		In the broadest sense correlation is any statistical association, though it actually refers to the degree to which a pair of variables are linearly related.
+
 
 	Pearson’s correlation :    -1 <= ρ <= 1  , always
 

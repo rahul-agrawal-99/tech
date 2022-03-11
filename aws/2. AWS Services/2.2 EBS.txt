@@ -1,0 +1,9 @@
+EBS (elastic block storage ) is network based persistant block of storage that is designed to store data in the cloud.
+we can use it as  a virtual HDD forinstance 
+
+it is available in diff kinds of drive :
+
+    1. SSD
+    2. IOPS SSD
+    3. Thriooghput HDD
+    4. Cold HDD

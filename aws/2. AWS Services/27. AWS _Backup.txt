@@ -1,0 +1,2 @@
+it is fully managed backup service that make centralized and automate the backup process.
+it can be done across multiple aws resources like ec2, rds, s3,ebs , dynamodb , efs , storage gateway etc.

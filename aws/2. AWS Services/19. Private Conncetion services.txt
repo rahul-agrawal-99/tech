@@ -1,0 +1,25 @@
+
+
+AWS Client VPN = it is a managed client-based VPN service that enables you to securely access your AWS resources and resources in your on-premises network. With Client VPN, you can access 			your resources from any location using an OpenVPN-based VPN client.
+
+
+AWS Direct Connect = here we have to make connction to aws direct connct location and customer office via high speed cable physically .AWS Direct Connect can reduce network costs, increase 				bandwidth throughput, and provide a more consistent network experience than internet-based connections. it is router to router rather than vpg that it is network to 				network 
+
+
+AWS Transit gateway = makes processes of connecting multiple vpc's easier, here we estabilish a transit gateway that acts as hub and connects multiple vpc(from diff region) with one subnet 		from each az customer connects directly to transit gateway using VPG or direct connect
+
+
+site to site vpn = You can enable access to your remote network from your VPC by creating an AWS Site-to-Site VPN (Site-to-Site VPN) connection, and configuring routing to pass traffic 		through the connection , Site-to-Site VPN connection is either an AWS Classic VPN or an AWS VPN. $0.05 per Site-to-Site VPN connection per hour , after this user can communicate 	with directly private ip ,Managed entirely by you
+
+
+Direct Connect Gateway –	DGW builds upon VGW capabilities adding the ability to connect VPCs in one region to a Direct Connect in another region. CIDR addresses cannot overlap. In 					addition, traffic will not route from VPC-A to the Direct Connect Gateway and to VPC-B. Traffic will have to route from the 
+						VPC-A —> Direct Connect —-> Data Centre Router —-> Direct Connect —> VPC-B.
+
+
+
+Virtual Private Gateway – The introduction of the VGW introduced the ability to let multiple VPCs, in the same region, on the same account, share a Direct Connect. Prior to this, you’d need 				a Direct Connect Private Virtual Interface (VIF) for each VPC, establishing a 1:1 correlation, which didn’t scale well both in terms of cost and 				administrative overhead
+
+
+Transit Gateway  - TGW coupled with AWS Resource Access Manager will allow you to use a single Transit Gateway across multiple AWS accounts, however, it’s still limited to a single region. 			In addition, CIDR overlap is permitted with the addition of multiple route tables. Being able to leverage multiple route tables on TGW delivers a VRF type of 			capability that allows you to isolate routing domains to enforce traffic segmentation. A significant advantage of the TGW is you can route between VPCs without your 				data having to hairpin over the VPN to your on-premises router and back in to AWS as observed with VGW and DGW.
+
+

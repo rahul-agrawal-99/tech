@@ -1,0 +1,9 @@
+
+                    **** ---       DMS         --- ****
+
+
+        DMS (Database Migration service) offered by aws for migrating data from :
+
+                1. on-premise to cloud
+                2. one aws account to another using diif database engines
+                3. sql to nosql 

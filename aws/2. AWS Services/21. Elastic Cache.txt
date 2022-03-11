@@ -1,0 +1,14 @@
+it is managed database of in memory and caching open-source databases .
+
+Amazon ElastiCache is a cache-as-a-service
+
+it is used when we need to improve the performance of our application by adding caching layer infront of database.
+
+It utilizes Memcached and Redis, and manages to considerably reduce the time your applications would, otherwise, 
+    take to read data from disk-based databases. 
+
+AWS ElastiCache currently acts as an in-memory key-value store with sub-millisecond latency — 
+    consequently allowing web applications to quickly retrieve data over and over again without the need to reperform the queries. 
+
+ElastiCache doesn’t offer a lot of options when it comes to integration. 
+You can only connect it to databases and applications that are hosted by Amazon. 

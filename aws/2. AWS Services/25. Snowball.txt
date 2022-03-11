@@ -1,0 +1,27 @@
+AWS snow family (includes snowball edge ,snowcone and snowmobile) are storage and compute devices used to physically move the data 
+in/out the cloud 
+when moving over the internet or private conection , it is costly and slow 
+
+it offers a number of physical devices and capacity points, most with built-in computing capabilities. These services help physically transport up to exabytes of data into and out of AWS. Snow Family devices are owned and managed by AWS and integrate with AWS security, monitoring, storage management, and computing capabilities.
+
+
+AWS Snow offers 3 diff. types of devices :
+
+    1. AWS Snowcone is the smallest member of the AWS Snow Family of edge computing and data transfer devices. 
+        Snowcone is portable,rugged, and secure. You can use Snowcone to collect, process, and move data to AWS, either offline by shipping the device, or online with AWS DataSync.
+        it has 2 sizes : 8TB HDD or 14TB SSD
+
+    2. AWS Snowball is a data migration and edge computing device that comes in two device options: 
+            Compute Optimized (52 vCPUs, 42TB storage ) and Storage Optimized(80TB storage and  40 vCPUs).
+
+    3. AWS Snowmobile moves up to 100 PB of data in a 45-foot long ruggedized shipping container and 
+        is ideal for multi-petabyte or     Exabyte-scale digital media migrations and data center shutdowns. 
+      Snowmobile is tamper-resistant, waterproof, and temperature controlled with multiple layers of logical and
+        physical security including encryption, fire suppression, dedicated security personnel, GPS tracking, alarm monitoring,
+         24/7 video surveillance, and an escort security vehicle during transit.
+      it has storage of 100 PetaBytes
+    
+
+AWS Snowball Edge is a type of Snowball device with on-board storage and compute power for select AWS capabilities. Snowball Edge can do local processing and edge-computing workloads in addition to transferring data between your local environment and the AWS Cloud.
+
+Each Snowball Edge device can transport data at speeds faster than the internet. This transport is done by shipping the data in the appliances through a regional carrier. The appliances are rugged, complete with E Ink shipping labels.
