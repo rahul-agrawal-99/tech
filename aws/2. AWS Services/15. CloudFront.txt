@@ -2,6 +2,8 @@
 Amazon CloudFront employs a global network of edge locations and regional edge caches that cache copies of your content close to your viewers. 
 Amazon CloudFront ensures that end-user requests are served by the closest edge location.
 
+it is more advance and cost effective than elastic cache.
+
 Amazon CloudFront is a fast content delivery network (CDN) service that securely delivers data, videos, applications, 
     and APIs to customers globally with low latency and high transfer speeds.
 

@@ -8,6 +8,37 @@ Amazon EC2’s simple web service interface allows you to obtain and configure c
 
 it provides Virtual servers in the Cloud.
 
+Spot instances are cheap, but they are only for Applications that have flexible start and end times, Applications that are only feasible at very low compute prices, or Users with urgent computing needs for large amounts of additional capacity.
+
+An Amazon Machine Image (AMI) provides the information required to launch an instance, which is a virtual server in the cloud. You specify an AMI when you launch an instance, and you can launch as many instances from the AMI as you need. You can also launch instances from as many different AMIs as you need.
+
+
+AWS lightsail is a web service that provides a fully managed, high-performance platform for hosting your websites and applications.
+it is simpler version of Amazon EC2
+
+Aws has Nitro sytem which is combination of dedicated hardware and lightweight hardware enabling faster innovation and enhancd security.
+all new ec2 instances has this nitro system 
+
+                            ------      Image       ------
+
+        image is snapshot of the instance at a particular time. it includes all the files and data of the instance at that time.
+        create image using ->
+                        select ec2 instance -> action -> image and template -> create image
+
+                            ------      Launch Template       ------
+
+        Use launch templates to automate instance launches, simplify permission policies, and enforce best practices across your organization. 
+        Save launch parameters in a template that can be used for on-demand launches and with managed services, including EC2 Auto Scaling and EC2 Fleet. 
+        Easily update your launch parameters by creating a new launch template version.
+
+        we can create launch template from running ec2 instance or from image.
+
+        it contains "AMI id ,instance type , key-pair , subnet , security group , attached storage" information to lauch the instance.
+
+        we can also configure IAM role to instance in launch template.
+
+        every modification of launch template will create a new version of launch template.
+
 
 EC2 pricing depends on :
     AMI Type
@@ -17,19 +48,191 @@ EC2 pricing depends on :
 AWS requires a minimum 1-year term, and a successful billing history is needed before you can purchase No Upfront Reserved Instances.
 AWS requires a minimum 1-year term on their contracts for reserved instances.
 
-Spot instances are cheap, but they are only for Applications that have flexible start and end times, Applications that are only feasible at very low compute prices, or Users with urgent computing needs for large amounts of additional capacity.
+EC2 Pricing Model :
 
-AWS Auto Scaling enables you to configure automatic scaling for the scalable AWS resources for your application in a matter of minutes. AWS Auto Scaling uses the Auto Scaling and Application Auto Scaling services to configure scaling policies for your scalable AWS resources.
+    1. On Demand instances  =  flexible , pay per hour , for short term , spiky/unpredictible wrokloads
 
-An Amazon Machine Image (AMI) provides the information required to launch an instance, which is a virtual server in the cloud. You specify an AMI when you launch an instance, and you can launch as many instances from the AMI as you need. You can also launch instances from as many different AMIs as you need.
+    2. Reserved Instances (upto 75% savings) = for steady use , reserved upto 1 to 3 years , can be resell if not used
 
+    3. Spot Instances (upto 90% savings)  = for non-critical workloads , for testing , pay as you go 
 
-AWS lightsail is a web service that provides a fully managed, high-performance platform for hosting your websites and applications.
-it is simpler version of Amazon EC2
+    4. Dedicated    =  whole dedicated server , most expenive 
 
-
-Aws has Nitro sytem which is combination of dedicated hardware and lightweight hardware enabling faster innovation and enhancd security.
-all new ec2 instances has this nitro system 
+    5. AWS saving plan
 
 
+Diff EC2 families :
 
+    1. General purpoes :
+
+        General purpose instances provide a balance of compute, memory and networking resources, and can be used for a variety of diverse workloads. 
+        These instances are ideal for applications that use these resources in equal proportions such as web servers and code repositories. 
+
+            A1 family :
+                 A1 instances are the first EC2 instances powered by AWS Graviton Processors that feature 64-bit Arm Neoverse cores and custom silicon designed by AWS.
+                Enhanced Networking with Up to 10 Gbps of Network bandwidth
+                Powered by the AWS Nitro System
+              Use Cases:
+                    Scale-out workloads such as web servers, containerized microservices, caching fleets, and 
+                        distributed data stores, as well as development environments
+            M4 Family:
+                2.3 GHz Intel Xeon® E5-2686 v4 (Broadwell) processors or 2.4 GHz Intel Xeon® E5-2676 v3 (Haswell) processors
+                Balance of compute, memory, and network resources
+              Use Cases
+                    Small and mid-size databases, data processing tasks that require additional memory, caching fleets, and 
+                    for running backend servers for SAP, Microsoft SharePoint, cluster computing, and other enterprise applications.
+
+            M5 Family:
+                M5 instances are the latest generation of General Purpose Instances powered by Intel Xeon® Platinum 8175M
+                Up to 3.1 GHz Intel Xeon® Platinum 8175M processors with new Intel Advanced Vector Extension (AVX-512) instruction set
+                Up to 25 Gbps network bandwidth using Enhanced Networking
+                Powered by the AWS Nitro System
+              Use case :  same as m4 but with more memory and more power
+
+            M5a Family:
+                AMD EPYC 7000 series processors with an all core turbo clock speed of 2.5 GHz
+                Up to 20 Gbps network bandwidth 
+                Powered by the AWS Nitro System
+              Use case : same as m5 but with more power less cost and different processor
+
+            M5n Family:
+                maximum single core turbo frequency of 3.5 GHz 
+                100 Gbps of network bandwidth on the largest instance size
+                Powered by the AWS Nitro System
+              Use case : same as m5 but with more networking capabilites
+
+            M5zn Family:
+                2nd Generation Intel Xeon Scalable Processors (Cascade Lake) with an all-core turbo frequency up to 4.5 GHz
+                Up to 19 Gbps to the Amazon Elastic Block Storage
+              Use case :  
+                ideal fit for applications that benefit from extremely high single-thread performance and high throughput, 
+                low latency networking, such as gaming, High Performance Computing, and simulation modeling for the automotive,
+                 aerospace, energy, and telecommunication industries.
+            
+            M6 Family:
+                cost effective than M5 family with just minimal performance down
+                all M6 are powered by aws nitro system
+
+                M6a Family => 35% better compute price performance over M5a
+                M6i Family =>  15% better compute price performance,20% higher memory bandwidth per vCPU over M5
+                M6g Family =>  AWS Graviton2 Processor with 64-bit Arm Neoverse cores
+                   
+            T2 family : 
+
+                High frequency Intel Xeon processors
+                Low-cost general purpose instance type, and Free Tier eligible*
+              Use Cases
+                    Websites and web applications, development environments, build servers, code repositories, micro services, 
+                    test and staging environments
+
+            T3 family :
+                Burstable CPU, governed by CPU Credits, and consistent baseline performance
+                powered by the AWS Nitro System
+                up to a 30% price performance improvement over T2 instances
+              Use cases:
+                Use Cases:
+                    Micro-services, low-latency interactive applications, small and medium databases, virtual desktops, 
+                    development environments
+
+            T3a family :
+                T3a instances deliver up to 10% cost savings over T3 instances
+                MD EPYC 7000 series processors with an all core turbo clock speed of 2.5 GHz
+                Powered by the AWS Nitro System
+
+            T4 family :
+                 Arm-based AWS Graviton2 processors and deliver up to 40% better price performance over T3
+              use case :
+                    Micro-services, low-latency interactive applications, small and medium databases
+            
+            MAC family :
+                powered by Apple Mac mini computers and built on the AWS Nitro System
+                Intel core i7 processors with 3.2 GHz (4.6 GHz turbo)
+                Mac instances are dedicated, bare-metal instances
+              use case :
+                    Use Cases
+                        Developing, building, testing, and signing iOS, iPadOS, macOS, WatchOS, and tvOS applications on the Xcode IDE
+
+
+    2. Compute Optimized
+                Compute Optimized instances are ideal for compute bound applications that benefit from high performance processors.
+                 Instances belonging to this family are well suited for batch processing workloads, media transcoding, 
+                 high performance web servers, high performance computing (HPC), scientific modeling, dedicated gaming servers and 
+                 ad server engines, machine learning inference and other compute intensive applications.
+
+            C4 family :
+                optimized for compute-intensive workloads and deliver very cost-effective high performance at a low price per compute ratio.
+                High frequency Intel Xeon E5-2666 v3
+              use case :
+                    High performance front-end fleets, web-servers, batch processing, distributed analytics, high performance science and engineering applications,
+
+            C5 family :
+                C5 instances offer a choice of processors based on the size of the instance.
+                Powered by the AWS Nitro System
+              Use case :
+                    High performance web servers, scientific modelling, batch processing, distributed analytics, 
+                    high-performance computing (HPC), machine/deep learning inference
+
+            C6 family :
+                Up to 3.6 GHz 3rd generation AMD EPYC processors
+                Up to 15% better compute price performance over C5a instances
+                Powered by the AWS Nitro System
+                always-on memory encryption
+         
+
+            C7g family :
+                Powered by custom built AWS Graviton3 processors
+                20% higher enhanced networking bandwidth compared to C6g instances
+                Powered by the AWS Nitro System
+
+
+    3. Memory optimized :
+
+            Memory optimized instances are designed to deliver fast performance for workloads that process large data sets in memory.
+           
+        suppported by :
+            R4 family
+            R5 family
+            R6 family
+            X1 family
+            X2 family
+            u family  (upto 24 TB of RAM)
+            Z1 family
+
+    
+    4. Accelerated Computing
+        Accelerated computing instances use hardware accelerators, or co-processors, to perform functions, such as floating point
+        number calculations, graphics processing, or data pattern matching, more efficiently than is possible in software running on CPUs.
+        Conatin GPU tensors for high performance
+
+            P2 family   (NVIDIA K80 GPUs)
+            P3 family   (Up to 8 NVIDIA Tesla V100 GPUs, each pairing 5,120 CUDA Cores and 640 Tensor Cores)
+            P4 family   (Up to 8 NVIDIA A100 Tensor Core GPUs)
+            F1 family    (customizable hardware acceleration with field programmable gate arrays (FPGAs).)
+            G3 family    (NVIDIA Tesla M60 GPUs, each with 2048 parallel processing cores and 8 GiB of video memory)
+            inf1 family    ( support machine learning inference applications)
+            trn1 family    (Trainium accelerators)
+
+    5. Storage Optimized
+            Storage optimized instances are designed for workloads that require high, sequential read and write access to very large
+             data sets on local storage. 
+            They are optimized to deliver tens of thousands of low-latency, random I/O operations per second (IOPS) to applications.
+
+                L3 family 
+                L4 family 
+                D2 family 
+                D3 family 
+                H1 family 
+
+
+Terminologies ;
+
+    Amazon EC2 allows you to choose between Fixed Performance instance families (e.g. M6, C6, and R6) and 
+    Burstable Performance Instance families (e.g. T3). Burstable Performance Instances provide a baseline level of CPU performance 
+    with the ability to burst above the baseline.
+
+    Many applications such as web servers, developer environments and small databases don’t need consistently high levels of CPU, 
+    but benefit significantly from having full access to very fast CPUs when they need them. 
+    T instances are engineered specifically for these use cases. 
+
+    Nitro Hypervisor is a lightweight hypervisor that manages memory and CPU allocation and delivers performance that is
+     indistinguishable from bare metal.

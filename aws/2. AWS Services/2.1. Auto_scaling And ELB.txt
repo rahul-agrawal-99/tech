@@ -1,0 +1,58 @@
+
+                        ------         Auto Scaling Group         ------
+
+    Auto Scaling groups are collections of Amazon EC2 instances that enable automatic scaling and fleet management features. 
+    These features help you maintain the health and availability of your applications.
+
+    
+    AWS Auto Scaling enables you to configure automatic scaling for the scalable AWS resources for your application in a matter of minutes. 
+    AWS Auto Scaling uses the Auto Scaling and Application Auto Scaling services to configure scaling policies for your scalable AWS resources.
+
+
+    in order create ASG , we need launch configuration or launch template
+
+    we need to set follwing parameters in launch configuration:
+        1. VPC
+        2. Subnet
+        3. Group size  (min, max, desired[represent the initial group size])
+        4. Scaling policies   ->  Target tracking scaling policy  
+                                        | - Avg Cpu Utilization
+                                        | -Avg network in
+                                        | -Avg network out
+                                        | - load balancer request per target
+        5. notification      ->  scale up-down notification using SNS
+
+
+
+
+                        ------         Elastic Load Balancer         ------
+
+        target group tells a load balancer where to direct traffic to : EC2 instances, fixed IP addresses; or AWS Lambda functions, amongst others
+
+        there are 3 types of load balancer (AWS retiring the EC2-Classic network Load Balancer ) :
+
+            1. Application Load Balancer :
+
+                    used for flexible application management
+                    it is for HTTP, HTTPS, gRPC
+
+            2. Network Load Balancer :
+                    Choose a Network Load Balancer when need of ultra-high performance, TLS offloading at scale, 
+                    centralized certificate deployment, support for UDP, and static IP addresses for applications
+
+                    it is for TCP, UDP, and SSL/TLS
+            
+            3. Gateway Load Balancer :
+
+                    it is for IP
+
+            
+        TO create Load Balancer follwing things need to configure :
+
+            1. Schema          ->   Internet-facing(requires public subnet)   or   internal
+            2. IP address type      ->  IPv4    OR      Dualstack (ip4 + ip6)
+            3. VPC , Subnet , SG 
+            4. Listeners and routing   -> listner listens to incoming protocol and port , 
+                                            routing is for traffic routing based on listner
+
+
