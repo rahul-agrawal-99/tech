@@ -1,11 +1,77 @@
-policy is a JSON document that specifies what a user can do on AWS. This document consists of
 
-Actions: what actions you will allow. Each AWS service has its own set of actions. Resources: which resources you allow the action on. Effect: what the effect will be when the user requests access—either allow or deny.
-
-A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine whether the request is allowed or denied
+IAM (identity and access management) is a service for securely
 
 
+*******     User
+
+IAM users are not separate accounts; they are users within the same account. 
+Each user can have its own unique set of long-term credentials for access to the AWS Management Console. 
+You can also create an individual access key for each user so that the user can make programmatic requests to work with resources in your account. 
+You can grant different permissions to each IAM user.
+
+*******     User Group
+
+user group is a collection of IAM users. User groups simplify permissions management by letting you grant, change, and remove permissions for multiple users at once. 
+
+we can attach extra permissions to a single user other than the default permissions from user group attached.
+
+*******     policy
+
+policy is a JSON document that specifies user , groups or roles to access service .
+it constains a permissions for a service for different actions like read, write, delete, etc. 
+They are attached to IAM  identities .
+This document consists of
+    Actions: what actions you will allow. Each AWS service has its own set of actions. 
+    Resources: which resources you allow the action on. 
+    Effect: what the effect will be when the user requests access—either allow or deny.
+
+A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. 
+AWS evaluates these policies when a principal, such as a user, makes a request. 
+Permissions in the policies determine whether the request is allowed or denied
+policy e.g. :
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "directconnect:Describe*",
+                                "directconnect:List*",
+                                "ec2:DescribeVpnGateways",
+                                "ec2:DescribeTransitGateways"
+                            ],
+                            "Resource": "*"
+                        }
+                    ]
+                }
+
+*******     Role
 	
-An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it including assigning it to an EC2 instance.
+An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. 
+However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it including assigning it to an EC2 instance.
+
+policies are attached to a role and then role is assigned to user or other aws services .
+
+Roles can be attached to :
+
+    AWS service  => Allow AWS services like EC2, Lambda, or others to perform actions in this account.
+    AWS account  => Allow entities in other AWS accounts belonging to you or a 3rd party to perform actions in this account.
+    Web identity  => Allows users federated by the specified external web identity provider to assume this role to perform actions
+    SAML 2.0 federation => Allow users federated with SAML 2.0 from a corporate directory to perform actions in this account.
+    Custom trust policy  => Create a custom trust policy to enable others to perform actions in this account.
+
+
 
 Trusted Advisor provides real time guidance to help you provision your resources following AWS best practices
+
+
+       ----------------       AWS Organizations       ----------------
+
+       allows create and manage new  aws accounts
+
+       it has Organizations unit which has group of account with one root user each and certain permissions
+
+       here service control policies are attached to the root user and then the root user is assigned to the account.
+
+       there is only 1 master account in the organization that has full access over all services .
+       root user are for only users in the organization.

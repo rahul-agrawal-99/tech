@@ -1,0 +1,5 @@
+
+ helps you enable governance, compliance, and operational and risk auditing of your AWS account. 
+Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail.
+
+cloudtrail already has 90days of logs saved bu default 

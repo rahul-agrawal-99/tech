@@ -1,0 +1,9 @@
+Elastic beanstalk is PaaS offering deployment of applications on Aws with little to no knowledge of the underlying infrastructure.
+
+it is powered by CloudForamtion templates which contains :
+
+    Load Balancer
+    Auto Scaling Group
+    RDS
+    Cloudwatch monitering 
+    pre-configured EC2

@@ -7,3 +7,64 @@
                 1. on-premise to cloud
                 2. one aws account to another using diif database engines
                 3. sql to nosql 
+
+
+                    **** ---       Kinesis         --- ****
+
+        Collect, process, and analyze data streams in real time.
+
+
+
+                    **** ---       AWS API GateWay        --- ****
+
+        solution for craeting API i cloud at any scale 
+        using this , we can route traffic based on the request to any of aws service or third party
+
+
+                    **** ---       AWS Step Functions        --- ****
+
+        solution for creating a pipeline of functions to process data in AWS
+        it automatically triggers the next function in the pipeline when the previous function completes
+        logs are created at each step so that error can be tracked in every step
+
+
+                    **** ---       AWS Event Bridge        --- ****
+
+        serverless event bus used for real time streaming application
+
+        EventBus : recieves events from source and route them to destinations based on rules 
+
+                    **** ---      X-Ray        --- ****
+
+        AWS service for tracing and debugging microservices
+
+                    **** ---      Cloud Guru        --- ****
+
+        CodeGuru provides intelligent recommendations for improving application performance, 
+        efficiency, and code quality in your Java and Python applications.
+
+                    **** ---      Lex        --- ****
+
+        lex is a service that enables you to build conversational voice and text bots like Amazon Alexa
+
+        AWS POlly is used for T2S (Text to Speech)
+
+        AWS transcribe is used for S2T (Speech to Text)
+
+        AWS rekognition used for face recognition
+
+
+                    **** ---     Segemaker        --- ****
+
+        Build, train, and deploy machine learning models at scale
+
+        SageMaker Studio, a machine learning Integrated Development Environment (IDE) for building, training, and debugging models
+
+
+                    **** ---     QuickSight        --- ****
+
+        BI tool to visualize data
+
+
+        
+

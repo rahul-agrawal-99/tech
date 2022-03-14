@@ -3,6 +3,8 @@ normally present in all of AWS Support plans =>24*7 access to Customer Service
 
 support service :
 
+    Basic : Email support only
+
     Developer: Recommended if you are experimenting or testing in AWS.
 
     Business: Minimum recommended tier if you have production workloads in AWS

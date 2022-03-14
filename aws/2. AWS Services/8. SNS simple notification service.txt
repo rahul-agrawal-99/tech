@@ -16,7 +16,8 @@ msg is stored in sns topic by publisher
 
 diff topic can have diff set of subscribers with varios protocols
 
-each topic has unique name (not globally and max 256 char)and every topic is logical access point and communication channel , ARN is provided to each topic
+each topic has unique name (not globally and max 256 char)and every topic is logical access point and communication channel , 
+ARN is provided to each topic
 
 topic creator can give publisher access to others also , can be mutltiple publishers
 

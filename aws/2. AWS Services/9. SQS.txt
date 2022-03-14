@@ -1,1 +1,10 @@
-Amazon Simple Queue Service (Amazon SQS) offers a reliable, highly-scalable hosted queue for storing messages as they travel between applications or microservices. It moves data between distributed application components and helps you decouple these components
+Amazon Simple Queue Service (Amazon SQS) offers a reliable, highly-scalable hosted queue for storing messages as they travel between applications or microservices. 
+It moves data between distributed application components and helps you decouple these components
+
+it provides queues for high-throughput, system-to-system messaging. 
+You can use queues to decouple heavyweight processes and to buffer and batch work. 
+Amazon SQS stores messages until microservices and serverless applications process them.
+
+Use case : queue up transation email like reset , login
+
+it is not real-time . for real-time use cases Kinesis is used
