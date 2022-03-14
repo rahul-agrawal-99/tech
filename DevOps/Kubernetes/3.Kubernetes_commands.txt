@@ -403,6 +403,39 @@ kubectl label pods foo bar-
                     # here if replicas set to e.g. 5 and cpu utilization is less than desired 
                         then replicas will be reduced to min = 1
 
+                                         _ __    _ __    ___   __  __  _   _ 
+                                        | '_ \  | '__|  / _ \  \ \/ / | | | |
+                                        | |_) | | |    | (_) |  >  <  | |_| |
+                                        | .__/  |_|     \___/  /_/\_\  \__, |
+                                        |_|                            |___/ 
+
+
+                     ____                   _              __                                               _ 
+                    |  _ \    ___    _ __  | |_           / _|   ___    _ __  __      __   __ _  _ __    __| |
+                    | |_) |  / _ \  | '__| | __|  _____  | |_   / _ \  | '__| \ \ /\ / /  / _` || '__|  / _` |
+                    |  __/  | (_) | | |    | |_  |_____| |  _| | (_) | | |     \ V  V /  | (_| || |    | (_| |
+                    |_|      \___/  |_|     \__|         |_|    \___/  |_|      \_/\_/    \__,_||_|     \__,_|
+                                                                                                
+
+
+                ACTION_TYPE    " port-forward "        for testing pod 
+            
+
+                                    kubectl port-forward <obj-name> <locahost-port>:<pod-port>
+
+                                    kubectl port-forward mydeployments-5cb7748875-v4qv4 5000:80    ---for pod
+
+                                    kubectl port-forward deployment/mydeployments 5000:80           --- for whole deploy
+
+                OBJ_TYPE    :
+
+                                  pods
+
+                                  deploy                  
+
+                                  replicaset
+
+
 
 
                                                         __   _         

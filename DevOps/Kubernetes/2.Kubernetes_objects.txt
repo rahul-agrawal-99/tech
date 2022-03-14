@@ -135,7 +135,8 @@ diff types of object available in k8s are :
 
                         1. ClusterIP   :    Default , accessible only within cluster (cluster can contains multiple nodes)
 
-                        2. NodePort    :     can be accessible static port on each node , this static port in defined in .spec.ports.nodePort
+                        2. NodePort    :     can be accessible static port on each node , 
+                                                this static port in defined in .spec.ports.nodePort
                                                 static port should be between 30000 - 32767 , other than that not accepted
                                                 not secure and not efficient , used only for test
 
@@ -154,7 +155,7 @@ diff types of object available in k8s are :
 					---------------------------------------------------------------------------
 
 
-                    it is type of External service that is used to expose services to the world but using a secure protol like https and with domain name
+                    it is type of External service that is used to expose services to the world but using a secure protocol like https and with domain name
 
                     if request comes to the domain name , it will be routed to the service by ingress
 
