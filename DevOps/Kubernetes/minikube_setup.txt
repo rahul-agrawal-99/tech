@@ -5,3 +5,4 @@ eval $(minikube docker-env)
 
 minikube service SERVICE_NAME             if type= nodeport , we can access web server of pod from outside
 
+minikube image load <image name>
