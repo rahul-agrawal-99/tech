@@ -257,22 +257,24 @@ There are 4 tyeps :
 
 
 
-				------------|--------|--------|--------|--------||--------|--------|--------|--------|-----------   for noramal distribution
-						  4sd	    3sd	     2sd     1sd       mean      1sd	  2sd     3sd       4sd
+													for noramal distribution
+		------------|--------|--------|--------|--------||--------|--------|--------|--------|-----------   
+					4sd	    3sd	     2sd     1sd       mean      1sd	  2sd     3sd       4sd
 
 
-									<----- 68 % ------>     this amount of data from total data lies in this region
+												<----- 68 % ------>     this amount of data from total data lies in this region
 
-								<------------- 95 % --------------->  68–95–99.7 rule, also known as the empirical rule
+										<------------- 95 % --------------->  68–95–99.7 rule, also known as the empirical rule
 
-							<--------------------- 99.77 % ---------------------->  
+								<--------------------- 99.77 % ---------------------->  
 				68%, 95%, and 99.7% of the values lie within one, two, and three standard deviations of the mean
 
 
 
-		 Z-score is a numerical measurement that describes a value's relationship to the mean of a group of values . for mean , z-score =0 
+		 Z-score is a numerical measurement that describes a value's relationship to the mean of a group of values . 
+		 for mean , z-score =0 
 
-		Formula =>  Z-Score-of-datapoint = (datapoint - mean of sample ) / SD of sample           ----squareroot(n) is 1 for a single datapoint
+Formula =>  Z-Score-of-datapoint = (datapoint - mean of sample ) / SD of sample           ----squareroot(n) is 1 for a single datapoint
 
 		z-score is a standard score that tells you how many standard deviations away from the mean an individual value (x) lies:
 
