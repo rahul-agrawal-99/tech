@@ -350,6 +350,8 @@ Combination = only unique combinations are allowed , nCr = n! / r!(n-r)! , like 
 
 hypothesis is an educated guess about something in the world around you. or it is a idea that can be tested
 
+here we evaluate 2 Mutually exclusive (either one is true only ) statements on population data based on sample from that data
+
 Hypothesis testing in statistics is a way for you to test the results of a survey or experiment to see if you have meaningful results.
 	e.g. a coin is said to be fair only if p(head) = p(tail) , so after testing 100 times , or million times it should be same always
 Hypothesis Testing is a form of inferential statistics that allows us to draw conclusions about an entire population based on a representative sample
@@ -414,7 +416,8 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 		covariance gives the direction but correlation gives the direction and the strength of the correlation
 
 		correlation or dependence is any statistical relationship, whether causal or not, between two random variables or bivariate data. 
-		In the broadest sense correlation is any statistical association, though it actually refers to the degree to which a pair of variables are linearly related.
+		In the broadest sense correlation is any statistical association, 
+		though it actually refers to the degree to which a pair of variables are linearly related.
 
 
 	Pearson’s correlation :    -1 <= ρ <= 1  , always
@@ -538,6 +541,11 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 
 		f-stastitics = variance between sample means / variance within samples
 
+/* One sample propotion test :
+
+	it is non-parametric test that is performed on catagorical(i.e. nomianl or ordinal) data , 
+	it is used when we have to consider only one catagorical feature , for more than one , chi-square is used 
+
 /* chi-square test :
 
 	it is non-parametric test that is performed on catagorical(i.e. nomianl or ordinal) data
@@ -551,9 +559,9 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 
 	degree of freedom = no. of catagories - 1
 
-	(chi-square) χ² =   (Oi - Ei)²							--------Oi = observed value at position i , Ei	= expected value at position i
-			  Σ ---------
-			       Ei
+	(chi-square) χ² =   Σ (Oi - Ei)²			--------Oi = observed value at position i , Ei	= expected value at position i
+			  			------------
+			      		 Σ Ei
 	steps :
 		1. define null and alternate hypothesis
 		2. calculate alpha value and degree of freedom
@@ -570,9 +578,9 @@ Non-Parametric Tests, if samples do not follow a normal distribution. scale of m
 	it is non-parametric counter part of t-test
 
 	it is calculated as :
-			   n1(n1 + 1)                        n2(n2 + 1)                      n is sample size and R is sum of ranks after giving rank to rech in sample
-		U1 = R1 -  -------------    ,   U2 = R2 -  -------------   
-				2                        	2
+			  	   n1(n1 + 1)                      n2(n2 + 1)                   n is sample size and R is sum of ranks 
+		U1 = R1 -  -------------    ,   U2 = R2 -  -------------                after giving rank to rech in sample
+						2                        	  2
 
 
 		U = U1 + U2 = n1*n2
