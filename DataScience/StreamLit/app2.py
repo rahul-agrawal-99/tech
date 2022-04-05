@@ -31,8 +31,24 @@ playerstats = load_data(selected_year)
 
 # Sidebar - Team selection
 sorted_unique_team = sorted(playerstats.Tm.unique())
-selected_team = st.sidebar.multiselect('Team', sorted_unique_team, sorted_unique_team)
+selected_team = st.sidebar.multiselect('Team', sorted_unique_team, sorted_unique_team)    # name , option , default value
 
+
+# Sidebar - Position selection
+unique_pos = ['C','PF','SF','PG','SG']
+selected_pos = st.sidebar.multiselect('Position', unique_pos, unique_pos)
+
+# Filtering data
+df_selected_team = playerstats[(playerstats.Tm.isin(selected_team)) & (playerstats.Pos.isin(selected_pos))]
+
+st.header('Display Player Stats of Selected Team(s)')
+st.write('Data Dimension: ' + str(df_selected_team.shape[0]) + ' rows and ' + str(df_selected_team.shape[1]) + ' columns.')
 st.dataframe(playerstats.astype(str))
 
-# st.write(playerstats.apply(lambda x: x for x in playerstats["Tim"]))
+def filedownload(df):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
+    href = f'<a href="data:file/csv;base64,{b64}" download="playerstats.csv">Download CSV File</a>'
+    return href
+
+st.markdown(filedownload(df_selected_team), unsafe_allow_html=True)
