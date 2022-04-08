@@ -16,7 +16,21 @@ This app performs simple webscraping of NBA player stats data!
 st.sidebar.header('User Input Features')
 selected_year = st.sidebar.selectbox('Year', list(reversed(range(1950,2020))))
 
+html_temp = """
+    <div style="background-color:blue;padding:10px">
+    <h2 style="color:white;text-align:center;">NBA Player Stats Explorer </h2>
+    </div>
+    """
+st.markdown(html_temp,unsafe_allow_html=True)
 
+st.caption("Thsi is caption", unsafe_allow_html=False)
+
+code = '''def hello():
+     print("Hello, Streamlit!")'''
+st.code(code, language='python')
+st.latex('\pi')
+
+st.metric("Temperature", "70 °F", "-1.2 °F")
 # Web scraping of NBA player stats
 @st.cache
 def load_data(year):

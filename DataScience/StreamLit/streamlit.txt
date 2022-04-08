@@ -1,0 +1,97 @@
+import streamlit as st
+
+Heading 
+
+    st.header("Hello World")
+    OR
+    st.title('Crypto Price App')
+
+subheading
+
+    st.subheader("Hello World")
+
+
+dispaly in sidebar 
+
+    st.sidebar.ANYTHING 
+
+print on page
+
+    st.write("text")
+    
+    st.write("# text")    with h1 tag  , ## for h2 , *** for <hr>
+
+    st.caption("text", unsafe_allow_html=False)  # to display caption small font
+
+apply raw html/css 
+
+    html_temp = """
+    //   html code
+    """
+    st.markdown(html_temp,unsafe_allow_html=True)
+
+Input methods 
+
+    st.text_input(lable, default_value)
+
+    st.sidebar.text_input("Enter the stock name", "AMZN")
+
+    st.multiselect(lable, multiple_value_list , default_selected_value)
+
+    st.slider(lable, min, max, default)
+
+    st.sidebar.date_input(lable, datetime.date(2022,1,21))   # Y - M -D
+
+    st.selectbox(lable , list_of_values , default_value)
+
+Display image 
+
+    image = Image.open('img_path')
+
+    st.image(image, width = 500)
+
+Expand to display content
+
+    expander_bar = st.expander(lable)
+
+    expander_bar.markdown("This is about section")
+
+Divide Page 
+
+    col1, col2 = st.columns((2,1))   # 2/3 for col1 , 1/3 for col2
+
+    then 
+
+    col1.write("col1")   # display in that region only 
+
+upload file
+
+    uploaded_file = st.file_uploader("Upload a file", type = ["csv"])    # by default uploaded_file will be None if no file is uploaded
+
+    if uploaded_file is not None:
+        # Code
+
+copy to clipboard 
+
+    code = '''def hello():
+     print("Hello, Streamlit!")'''
+
+    st.code(code, language='python')
+
+display formula 
+
+    st.latex('\pi')
+
+display dataframe 
+
+    st.dataframe(df)   OR   st.table(df)   # df is pandas dataframe or numpy.ndarray
+
+display price or values 
+
+        st.metric("Temperature", "70 °F", "1.2 °F")  #  title , display-value , changing-value (-ve for decrease , +ve for increase)
+
+
+plot graphs 
+
+    
+  
