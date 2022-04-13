@@ -81,7 +81,7 @@ expander.markdown(f"""
 col1, col2 = st.columns((1,1 )) 
 
 
-if mybtn and diff.days >0 and diff_today.days <= days:
+if mybtn and diff.days >0 and diff_today.days > days:
     # -------------------------   col1  for crypto 1------------------------------------------------------------
     col1.write(f"### Showing data for ")
     col1.write(f"# {cry1}")
