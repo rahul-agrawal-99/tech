@@ -1,0 +1,118 @@
+BASH Syntax
+
+save bash file as :   FILENAME.sh
+
+run it as :       ./FILENAME.sh
+
+1. Print output
+
+    echo "TEXT TO PRINT"
+
+    echo "Bash version ${BASH_VERSION}..."  
+
+    echo ${BASH_VERSION}            # Prints Bash version without Quotes
+
+    sleep 8         # sleep for 8 sec , 
+
+    date +"%H:%M:%S"       # print date
+
+1.1 Comment
+
+    # This is a comment
+
+2. define variables
+
+    VARIABLE_NAME="VALUE"
+
+    VARIABLE_NAME=VALUE     # e.g. name=rahul     OR    marks = 100
+
+    VARIABLE_NAME=`command`
+
+2.1. Get User Input
+
+    read -p "Enter your name: " name    # we enter the input on the same PROMPT by using the -p
+
+    echo "Hello $name"   # shell variable expansion will only work with double-quotes.
+
+    echo 'Hello $name'     # it will display Hello $name as it is without any expansion.
+
+
+2.2 Command line argument
+
+    args=("$@")  
+  
+    echo ${args[0]} ${args[1]} ${args[2]} ${args[3]}  
+
+3. IF statement
+
+    if [ condition ];  
+    then  
+    <commands>  
+    elif [ condition ];  
+    then  
+    <commands>  
+    else  
+    <commands>  
+    fi  
+
+    e.g.
+
+                    if [ $a -gt $b ];  
+                    then  
+                        echo "X is greater than Y  " 
+                    elif [ $b -gt $a ];  
+                    then  
+                        echo "X is less than Y  "  
+                    else  
+                        echo "X is equal to Y  "  
+                fi
+
+
+                # if with and  : if [[ 10 -gt 9 && 10 == 9 || 2 -lt 1 || 25 -gt 20 ]];  
+
+3.1 switch case
+
+    case $Answer in  
+    Yes|yes|y|Y)  
+        echo "That's amazing."  
+        echo  
+        ;;  
+    No|no|N|n)  
+        echo "It's easy. Let's start learning from javatpoint."  
+        ;;  
+    esac  
+
+
+    e.g.
+
+
+        read Answer
+
+                case $Answer in  
+                    Yes|yes|y|Y)  
+                        echo "YES"   
+                        ;;  
+                    No|no|N|n)  
+                        echo "NO"  
+                        ;;  
+                esac  
+
+
+
+4. For Loop
+
+                            Using {START..END..INCREMENT} syntax:
+
+    
+    for i in {0..10..2}    # start with 0 upto 10 with increment of 2 like 0,2,4,6,8,10
+    do 
+        echo "Welcome $i times"    # shell variable expansion will only work with double-quotes.
+    done
+
+5. Arithmetic Operators
+
+    var=10
+    var=20
+
+    let "add = $(($var1 + $var2 ))"  
+    acho "add = $add"
