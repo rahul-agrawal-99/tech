@@ -124,9 +124,17 @@ copy/ upload objects inside bucket
 
 				e.g aws s3 cp file.txt s3://<bucketname>/test.txt
 
+Download objects from bucket
 
+	aws s3 cp s3://<bucketname>/<filename> <filename-path>
 
+				e.g aws s3 cp s3://<bucketname>/test.txt file.txt
 
+Assign temorary url to access to private bucket over internet
+
+	aws s3 presign s3://<bucketname>/<objname> --expires-in <time-in-seconds>
+
+				e.g aws s3 presign s3://<bucketname>/test.txt --expires-in 3600       <-- 1 hour
 
 
 

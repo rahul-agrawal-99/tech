@@ -2,7 +2,10 @@
 s3 => simple storage service 
 
 it is globlly available , not a region specific 
-multiple copies will be there across various regions
+multiple copies will be there across various AZ , atleast 3
+
+Bucket name should be unique globally and should be a valid DNS name , bucket is created region specifically but accessed globally
+Bucket conatins objects , each object is a file , also bucket can have folders , folders can have files , folders can have folders
 
 s3 provides unlimited storage (we can store object having size 0byte to 5TB)
 
@@ -12,34 +15,76 @@ S3 buckets stores objects in the form of key - value , key is name of object and
 also it contains version ID if versioning is enabled and metadata 
 by default we can create 100 buckets
 
-Using encryption for s3  impact your costing.
+SSE = Server Side Encryption
+Using encryption(server side) for s3  impact your costing. uses SSE-AES using AES-256 encryption algorithm OR SSE-KMS using KMS service with optional modification of customer managed key
 The number of buckets you have in s3 does  factor into costing.
 The storage class used for the objects stored.
+data transfer between host and s3 bucket is achieved via SSL/TLS
+
+All Buckets are private by default but with presigned url we can access temporarely publically with url , presigned url is created using CLI or SDk
 
 Amazon S3 offers a range of storage classes designed for different use cases with different pricing(down the index cheaper the pricing): - 
 - S3 Standard for general-purpose storage of frequently accessed data;   (13 9's durabilty) 
-- S3 Intelligent-Tiering for data with unknown or changing access patterns;  (uses ML to analyze object usage , data is stored in class effective class withput downgrading performance)
-- S3 Standard-Infrequent Access (S3 Standard-IA)  (retrival fee)
+- S3 Intelligent-Tiering for data with unknown or changing access patterns;  (uses ML to analyze object usage , data is stored in class effective class without downgrading performance)
+- S3 Standard-Infrequent Access (S3 Standard-IA)  (retrival fee) (about accessed once in month)
 - S3 One Zone-Infrequent Access (S3 One Zone-IA) for long-lived, but less frequently accessed data 
 - S3 Glacier (S3 Glacier) for long-term archive and digital preservation. (requires minutes to  hours to get data)
 -S3 Glacier Deep Archieve (lowest cost for storage but requires houres to get data)
 
-The volume of storage billed in a month is based on the average storage used throughout the month (per GB). This includes all object data and metadata stored in buckets that you created under your AWS account. AWS measure your storage usage in “TimedStorage-ByteHrs,” which are added up at the end of the month to generate your monthly charges.
+The volume of storage billed in a month is based on the average storage used throughout the month (per GB). 
+This includes all object data and metadata stored in buckets that you created under your AWS account. 
+AWS measure your storage usage in “TimedStorage-ByteHrs,” which are added up at the end of the month to generate your monthly charges.
 
 
 
 disaster recovery deployment technique:
 
     	
-        A multi-site solution runs in AWS as well as on your existing on-site infrastructure,in an active-active configuration. The data replication method that you employ will be determined by the recovery pointthat you choose. For more information about recovery point options, see the Recovery Time Objective and Recovery Point Objective section in this whitepaper.
+        A multi-site solution runs in AWS as well as on your existing on-site infrastructure,in an active-active configuration. The data replication method that you employ will be determined by the recovery pointthat you choose. 
+        For more information about recovery point options, see the Recovery Time Objective and Recovery Point Objective section in this whitepaper.
 
         	
-        The term warm standby is used to describe a DR scenario in which a scaled-down version of a fully functional environment is always running in the cloud. A warm standby solution extends the pilot light elements and preparation. It further decreases the recovery time because some services are always running.
+        The term warm standby is used to describe a DR scenario in which a scaled-down version of a fully functional environment is always running in the cloud. 
+        A warm standby solution extends the pilot light elements and preparation. It further decreases the recovery time because some services are always running.
 
-        This scenario is similar to a backup-and-restore scenario. For example, with AWS you can maintain a pilot light by configuring and running the most critical core elements of your system in AWS. When the time comes for recovery, you can rapidly provision a full-scale production environment around the critical core
-
-
-Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and an S3 bucket. Transfer Acceleration takes advantage of Amazon CloudFront’s globally distributed edge locations. As the data arrives at an edge location, data is routed to Amazon S3 over an optimized network path.
-
+        This scenario is similar to a backup-and-restore scenario. For example, with AWS you can maintain a pilot light by configuring and running the most critical core elements of your system in AWS. 
+        When the time comes for recovery, you can rapidly provision a full-scale production environment around the critical core
 
 
+
+
+#       ---- Versioning ----
+
+        once enabled can not be disabled later but can be suspended(newer version will not be created) 
+
+        new version is made every time modification is done on bucket , it provides protection against data loss
+
+        first version is set to "null" for all objects , if object is created after versioning is enabled then it will be versioned
+
+#       ----  Cross Region Replication  ----
+
+        when enabled any object uploaded in one region will be replicated in other region (Bucket -> Bucket), it increases durability and recovery from disaster
+
+        Note : versioning must be enabled in both regions before enabling cross region replication
+
+
+#       ----  S3 Lifecycle Management -----
+
+        Automates the management of storage lifecycle policies. like moving to different s3 class or permanent deletion of objects  , min 30 days retention is required 
+                e.g.  object will be moved to S3 IA class after 30 days , object will be deleted permanently after 1 year
+
+
+#       ----- Amazon S3 Transfer Acceleration  --------
+
+        enables fast, easy, and secure transfers of files over long distances between your client and an S3 bucket. 
+        Transfer Acceleration takes advantage of Amazon CloudFront’s globally distributed edge locations. 
+        As the data arrives at an edge location, data is routed to Amazon S3 over an optimized network path.
+
+
+#       ------- MFA delete ---------
+
+        versioning is must
+
+        enabled user cannot delete object without MFA code  ,Only ROOT(owner of bucket) User can delete object 
+
+        for deletion , we have to pass api request with MFA code
