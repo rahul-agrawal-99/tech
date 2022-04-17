@@ -22,6 +22,7 @@ AWS Snow offers 3 diff. types of devices :
       it has storage of 100 PetaBytes
     
 
-AWS Snowball Edge is a type of Snowball device with on-board storage and compute power for select AWS capabilities. Snowball Edge can do local processing and edge-computing workloads in addition to transferring data between your local environment and the AWS Cloud.
-
+AWS Snowball Edge is a type of Snowball device with on-board storage and compute power for select AWS capabilities. 
+Snowball Edge can do local processing and edge-computing workloads in addition to transferring data between your local environment and the AWS Cloud.
+it comes in 100TB sizes with (83 TB usable space )  or 100TB clustered (45 TB per node)
 Each Snowball Edge device can transport data at speeds faster than the internet. This transport is done by shipping the data in the appliances through a regional carrier. The appliances are rugged, complete with E Ink shipping labels.

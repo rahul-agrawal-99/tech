@@ -1,9 +1,11 @@
-In AWS , there are regions with each region separated in a separate geographic area. Each region has multiple, isolated locations known as Availability Zones. An availability zone is used to host resources in a specific region.
+In AWS , there are regions with each region separated in a separate geographic area. Each region has multiple, isolated locations known as Availability Zones. 
+An availability zone is used to host resources in a specific region.
 region is a geographical area divided into Availability Zones. Each region contains at least two Availability Zones.
 
 Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that you've defined. 
 This virtual network closely resembles a traditional network that you'd operate in your own data center, 
 	with the benefits of using the scalable infrastructure of AWS.
+
 VPC is region specific ,  limit 5 vpc/region by default , it is logically isolated from rest of the cloud ,200 subnets per VPC.
 
 By default , DNS naming for instances created in VPC is disabled 
@@ -23,7 +25,7 @@ In order to set up a VPC we need to manage the following:
 											SUBNET
 -------------------------------------------------------------------------------------------------------------
 
-subnet is a range of IP addresses in your VPC. You can launch AWS resources, such as EC2 instances, into a specific subnet.
+subnet is a range of IP addresses in your VPC. You can launch AWS resources, such as EC2 instances, into a specific subnet.  200 subnets per VPC.
 When you create a subnet, you specify the IPv4 CIDR block for the subnet, which is a subset of the VPC CIDR block.
 
 subnet is associated with az within vpc so it is az specific and we can launch virtual machine with using one of the subnet of vpc.
@@ -81,11 +83,19 @@ If a VPC doesn’t have an Internet Gateway, then the resources cannot be access
 Conversely, resources within your VPC need an Internet Gateway to access the Internet.
 
 -------------------------------------------------------------------------------------------------------------
-											Security Group
+											Security Group   (instanace level)
 -------------------------------------------------------------------------------------------------------------
 
-instance level firewall ,  you can assign up to five security groups to the instance , it is VPC specfic
+instance level firewall ,  you can assign up to five security groups to the instance , 10000 per region allowed
+SG are used to allow only not to deny certain traffic  , all inbound  traffic is by default denied and outbound traffic is allowed defaultly 
 it is stateful firewall , it has only allow for protocols , if not allow then it is implicite deny .
+A stateful firewall inspects everything inside data packets, the characteristics of the data, and its channels of communication. Stateful firewalls examine the behavior of data packets, 
+			and if anything seems off, they can filter out the suspicious data. Also, a stateful firewall can track how the data behaves, cataloging patterns of behavior. 
+
+A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. 
+	When you launch an instance in a VPC, you can assign the instance to up to five security groups. 
+	Security groups act at the instance level. Below is an example of a security group which has inbound rules. 
+	The below rule states that users can only SSH into EC2 instances that are attached to this security group.
 
 we need configure inbound as well as outboud rules for security group
 outboud by default set to allow all 
@@ -95,30 +105,58 @@ best practise : use inbound rule for private instance that is from only a securi
 
 Use case : Allow certain ports for communicate inside instance
 
+limit : 60 inbound and 60 outbound rules per security group 
+
 -------------------------------------------------------------------------------------------------------------
-											NACL (Network Access Control List)
+											NACL (Network Access Control List)       (subnet level)
 -------------------------------------------------------------------------------------------------------------
 
-subnet level firewall  
+subnet level firewall , only one nacl can be associated with subnet 
 (access control list contains rules that grant or deny access to certain digital environments)  
 
-it is stateless firewall , it has rules in order 
+network access control list (ACL)-is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. 
+You might set up network ACLs with rules similar to your security groups in order to add an additional layer of security to your VPC.
+it is stateless firewall , (any allowed inbound traffic is also be allowed outbound)
 
+Stateless firewalls make use of a data packet's source, destination, and other parameters to figure out whether the data presents a threat. 
+		These parameters have to be entered by either an administrator or the manufacturer via rules they set beforehand. 
+		If a data packet goes outside the parameters of what is considered acceptable, 
+			the stateless firewall protocol will identify the threat and then restrict or block the data housing it.
+
+it has rules in order 
 it has allow as well as deny explicite , lower the order to get priority , 
 		e.g. order 100 allows but order 150 deny then it will allow explicitly 
 
 Use case : block a certain Ip address from communicating the instance
 
 
+
 -------------------------------------------------------------------------------------------------------------
-											VPC EndPoints
+											VPC EndPoints   (VPC -> Other aws services like s3)
 -------------------------------------------------------------------------------------------------------------
 
-vpc endpoint  = A VPC endpoint enables connections between a virtual private cloud (VPC) and supported services, without requiring that you use an internet gateway, NAT device, VPN 				connection, or AWS Direct Connect connection. Therefore, your VPC is not exposed to the public internet. it has 3 types i.e. 
-		1)interface endpoint=an elastic network interface serves as an entry point for traffic destined to a service that is owned by AWS or owned by an AWS customer ,billed for 					hourly usage and data processing charges , uses dns to redirect traffic , defined using security group
-		2)Gateway Load Balancer endpoints = It serves as an entry point to intercept traffic and route it to a network or security service that you've configured using a Gateway 					Load Balancer ,billed for hourly usage and data processing charges.
-		3)gateway endpoint =A gateway endpoint is a gateway that is a target for a route in your route table used for traffic destined to either Amazon S3 or DynamoDB.
-					There is no charge for using gateway endpoints.Amazon S3 supports both gateway endpoints and interface endpoints.
+vpc endpoint  = A VPC endpoint enables connections between a virtual private cloud (VPC) and supported services on aws, without requiring that you use an internet gateway, NAT device, VPN 				connection, 
+				or AWS Direct Connect connection. Therefore, your VPC is not exposed to the public internet. it has 3 types i.e. 
+
+		1)interface endpoint  =  an elastic network interface serves as an entry point for traffic destined to a service that is owned by AWS or owned by an AWS customer ,
+		[AWS PrivateLink]				ENI has its own private ip address to communicate with vpc  , privateLink used to access aws services within aws without internet
+										billed for hourly usage and data processing charges , uses dns to redirect traffic , defined using security group
+										0.01$ per GB  +  0.01$ per AZ per hour   nearly makes 8 $ /month
+
+		2)Gateway Load Balancer endpoints = It serves as an entry point to intercept traffic and route it to a network or security service that you've configured using a Gateway 					Load Balancer
+			[AWS PrivateLink]					billed for hourly usage per AZ and data processing charges.
+
+		3)gateway endpoint 	=	A gateway endpoint is a gateway that is a target for a route in your route table used for traffic destined to either Amazon S3 or DynamoDB (only supports both).
+									There is no charge for using gateway endpoints.Amazon S3 supports both gateway endpoints and interface endpoints.
+
+
+-------------------------------------------------------------------------------------------------------------
+										Direct Connect     (VPC -> On-premise infrastructure ) 
+-------------------------------------------------------------------------------------------------------------
+
+AWS Direct Connect bypasses the public Internet and establishes a secure, dedicated connection from your infrastructure into AWS.
+very fast and higher bandwidth upto 10GBps , more consistant than regulaer internet based connection 
+
 
 -------------------------------------------------------------------------------------------------------------
 											VPC Peering
@@ -143,31 +181,63 @@ steps to make peering connection betn vpca and vpb
  	best practise is to make diff security group for both the vpc where vpca security group has only all traffic allowed from cidr block of vpcb and do same for vpcb
 4] update route table for both vpc's subnet as destination = cidr of other vpc with target as peering connction id 
 
+-------------------------------------------------------------------------------------------------------------
+											 Bastion or jump server 
+-------------------------------------------------------------------------------------------------------------
+
+	common way to allow access to secure infrastructure in your virtual private cloud (VPC) and is integrated into several Quick Starts.
 
 -------------------------------------------------------------------------------------------------------------
-											NAT Gateway
+											NAT Gateway And Instance
 -------------------------------------------------------------------------------------------------------------
 
+NAT basically is remapping one ip to another
 Network Address Translation (NAT) enables instances in a private subnet to connect to the Internet, but prevent the Internet from initiating a connection with those instances. 
-To do that, NAT maps all the private IP addresses assigned to the instances in the subnet to one public IPv4 address called the Elastic IP address.
-NAT GAteway    = instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. high cost
+To do that, NAT maps all the private IP addresses assigned to the instances/gateway in the subnet to one public IPv4 address called the Elastic IP address.
 
-NAT instance   = access internet with using another instance without having public ip address , lower cost than gateway
+NAT GAteway    = instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. high cost and more reliable
+				it is available only one per AZ in VPC , only subnets within that AZ can access gateway , bandwidth is aroud 5Gbps and scaled upto 45Gbps
+				it gets autoatically public ip , just route table need tobe updated
+
+Older way
+NAT instance   = access internet with using another instance without having public ip address , lower cost than gateway butin case of instance failuar again need to configure
+
+creating NAT Instanse 
+
+it will help instances in private subnets to communicate over internet using nat instance that is created in only public instance , it only allows outbound traffic
+it is cheaper than nat gateway but not provide as high throughput as nat gateway , both only works not ipv4 , 
+	 to use ipv6 we should use egress-only internet gateway that is a horizontally 	scaled, redundant, and highly available VPC component that allows outbound communication
+	 over IPv6 from instances in your VPC to the internet, and prevents the internet from 	initiating an IPv6 connection with your instances.
+
+steps to use :
+
+1] create vpc -> create public and private subnet -> associate public subnet with IG 
+2] choose "NAT" AMI From Community AMI option while launching a Instance (e.g amzn-ami-vpc-nat-2018.03.0.20210319.0-x86_64-ebs) with SG as SSh and All ICMP ip4 targeted to anywhere , 
+				in Public Subnet with public ip enabled
+3] create instance in private subnet without public ip and with SG as SSh and All ICMP ip4 targeted to anywhere
+4] access the nat instance , get root user access with all update and then create a file as <any-name>.pem and paste the key pair used while creating private instance
+5] enter commnd in nat instance to get access of private instance
+	i] chmod 700 <any-name>.pem       (chmod 700 file Protects a file against any access from other users, while the issuing user still has full access.)
+	ii] ssh -i <any-name>.pem dns-name       (for amz linux dns name is  ec2-user@<private-ip>  )
+6] in a default route table(main == yes)  , add origin as 0.0.0.0/0 with target as instance -> <id-nat-instance>
+7] disable "change source/dest check" which is in action -> networking of nat instance
+
+
+
+-------------------------------------------------------------------------------------------------------------
+										VPC Flow Logs
+-------------------------------------------------------------------------------------------------------------
+
+it allows to log all the traffic in and out within VPC.
+it can be created for 1. subnet or 2. vpc  3. Network Interface
+
+all log data stored in cloudWatch Logs or also in s3 bucket 
+
+logs contains source and destination ip address 
 
 
 
 
-
-
-
-
-
-
-A stateful firewall inspects everything inside data packets, the characteristics of the data, and its channels of communication. Stateful firewalls examine the behavior of data packets, and if anything seems off, they can filter out the suspicious data. Also, a stateful firewall can track how the data behaves, cataloging patterns of behavior. 
-
-
-
-Stateless firewalls make use of a data packet's source, destination, and other parameters to figure out whether the data presents a threat. These parameters have to be entered by either an administrator or the manufacturer via rules they set beforehand. If a data packet goes outside the parameters of what is considered acceptable, the stateless firewall protocol will identify the threat and then restrict or block the data housing it.
 *****************************************************************************************************************************************************************************************
 
 
@@ -209,25 +279,8 @@ Creating VPC endpoint (access aws services with private ip)
 
 A transit gateway enables you to attach VPCs and VPN connections in the same Region and route traffic between them. A transit gateway works across AWS accounts, and you can use AWS RAM to share your transit gateway with other accounts.
 
-AWS Direct Connect bypasses the public Internet and establishes a secure, dedicated connection from your infrastructure into AWS.
 
 *****************************************************************************************************************************************************************************************
-creating NAT Instanse 
-
-it will help instances in private subnets to communicate over internet using nat instance that is created in only public instance , it only allows outbound traffic
-it is cheaper than nat gateway but not provide as high throughput as nat gateway , both only works not ipv4 to use ipv6 we should use egress-only internet gateway that is a horizontally 	scaled, redundant, and highly available VPC component that allows outbound communication over IPv6 from instances in your VPC to the internet, and prevents the internet from 	initiating an IPv6 connection with your instances.
-
-steps to use :
-
-1] create vpc -> create public and private subnet -> associate public subnet with IG 
-2] choose "NAT" AMI From Community AMI option while launching a Instance (e.g amzn-ami-vpc-nat-2018.03.0.20210319.0-x86_64-ebs) with SG as SSh and All ICMP ip4 targeted to anywhere , in Public Subnet with public ip enabled
-3] create instance in private subnet without public ip and with SG as SSh and All ICMP ip4 targeted to anywhere
-4] access the nat instance , get root user access with all update and then create a file as <any-name>.pem and paste the key pair used while creating private instance
-5] enter commnd in nat instance to get access of private instance
-	i] chmod 700 <any-name>.pem       (chmod 700 file Protects a file against any access from other users, while the issuing user still has full access.)
-	ii] ssh -i <any-name>.pem dns-name       (for amz linux dns name is  ec2-user@<private-ip>  )
-6] in a default route table(main == yes)  , add origin as 0.0.0.0/0 with target as instance -> <id-nat-instance>
-7] disable "change source/dest check" which is in action -> networking of nat instance
  
 
 *****************************************************************************************************************************************************************************************
@@ -292,7 +345,3 @@ site to site vpn demo with 2 vpc in diff regions
 9] at the end , in r1's site-to-site vpn if in Tunnel details -> if any of the link has status as UP then it is successfully connected
 10]  to verify connection , launch instance in r1 with SG with all TCP , SSh and ICMP allowed source to anywhere and ping the private ip of r2's instance , if ping sucessful then all set
 
-
-network access control list (ACL)-is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. You might set up network ACLs with rules similar to your security groups in order to add an additional layer of security to your VPC.
-
-A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. When you launch an instance in a VPC, you can assign the instance to up to five security groups. Security groups act at the instance level. Below is an example of a security group which has inbound rules. The below rule states that users can only SSH into EC2 instances that are attached to this security group.
