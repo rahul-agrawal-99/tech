@@ -8,6 +8,8 @@ This virtual network closely resembles a traditional network that you'd operate 
 
 VPC is region specific ,  limit 5 vpc/region by default , it is logically isolated from rest of the cloud ,200 subnets per VPC.
 
+we  can create vpc with dedicated host by choosing tenancy to dedicated at time of creation.
+
 By default , DNS naming for instances created in VPC is disabled 
 				in action->Edit DNS hostnames -> enable   , to enble assigning dns names to instances 
 
@@ -149,6 +151,19 @@ vpc endpoint  = A VPC endpoint enables connections between a virtual private clo
 		3)gateway endpoint 	=	A gateway endpoint is a gateway that is a target for a route in your route table used for traffic destined to either Amazon S3 or DynamoDB (only supports both).
 									There is no charge for using gateway endpoints.Amazon S3 supports both gateway endpoints and interface endpoints.
 
+Creating VPC endpoint (access aws services with private ip)
+
+		1] create vpc with subnet and routing table , then go to "endpoint" , choose a  service with available endpint 
+			e.g. S3 has gateway(free) or interface(paid) endpoint
+		2] select created vpc and appropriate route table that is associated with subnet that is being used for launching machine
+		3] route is being added automatically after creating in selected route table
+		4] for s3 , change bucket policy to allow only from vpc endpoint so that it cant be accessible without an instance that is within subnet that is assoicated with route table 
+				which is mentioned while craeting endpoint , it will also block bucket access via management console so to remove bucket , 
+				enter in instance " aws s3 rb s3://<bucket-name> --force"
+		5] after deleting endpoint , entry in route table is also seleted automatically
+
+	A transit gateway enables you to attach VPCs and VPN connections in the same Region and route traffic between them. 
+		A transit gateway works across AWS accounts, and you can use AWS RAM to share your transit gateway with other accounts.
 
 -------------------------------------------------------------------------------------------------------------
 										Direct Connect     (VPC -> On-premise infrastructure ) 
@@ -182,13 +197,18 @@ steps to make peering connection betn vpca and vpb
 4] update route table for both vpc's subnet as destination = cidr of other vpc with target as peering connction id 
 
 -------------------------------------------------------------------------------------------------------------
-											 Bastion or jump server 
+									 Bastion or jump server (only access t instance not instance to internet)
 -------------------------------------------------------------------------------------------------------------
 
 	common way to allow access to secure infrastructure in your virtual private cloud (VPC) and is integrated into several Quick Starts.
 
+	steps :
+
+		1] create bastion server instance in same region as vpc by choosing one of images available in AMI , subnet should be public only
+		2] attach iam role as per need to bastion server can access insance from private subnet
+
 -------------------------------------------------------------------------------------------------------------
-											NAT Gateway And Instance
+											NAT Gateway And Instance  
 -------------------------------------------------------------------------------------------------------------
 
 NAT basically is remapping one ip to another
@@ -197,7 +217,11 @@ To do that, NAT maps all the private IP addresses assigned to the instances/gate
 
 NAT GAteway    = instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. high cost and more reliable
 				it is available only one per AZ in VPC , only subnets within that AZ can access gateway , bandwidth is aroud 5Gbps and scaled upto 45Gbps
-				it gets autoatically public ip , just route table need tobe updated
+				it gets autoatically public ip , just route table need table updated
+				with this private instances can also access aws services like s3
+
+				Steps : 1. create NAT Gateway eith elastic IP  and attach gateway to route table of private subnet with dest=: 0.0.0.0/0 and target=: Nat-ID
+						2. after that priavte subnet instances can access internet via elastic ip of nat gateway
 
 Older way
 NAT instance   = access internet with using another instance without having public ip address , lower cost than gateway butin case of instance failuar again need to configure
@@ -211,16 +235,16 @@ it is cheaper than nat gateway but not provide as high throughput as nat gateway
 
 steps to use :
 
-1] create vpc -> create public and private subnet -> associate public subnet with IG 
-2] choose "NAT" AMI From Community AMI option while launching a Instance (e.g amzn-ami-vpc-nat-2018.03.0.20210319.0-x86_64-ebs) with SG as SSh and All ICMP ip4 targeted to anywhere , 
-				in Public Subnet with public ip enabled
-3] create instance in private subnet without public ip and with SG as SSh and All ICMP ip4 targeted to anywhere
-4] access the nat instance , get root user access with all update and then create a file as <any-name>.pem and paste the key pair used while creating private instance
-5] enter commnd in nat instance to get access of private instance
-	i] chmod 700 <any-name>.pem       (chmod 700 file Protects a file against any access from other users, while the issuing user still has full access.)
-	ii] ssh -i <any-name>.pem dns-name       (for amz linux dns name is  ec2-user@<private-ip>  )
-6] in a default route table(main == yes)  , add origin as 0.0.0.0/0 with target as instance -> <id-nat-instance>
-7] disable "change source/dest check" which is in action -> networking of nat instance
+	1] create vpc -> create public and private subnet -> associate public subnet with IG 
+	2] choose "NAT" AMI From Community AMI option while launching a Instance (e.g amzn-ami-vpc-nat-2018.03.0.20210319.0-x86_64-ebs) with SG as SSh and All ICMP ip4 targeted to anywhere , 
+					in Public Subnet with public ip enabled
+	3] create instance in private subnet without public ip and with SG as SSh and All ICMP ip4 targeted to anywhere
+	4] access the nat instance , get root user access with all update and then create a file as <any-name>.pem and paste the key pair used while creating private instance
+	5] enter commnd in nat instance to get access of private instance
+		i] chmod 700 <any-name>.pem       (chmod 700 file Protects a file against any access from other users, while the issuing user still has full access.)
+		ii] ssh -i <any-name>.pem dns-name       (for amz linux dns name is  ec2-user@<private-ip>  )
+	6] in a default route table(main == yes)  , add origin as 0.0.0.0/0 with target as instance -> <id-nat-instance>
+	7] disable "change source/dest check" which is in action -> networking of nat instance
 
 
 
@@ -234,6 +258,12 @@ it can be created for 1. subnet or 2. vpc  3. Network Interface
 all log data stored in cloudWatch Logs or also in s3 bucket 
 
 logs contains source and destination ip address 
+
+steps :
+
+	1. choose vpc -> action -> create flow log 
+	2. here select log storage type as s3 or cludwatch and select one of the available log group for dest log group 
+	3. attach iam role with appropriate permissions to log group to write logs
 
 
 
@@ -267,17 +297,6 @@ logs contains source and destination ip address
 
 
 *****************************************************************************************************************************************************************************************
-
-Creating VPC endpoint (access aws services with private ip)
-
-1] create vpc with subnet and routing table , then go to "endpoint" , choose a  service with available endpint 
-	e.g. S3 has gateway(free) or interface(paid) endpoint
-2] select created vpc and appropriate route table that is associated with subnet that is being used for launching machine
-3] route is being added automatically after creating in selected route table
-4] for s3 , change bucket policy to allow only from vpc endpoint so that it cant be accessible without an instance that is within subnet that is assoicated with route table which is mentioned while craeting endpoint , it will also block bucket access via management console so to remove bucket , enter in instance " aws s3 rb s3://<bucket-name> --force"
-5] after deleting endpoint , entry in route table is also seleted automatically
-
-A transit gateway enables you to attach VPCs and VPN connections in the same Region and route traffic between them. A transit gateway works across AWS accounts, and you can use AWS RAM to share your transit gateway with other accounts.
 
 
 *****************************************************************************************************************************************************************************************

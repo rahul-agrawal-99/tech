@@ -2,20 +2,30 @@
 IAM (identity and access management) is a service for securely
 
 
-*******     User
+
+-------------------------------------------------------------------------------------------------------------
+									User
+-------------------------------------------------------------------------------------------------------------
+
 
 IAM users are not separate accounts; they are users within the same account. 
 Each user can have its own unique set of long-term credentials for access to the AWS Management Console. 
 You can also create an individual access key for each user so that the user can make programmatic requests to work with resources in your account. 
 You can grant different permissions to each IAM user.
 
-*******     User Group
+
+-------------------------------------------------------------------------------------------------------------
+									 User Group
+-------------------------------------------------------------------------------------------------------------
 
 user group is a collection of IAM users. User groups simplify permissions management by letting you grant, change, and remove permissions for multiple users at once. 
 
 we can attach extra permissions to a single user other than the default permissions from user group attached.
 
-*******     policy
+
+-------------------------------------------------------------------------------------------------------------
+									policy
+-------------------------------------------------------------------------------------------------------------
 
 policy is a JSON document that specifies user , groups or roles to access service .
 it constains a permissions for a service for different actions like read, write, delete, etc. 
@@ -30,23 +40,30 @@ AWS evaluates these policies when a principal, such as a user, makes a request.
 Permissions in the policies determine whether the request is allowed or denied
 policy e.g. :
                 {
-                    "Version": "2012-10-17",
-                    "Statement": [
+                    "Version": "2012-10-17",         # policy language Version
+                    "Statement": [                   # container for policies to allow to write multiple policies in single json file
                         {
-                            "Effect": "Allow",
-                            "Action": [
-                                "directconnect:Describe*",
-                                "directconnect:List*",
-                                "ec2:DescribeVpnGateways",
-                                "ec2:DescribeTransitGateways"
+                            "Effect": "Allow",       # Allow or Deny
+                            "Action": [                      # what action you will allow or deny based on Effect
+                                "ec2:DescribeVpnGateways",      # specific permission of service
+                                "s3:*"                          # all permissions of service
                             ],
-                            "Resource": "*"
+                            "Resource": "*"                  # resource to which actions are applied
                         }
                     ]
                 }
 
-*******     Role
-	
+it has 2 types :
+
+        1. aws managed policy :  it is created by AWS and can be used directly , can not be modified by user.
+        2. customer managed : it is created by you and can be used directly , can be modified by user.
+        3. inline policy : policy which is directly attached to an identity or resource without creating explicitly
+
+
+-------------------------------------------------------------------------------------------------------------
+										 Role
+-------------------------------------------------------------------------------------------------------------
+
 An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. 
 However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it including assigning it to an EC2 instance.
 

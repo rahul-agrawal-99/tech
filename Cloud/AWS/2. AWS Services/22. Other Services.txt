@@ -66,5 +66,10 @@
         BI tool to visualize data
 
 
+                    **** ---     AWS Cognito        --- ****
+
+            manages authentication and authorization for your mobile and web apps like google        
+
+
         
 
