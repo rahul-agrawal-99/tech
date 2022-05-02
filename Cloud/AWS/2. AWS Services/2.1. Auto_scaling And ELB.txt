@@ -1,26 +1,49 @@
 
-                        ------         Auto Scaling Group         ------
+                        ------         Auto Scaling Group         ------   
 
     Auto Scaling groups are collections of Amazon EC2 instances that enable automatic scaling and fleet management features. 
     These features help you maintain the health and availability of your applications.
 
-    
+    Scale Out (add servers)  , Scale In (remove servers) ,  Scale Up (add capacity) , Scale Down (remove capacity) 
+
     AWS Auto Scaling enables you to configure automatic scaling for the scalable AWS resources for your application in a matter of minutes. 
     AWS Auto Scaling uses the Auto Scaling and Application Auto Scaling services to configure scaling policies for your scalable AWS resources.
+
+    auto scaling can be triggered via follwing :
+
+        1. capacity settings
+        2. health checks based on  =>  1. EC2 (check 2/2)    2. ELB ( ping conncetion & if not 200 OK)
+        3. scaling policies
+
+                   Health check grace period => amount of time until EC2 Auto Scaling performs the first health check on new instances after they are put into service.
 
 
     in order create ASG , we need launch configuration or launch template
 
-    we need to set follwing parameters in launch configuration:
-        1. VPC
-        2. Subnet
+                1. Launch Configuration :   immutable. Once you define it, you can't edit it. 
+
+                2. Launch Template :   newer than launch configurations (LCs) and provide more options to work with  ,  can have multiple versions
+
+        Step Scaling 
+
+                Step Scaling further improves the features of simple scaling. 
+                Step scaling applies “step adjustments” which means you can set multiple actions to vary the scaling depending on the size of the alarm breach. 
+                reuires Launch Configuration
+
+
+    we need to set follwing parameters in ASG:
+        1. Launch Configuration / Launch Template
+        2. VPC  And Subnets(can be multiple)
         3. Group size  (min, max, desired[represent the initial group size])
-        4. Scaling policies   ->  Target tracking scaling policy  
+        4. Scaling policies   ->  Target tracking scaling policy      (optioanal)
                                         | - Avg Cpu Utilization
                                         | -Avg network in
                                         | -Avg network out
                                         | - load balancer request per target
         5. notification      ->  scale up-down notification using SNS
+
+                Classic Load Balancer can be directly attached to ASG 
+                but ALB or NLB requires a target group to be attached to ASG
 
 
 
@@ -35,10 +58,13 @@
 
                     used for flexible application management
                     it is for HTTP, HTTPS, gRPC
+                    Web application firewall can be attached to ALB
 
             2. Network Load Balancer :
                     Choose a Network Load Balancer when need of ultra-high performance, TLS offloading at scale, 
                     centralized certificate deployment, support for UDP, and static IP addresses for applications
+
+                    used when network performance is critical like Video game
 
                     it is for TCP, UDP, and SSL/TLS
             
@@ -55,4 +81,34 @@
             4. Listeners and routing   -> listner listens to incoming protocol and port , 
                                             routing is for traffic routing based on listner
 
+        Sticky sessions :
+                load balancing allows you to configure a cookie-based session persistence mechanism. if user get service from an instance then if another time same user requsts
+                        then same instance will be used based in coockie stores on user side by load balancer 
+                Only Classic and Application Load Balancer support sticky sessions
 
+        {XFF}  X-Forwarded-For Header:
+                web application running on instance can not view requestors IP address due to load balancer in between them 
+                        so we need to add X-Forwarded-For header to load balancer to get the requestors/originating/clients IP address
+
+        Health checks :
+
+                configured on target groups
+                ping is made on specific path of the target group and based on responce status , load balancer will decide whether to add or remove instance from target group
+                Additional settings :
+                        - Health threshold       : number of consecutive health checks successes required before considering an unhealthy target healthy.
+                        - Unhealthy threshold   : number of consecutive health check failures required before considering a target unhealthy.
+                        - Interval               :   approximate amount of time between health checks of an individual target
+                        - Timeout               : amount of time, in seconds, during which no response means a failed health check.
+                        - success response code  :  HTTP status code for successful health checks. 200 is default
+
+        
+        Cross Zone Load Balancing :
+                allows you to enable cross-zone load balancing for your load balancer. 
+                This feature enables the load balancer to route traffic to instances in any Availability Zone in your VPC. 
+                This feature is useful if you have multiple Availability Zones and a high latency to your edge locations. 
+                This feature is available only in NLB and CLB
+                e.g if enabled then 100% of traffic will be routed to all instances in all zones
+                        if not enabled then traffic will be routed to instances in same zone only
+                        
+
+                

@@ -1,10 +1,15 @@
-Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. It is designed to make web-scale-cloud computing-easier for developers.
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. 
+It is designed to make web-scale-cloud computing-easier for developers.
 
 EC2 is back bone of aws because many of the services uses ec2 for their purpoes like S3 , RDS , Lambda
 
-Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. It is designed to make web-scale-cloud computing-easier for developers.
+Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. 
+It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides re-sizeable compute capacity in the cloud. It is designed to make web-scale-cloud computing-easier for developers.
 
-Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.
+Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. 
+It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.
 
 it provides Virtual servers in the Cloud.
 
@@ -52,11 +57,12 @@ EC2 Pricing Model :
 
     1. On Demand instances  =  flexible , pay per hour , for short term , spiky/unpredictible wrokloads
 
-    2. Reserved Instances (upto 75% savings) = for steady use , reserved upto 1 to 3 years , can be resell if not used
+    2. Reserved Instances (upto 75% savings) = for steady use , reserved upto 1 to 3 years , can be resell if not used , can not upgrade/ downgrade capacity
+                                                convertible reserved (upto 50% savings) = can be upgrade capacity
 
     3. Spot Instances (upto 90% savings)  = for non-critical workloads , for testing , pay as you go 
 
-    4. Dedicated    =  whole dedicated server , most expenive 
+    4. Dedicated    =  whole dedicated server , most expenive , single tenant (no sharing of resources) , can be on-demand/reserved
 
     5. AWS saving plan
 

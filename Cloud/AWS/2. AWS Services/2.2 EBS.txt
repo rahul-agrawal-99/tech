@@ -1,9 +1,16 @@
 EBS (elastic block storage ) is network based persistant block of storage that is designed to store data in the cloud.
 we can use it as  a virtual HDD forinstance 
 
+it is used to for attaching persistent storage to a single virtual machine at a time
+
+Throughput (throughput) is the speed at which data is transferred from one place to another.
+
+bandwidth (bandwidth) is the amount of data that can be transferred in a given amount of time.
+
 it is available in diff kinds of drive :
 
-    1. SSD
-    2. IOPS SSD
-    3. Thriooghput HDD
-    4. Cold HDD
+    1. SSD    => General purpose without speciual requirements    16000 iops
+    2. IOPS SSD   =>   really fast input and output                   64000 iops 
+    3. Thriooghput HDD   =>   magnetic disk with high throughput            500 iops
+    4. Cold HDD    =>    low cost for infrequent access of data             250 iops
+    5. EBS magnetic  =>   used for archival purpose                     100 iops

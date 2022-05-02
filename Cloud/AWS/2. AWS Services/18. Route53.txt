@@ -1,0 +1,47 @@
+Route 53 is domain name system (DNS) and it is used to map domain names to IP addresses.
+Applications :
+            1. register domain name 
+            2. create set of records for a domain name like A , CNAME
+            3. implement traffic flow
+            4. moniter health check
+            
+
+we can route traffic from ruote 53 to 
+
+        Elastic Load Balancer
+        EC2 instance
+        API Gateway
+        Cloud Front for static content of s3
+        elastic IP 
+        Elastic Beanstalk
+        VPC Endpoint
+
+Record Sets :
+            it allows to point naked domain or subdomain to a  IP or other services or other domain name
+
+    A Record : used to point a domain name to a IP4 address
+    AAAA Record : used to point a domain name to a IP6 address
+    CNAME : used to point a domain name to another domain name
+    MX : used to point a domain name to a mail server
+    NS : used to point a domain name to a name server
+    PTR : used to point a IP address to a domain name
+    SOA : used to point a domain name to a start of authority
+    SRV : used to point a domain name to a service
+    TXT : used to point a domain name to a text
+    CAA : used to point a domain name to a certificate authority
+
+
+AWS Alias Record which are smarter than normal records can be used point to specific services ad it can detect change in ip and continuously keeps endpoint up to date.
+
+TTL (time to live ) is a time interval that specifies how long a DNS record should be cached before it expires.
+
+Routing Policies :
+
+    1. Simple routing       default routing policy , multiple ip addresses in record results in random selection 
+    2. Weighted routing     based on weighted value to split traffic
+    3. Latency routing      direct traffic to the endpoint with the lowest latency based on region , requires application hosted in EC2 with in each regions 
+    4. Multi-value answer routing     
+    5. Geo-routing                 based on geo location of user
+    6. failover routing 
+
+we can manage routing policy easily using visual editor , costs 50$ per policy per month
