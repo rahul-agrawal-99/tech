@@ -165,5 +165,24 @@ SDK API available in C++ , java , js , python , ruby , php , go
 
 
 ***********************************************************************************************************************************************************
-
+										CloudFormation
 *************************************************************************************************************************************************************
+
+
+requires template in yaml or json format to create stack that will trigger creation of resources
+
+to validate template file
+	aws cloudformation validate-template --template-body <template-file-path>
+													e.g  aws cloudformation validate-template --template-body file://S3.yaml
+
+to create new stack
+
+	aws cloudformation create-stack --stack-name <stack-name> --template-body <template-file-path>
+													e.g. aws cloudformation create-stack --stack-name CreateBucket --template-body file://S3.yaml
+
+to update stack
+	aws cloudformation update-stack --stack-name <stack-name> --template-body <template-file-path>
+
+to delete stack
+
+	aws cloudformation delete-stack --stack-name <stack-name>

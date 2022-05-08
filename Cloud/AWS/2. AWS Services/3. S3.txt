@@ -9,6 +9,8 @@ Bucket conatins objects , each object is a file , also bucket can have folders ,
 
 s3 provides unlimited storage (we can store object having size 0byte to 5TB)
 
+All objects have key (unique), version ID (unique) , Value (actual content also immutable), metadata and subresources (additional object specific info )
+
 Each object does have a limitation in S3, but you can store virtually unlimited amounts of data. Also each object gets a directly accessible URL
 
 S3 buckets stores objects in the form of key - value , key is name of object and value contains sequance of Byte
@@ -21,6 +23,13 @@ The number of buckets you have in s3 does  factor into costing.
 The storage class used for the objects stored.
 data transfer between host and s3 bucket is achieved via SSL/TLS
 
+
+S3 Use cases :
+
+        1. Media storage like video , audio , images
+        2. used as origin store for CDN
+        3. static website hosting
+
 All Buckets are private by default but with presigned url we can access temporarely publically with url , presigned url is created using CLI or SDk
 
 Amazon S3 offers a range of storage classes designed for different use cases with different pricing(down the index cheaper the pricing): - 
@@ -29,12 +38,20 @@ Amazon S3 offers a range of storage classes designed for different use cases wit
 - S3 Standard-Infrequent Access (S3 Standard-IA)  (retrival fee) (about accessed once in month)
 - S3 One Zone-Infrequent Access (S3 One Zone-IA) for long-lived, but less frequently accessed data 
 - S3 Glacier (S3 Glacier) for long-term archive and digital preservation. (requires minutes to  hours to get data)
--S3 Glacier Deep Archieve (lowest cost for storage but requires houres to get data)
+- S3 Glacier Deep Archieve (lowest cost for storage but requires houres to get data)
 
 The volume of storage billed in a month is based on the average storage used throughout the month (per GB). 
 This includes all object data and metadata stored in buckets that you created under your AWS account. 
 AWS measure your storage usage in “TimedStorage-ByteHrs,” which are added up at the end of the month to generate your monthly charges.
 
+Follow least privilege access principle 
+ways to control access to s3 data :
+
+        1. ACL (Access Control List)
+        2. IAM (Identity and Access Management)
+        3. Bucket policy
+        4. Block public access
+        5. S3 access points   (only allowed IP can request data)
 
 
 disaster recovery deployment technique:
@@ -65,7 +82,7 @@ disaster recovery deployment technique:
 
         when enabled any object uploaded in one region will be replicated in other region (Bucket -> Bucket), it increases durability and recovery from disaster
 
-        Note : versioning must be enabled in both regions before enabling cross region replication
+        Note : versioning must be enabled in both regions before enabling cross region replication , replica objects not be deleted even after deleting from source
 
 
 #       ----  S3 Lifecycle Management -----

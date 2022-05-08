@@ -71,5 +71,25 @@
             manages authentication and authorization for your mobile and web apps like google        
 
 
+                        **** ---     AWS Cloud9        --- ****
+
+                cloud9 is a web development environment that lets you develop, run, and debug code on the cloud like vscode/IDE on cloud
+
+                        **** ---     AWS System manager        --- ****
+
+                contains parameter list that can be accessed uisng sdk tools , used as like secret in k8s
+
+                        **** ---     AWS Code commit        --- ****
+
+                 CodeCommit is a source control service that can be used to host Git-based repositories. It can be used in a way that's similar to GitHub repositories. 
+
+                        **** ---     AWS Elastic Transcoder        --- ****
+
+                it is used for transcoding audio and video files to different formats
+                 convert digital media stored in Amazon S3 into the audio and video codecs and the containers required by consumer playback devices. 
+                 For example, you can convert large, high-quality digital media files into formats that users can play back on mobile devices, tablets, 
+                        web browsers, and connected televisions.
+
+
         
 

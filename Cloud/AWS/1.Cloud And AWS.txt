@@ -155,6 +155,29 @@ Why AWS :
     CaaS service :  1. Aws Farget (serverless container)
 
 
+-----------------------  Cloud Architect ------------------------------
+
+The AWS Well-Architected Frameworkis a guide that is designed to help you build the most secure, high-performing, resilient, and efficient infrastructure possible for your cloud applications and workloads. 
+It provides a consistent approach to evaluate cloud architectures, and guidance to help implement designs.
+ It documents a set of foundational questions and best practices that enable you to understand if a specific architecture aligns well with cloud best practices.
+
+main building Pillers of AWS Well-Architected Framework is 
+
+    Security   =>   Security pillar addresses the ability to protect information, systems, and assets while delivering business value through risk assessments and 
+                    mitigation strategies ,  architecture will present a much stronger security presenceif you implement a strong identity foundation, enable traceability, 
+                    apply security at all layers, automate security best practices, and protect data
+
+    Operation excellance  =>   pillar addresses the ability to run systems and gain insight into their operations to deliver business value. 
+                                It also addresses the ability to continuously improve supporting processes and procedures
+
+    Performance efficiency   =>  choose efficient resources   , democratize advance technologies , apply Mechanical sympathy 
+                                    that is when you use a tool or system with an understanding of how it operates best
+
+    Cost     =>    process is iterative, and it should be refined and improved throughout your production lifetime. 
+                    Understanding how efficient your current architecture is in relation to your goals can remove unneeded expense.
+
+    reliability.    =>  addresses the ability of a system to recover from infrastructure or service disruptions and dynamically acquire computing resources to meet demand. 
+                    It also addresses the ability of a system to mitigate disruptions such as misconfigurations or transient network issues
 
 
 

@@ -30,6 +30,9 @@ all new ec2 instances has this nitro system
         create image using ->
                         select ec2 instance -> action -> image and template -> create image
 
+            *  This created image will be private and only available in that region where it was created.
+                    to share it with other regions, select action -> copy AMI then select regions to where this image should be there 
+
                             ------      Launch Template       ------
 
         Use launch templates to automate instance launches, simplify permission policies, and enforce best practices across your organization. 
@@ -242,3 +245,7 @@ Terminologies ;
 
     Nitro Hypervisor is a lightweight hypervisor that manages memory and CPU allocation and delivers performance that is
      indistinguishable from bare metal.
+
+
+
+

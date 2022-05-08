@@ -3,3 +3,14 @@
 AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, 
 provisioning and updating them in an orderly and predictable fashion.
 
+IAC tool by aws to automate manage ,configure nd deploy resources in aws , like terraform
+
+it also has visual tool to create and manage resources in aws
+
+we have just create a yaml or json file with desired config , then apply to a stack that will get in that desired state
+
+A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. 
+All the resources in a stack are defined by the stack's AWS CloudFormation template. 
+A stack, for instance, can include all the resources required to run a web application, such as a web server, a database, and networking rules. 
+If you no longer require that web application, you can simply delete the stack, and all of its related resources are deleted.
+

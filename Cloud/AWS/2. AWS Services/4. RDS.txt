@@ -2,10 +2,23 @@
 RDS is a service that supports multiple SQL database engines.
 it supports MySQL, MariaDB, PostgreSQL, Microsoft SQL Server (requires license), Oracle (requires license), and Amazon Aurora.
 
+if Encryption is enabled, then backups , snapshots are also encrypted 
+
+Multi AZ deployment :  aws synchronizes rds within multiple zones as stand by copy , if main instance fails , then standby instance will be used
+                        only one engine is active at a time
+                
+READ Replica   :   only Read operation can be performed on standby instance to improve performance , to use this Automatic  backup should be enabled
+                it can be cross AZ , Cross-region also
+
+
 
 Amazon Aurora (Aurora) is a fully managed, MySQL- and PostgreSQL-compatible, relational database engine. 
 It combines the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open-source databases. 
 It delivers up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL without requiring changes to most of your existing applications.
+
+Aurora has minimum 3 AZs containing 2 copies each at all times i.e 6 
+only one engine is active at a time for write and other acts as read replica
+snapshots can be shared with other aws account , backups and failovers are handled automatically
 
 
 RDS on VmWare allows you to deploy RDS supported DB engines on an on-premise-datacenter having VmWare server virtualization.

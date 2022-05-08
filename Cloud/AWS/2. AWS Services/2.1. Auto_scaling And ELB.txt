@@ -27,8 +27,8 @@
         Step Scaling 
 
                 Step Scaling further improves the features of simple scaling. 
-                Step scaling applies “step adjustments” which means you can set multiple actions to vary the scaling depending on the size of the alarm breach. 
-                reuires Launch Configuration
+                Step scaling applies “step adjustments” which means you can set multiple actions to vary the scaling depending on the size of the alarm breach. based on cloudwatch alarms
+                requires Launch Configuration
 
 
     we need to set follwing parameters in ASG:

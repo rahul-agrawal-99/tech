@@ -129,6 +129,9 @@ it has rules in order
 it has allow as well as deny explicite , lower the order to get priority , 
 		e.g. order 100 allows but order 150 deny then it will allow explicitly 
 
+default NACL has allow all in and out traffic with order 100 by default
+custom NACL has deny all traffic by default
+
 Use case : block a certain Ip address from communicating the instance
 
 

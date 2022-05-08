@@ -1,6 +1,8 @@
 EBS (elastic block storage ) is network based persistant block of storage that is designed to store data in the cloud.
 we can use it as  a virtual HDD forinstance 
 
+it exist in same AZ as the instance
+
 it is used to for attaching persistent storage to a single virtual machine at a time
 
 Throughput (throughput) is the speed at which data is transferred from one place to another.
@@ -14,3 +16,21 @@ it is available in diff kinds of drive :
     3. Thriooghput HDD   =>   magnetic disk with high throughput            500 iops
     4. Cold HDD    =>    low cost for infrequent access of data             250 iops
     5. EBS magnetic  =>   used for archival purpose                     100 iops
+
+
+
+
+Encrypt Unencrypted EBS volumes :  (encrypted snapshot of ebs can not be shared but unencrypted snapshot can be shared with another aws accounts)
+
+    1. Create snapshot of unencrypted volume
+    2. copy snapshot to new volume with Encryption enabled
+    3. create AMI from new volume and use it for new instance
+
+
+we can take snapshot of EBS volume while instance is running but it is not recommended to do so.
+
+-----------------------------------------  instance Store volume -------------------------------------------------
+
+temporary storage for instance that is attavhe to hot machine physically  , it can not be stopped and it is ephemeral
+
+used for cache or logs
