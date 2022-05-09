@@ -2,6 +2,18 @@ it is serverless NoSQL Key-value and document database.
 it is designed to scale to billions of records with guarrentied consistant data return in less than seconds
 it is cost effective and very fast
 
+features :
+
+      1. Durable
+      2. Scalable
+      3. Backups
+      4. in memory cache
+      5. consistant reads  :   a] Eventual Consistency (default) : can be inconsistent but low latency   
+                              b]  Strong Consistency : can not be inconsistent but high latency 
+
+can be launched with provisioned capacity and billed according to provision . e.g.   read capacity : 1000 , write capacity : 5000
+
+
 in 2019 , amazon.com shifted completely from oracle db to dynamodb
 
 
@@ -22,3 +34,16 @@ in 2019 , amazon.com shifted completely from oracle db to dynamodb
       Its query processing engine is optimized for leading graph query languages, Apache TinkerPop™ Gremlin and the W3C’s RDF SPARQL.
        Neptune provides high performance through the open and standard APIs of these graph frameworks. And, Neptune is fully 
        managed, so you no longer need to worry about database management tasks such as hardware provisioning, software patching, setup, configuration, or backups.
+
+
+
+
+
+
+Key-value  :  e.g.   { "name" : "John", "age" : 30 }
+
+Document database   : e.g.                {
+                                           "name" : "John", 
+                                          "age" : 30, 
+                                          "address" : { "street" : "Main", "city" : "New York" }
+                                           } 

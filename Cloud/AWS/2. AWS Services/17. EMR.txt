@@ -6,3 +6,12 @@ Amazon EMR lets you focus on crunching or analyzing your data without having to 
 
 Amazon EMR (previously called Amazon Elastic MapReduce) is a managed cluster platform that simplifies running big data frameworks, such as Apache Hadoop and Apache Spark ,
      on AWS to process and analyze vast amounts of data.
+
+Amazon EMR is a cloud big data platform for running large-scale distributed data processing jobs, interactive SQL queries, and 
+            machine learning (ML) applications using open-source analytics frameworks such as Apache Spark, Apache Hive, and Presto.
+
+Use cases
+               1. Perform big data analytics
+               2. Build scalable data pipelines
+               3. Process real-time data streams
+               4. Accelerate data science and ML adoption

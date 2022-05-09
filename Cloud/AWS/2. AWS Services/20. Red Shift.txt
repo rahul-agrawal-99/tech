@@ -4,6 +4,8 @@ Data warehousing  is a process of converting raw data into structured data in or
 if data is not structered then we need to perform ELT on it.
 
 
+simple database is for transaction but data warehouse is for analytics.
+
 
 Benefits of a data warehouse include the following:
 
@@ -18,7 +20,8 @@ data warehouse is specially designed for data analytics, which involves reading 
 A database is used to capture and store data, such as recording details of a transaction.
 purpoes of data warehousing is Batch reporting, BI, and visualizations.
 
-A data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. It can store data in its native format and process any variety of it, ignoring size limits.
+A data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. 
+It can store data in its native format and process any variety of it, ignoring size limits.
 it is used for Machine learning, exploratory analytics, data discovery, streaming, operational analytics, big data, and profiling
 
 
@@ -28,4 +31,38 @@ A data mart might be a portion of a data warehouse, too.
 
                   *********      Redshift   ************
 
-Amazon Redshift is our fast, fully-managed, and cost-effective data warehouse service. It gives you petabyte-scale data warehousing and exabyte-scale data lake analytics together in one service, for which you only pay for what you use.
+Amazon Redshift is our fast, fully-managed, and cost-effective data warehouse service. 
+It gives you petabyte-scale data warehousing and exabyte-scale data lake analytics together in one service, for which you only pay for what you use.
+
+it uses OLAP (Online analytics processing system)
+
+architecture consists of 2 parts:   1. leader node (not charged)  2. one or more data/compute nodes
+
+Data can be given from S# , EMR , DynamoDB or any remote data source
+
+it is columnar storage database , Columnar storage for database tables is an important factor in optimizing analytic query performance 
+    because it drastically reduces the overall disk I/O requirements  and reduces the amount of data you need to load from disk. 
+
+in  columnar storage, each data block stores values of a single column for multiple rows.
+
+Redshift is availble in cluster types:
+
+        1. Single node : 160GB size 
+
+        2. Multi node : service limit max 32 nodes , 
+
+Nodes available in redshift are of only 2 families :   1. Dense Compute (performance)  2. Dense Storage  (Storage)
+
+smalllest node possible is dc2.large
+
+
+redshift works on parallel processing and it distributes the workload among the nodes. nodes can be added eaily without any disturbance to the performance.
+
+Backups are enabled by default with 1 day retention (keep data upto -- days).  max upto 35 days
+
+backups are stored in s3 bucket. charged as per s3 bills 
+
+
+it is single AZ cluster. to run in multi AZ cluster, you need to run multiple clusters in different AZ with same inputs and same configuration.
+
+only snapshots can be stored to different AZ 
