@@ -1,5 +1,31 @@
 
- helps you enable governance, compliance, and operational and risk auditing of your AWS account. 
+
+With AWS CloudTrail, you can monitor your AWS deployments in the cloud by getting a history of AWS API calls for your account, 
+    including API calls made by using the AWS Management Console, the AWS SDKs, the command line tools, and higher-level AWS services. 
+
+You can also identify which users and accounts called AWS APIs for services that support CloudTrail, the source IP address from which the calls were made, and when the calls occurred. 
+
+You can integrate CloudTrail into applications using the API, automate trail creation for your organization, check the status of your trails, and control how administrators turn CloudTrail logging on and off.
+
+helps you enable governance, compliance, and operational and risk auditing of your AWS account. 
 Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail.
 
-cloudtrail already has 90days of logs saved bu default 
+cloudtrail already has 90days of logs saved by default in event history , 
+    to store more than that then you need to create a new trail. trils are stored in s3 and do not have gui like event history
+
+
+There are 3 Event types in CloudTrail to create a trail:
+
+    1. Management Events   :   show information about management operations performed on resources in your AWS account. No additional charges , by default it is enabled.
+
+
+    2. Data Events     :   show information about the resource operations performed on or within a resource. extra charges 
+                            need to choose the data event type. like S3 , DynamoDB , Lake , Lambda etc.
+                            then after that you need to select Log selector template like all data , readonly data , writeonly data  etc.
+
+
+    3. Insights Events  :   Identify unusual activity, errors, or user behavior in your account. additional charges
+
+Also we can send trails to CloudWatch logs to recieves notification about specific activity
+
+with AWS Athena , you can query your data and analyze it.

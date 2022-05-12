@@ -7,10 +7,47 @@ IAC tool by aws to automate manage ,configure nd deploy resources in aws , like 
 
 it also has visual tool to create and manage resources in aws
 
-we have just create a yaml or json file with desired config , then apply to a stack that will get in that desired state
+we have just create a YAML or json file with desired config , then apply to a stack that will get in that desired state
 
-A stack is a collection of AWS resources that you can manage as a single unit. In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. 
+A stack is a collection of AWS resources that you can manage as a single unit. 
+In other words, you can create, update, or delete a collection of resources by creating, updating, or deleting stacks. 
+
 All the resources in a stack are defined by the stack's AWS CloudFormation template. 
 A stack, for instance, can include all the resources required to run a web application, such as a web server, a database, and networking rules. 
 If you no longer require that web application, you can simply delete the stack, and all of its related resources are deleted.
 
+Stack status :
+            1. CREATE_IN_PROGRESS     - The stack is currently being created.
+            2. CREATE_COMPLETE        - The stack has been created.
+            3. ROLLBACK_IN_PROGRESS  - The stack is currently being rolled back due to error encoutered in template
+            4. ROLLBACK_COMPLETE     - The stack has been rolled back to previous state
+            5. DELETE_IN_PROGRESS    - The stack is currently being deleted.
+            6. DELETE_COMPLETE       - The stack has been deleted. 
+
+stacks can be nested , so we can create a stack inside another stack to redusce complexity
+
+YAML e.g Format :
+
+                            AWSTemplateFormatVersion: '2010-09-09'
+                            Description: 'AWS CloudFormation Sample Template'
+
+                            Parameters:                               # get referance values for resource formation 
+                                KeyName:
+                                    Type: String
+                                    Value: SampleValue
+
+
+                            Resources:                               # provision resources in aws , at least one resource is required
+                                SampleResource:                      # Logical ID
+                                    Type: AWS::EC2::Instance
+                                    Properties:
+                                        ImageId: !Ref AWS::ImageId
+                                        InstanceType: !Ref AWS::InstanceType
+                                        KeyName: !Ref KeyName             # refere from parameters
+
+                            Outputs:
+                                PublicIP:
+                                    Description: The public IP address
+                                    Value: !GetAtt SampleResource.PublicIP         # GetAtt is used to get the value of an attribute from a resource after creation
+
+                    # it can have Conditions , Mapping , Metadata , Parameters , Resources , Outputs , Transform , Version

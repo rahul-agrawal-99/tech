@@ -30,7 +30,7 @@
 
                     **** ---       AWS Event Bridge        --- ****
 
-        serverless event bus used for real time streaming application
+        serverless event bus used for real time streaming application  , extension of CloudWatch
 
         EventBus : recieves events from source and route them to destinations based on rules 
 
@@ -89,6 +89,11 @@
                  convert digital media stored in Amazon S3 into the audio and video codecs and the containers required by consumer playback devices. 
                  For example, you can convert large, high-quality digital media files into formats that users can play back on mobile devices, tablets, 
                         web browsers, and connected televisions.
+
+                        **** ---     AWS Athena        --- ****
+
+                it is used for querying data from Amazon S3 and Amazon Redshift and display data
+                Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 and other federated data sources using standard SQL.
 
 
         
