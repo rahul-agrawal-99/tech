@@ -1,8 +1,12 @@
-AWS Lambda is a compute service that lets you run code without provisioning or managing servers. AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second.
+AWS Lambda is a compute service that lets you run code without provisioning or managing servers. 
+AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second.
 
 also known as serverless computing , it is Function as a Service , it can pull or push service
 
+by default , it runs in no vpc to access it from any region , but can be configured to run in vpc
+
 bill only when code executed , measured in multiple of 100's miliseconds 
+first 1 million requests are free there after 0.20$ a million
 all the backend part managed by aws 
 AWS provides :
 	auto scaling
@@ -30,6 +34,13 @@ Event can be
 	request on api gateway
 	using sdk
 	using kinesis
+	from aws iot 
+	from aws cloudwatch
+	from load balancer
+	from codecommit
+	from s3
+	from sqs , SNS
+
 	
 
 
@@ -53,7 +64,9 @@ diff types of invocation methods for Lambda function
 		supported services  = kinesis , SQS , dynamodb stream
 
 
-
+problems with serverless architecture:
+	cold start : code need to be copied and loaded after trigger event invokes it , it can cause delay ,  not suitable for responsive web appplication 
+				precaution : pre-warming - keep server continously running
 
 ***********************************************************************************************************************************************************************************
 

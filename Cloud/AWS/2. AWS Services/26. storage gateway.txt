@@ -4,11 +4,18 @@ Seamlessly and securely integrate your on-premises IT environment with AWS' stor
 it is a service that enables you to securely and reliably connect to your on-premises data center and integrate it with the 
 AWS storage infrastructure. it is simply extension to on premise storage.
 
-1. File Gateway :
+1. File Gateway :  NFS
     extends local storage to S3 
 
-2. Volume Gateway :
-    Caches local storage to S3 so that we can have continous backup 
+2. Volume Gateway :  iSCSI   internet small computer system iterface
+    local storage to S3 so that we can have continous backup 
+    point in time snapshots saved in EBS snapshots 
 
-3. Tape Gateway :
+        2 types :
+            Stored : continously backup loacl storage to S3 as EBS snapshots 
+            cached : continously backup frequently used files to S3 as EBS snapshots 
+            
+ 
+3. Tape Gateway :   VTL virtual tape library
     Store files onto tape for backup for very cost effective long term storage  
+    backups virtual tapes to s3 glacier for long archival

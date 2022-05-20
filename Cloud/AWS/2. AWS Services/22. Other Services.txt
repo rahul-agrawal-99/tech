@@ -11,13 +11,28 @@
 
                     **** ---       Kinesis         --- ****
 
-        Collect, process, and analyze data streams in real time.
+        Collect, process, and analyze data streams in real time. e.g. Stock prices , Game data , Socail network data
+        4 types of steams : 
+                        1. Data stream    : multiple consumers
+                                Shard :  A uniquely identified group of data records in a Kinesis data stream.  pay per running Shard
+                                data can persists upto 168 hours before disappearing from stream 
+                        2. Firehose delivery stream
+                                data immediately disppears once its consumed , can convert incoming data to another format , compress
+                                only one consuemer
+                        3. Data Analytics
+                                data is processed and stored in a data lake , can be queried , stored in a database
+                                can be used for real time analytics
+                        4. Video Analytics
+                                ingest video or audio data from multiple sources , process it , and sends it to consumers like SAgemaker , tensorflow , rekognition
+                                producers can be Security cam s , web cams , mobile cams
+
+        
 
 
 
                     **** ---       AWS API GateWay        --- ****
 
-        solution for craeting API i cloud at any scale 
+        solution for craeting API in cloud at any scale 
         using this , we can route traffic based on the request to any of aws service or third party
 
 
@@ -94,6 +109,11 @@
 
                 it is used for querying data from Amazon S3 and Amazon Redshift and display data
                 Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 and other federated data sources using standard SQL.
+
+                        **** ---     AWS MQ        --- ****
+
+                Amazon MQ is a managed message broker service for Apache ActiveMQ and RabbitMQ that makes it easy to set up and operate message brokers on AWS
+                Amazon MQ connects to your current applications with industry-standard APIs and protocols, you can easily migrate to AWS without having to rewrite code.
 
 
         

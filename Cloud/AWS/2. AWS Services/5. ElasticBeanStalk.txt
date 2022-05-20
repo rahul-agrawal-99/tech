@@ -7,3 +7,4 @@ it is powered by CloudForamtion templates which contains :
     RDS
     Cloudwatch monitering 
     pre-configured EC2
+    can run dockerized applications

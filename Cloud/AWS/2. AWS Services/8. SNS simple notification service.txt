@@ -9,10 +9,10 @@ pay as you go model ,no upfronnt cost
 copies of messags stored in multiple AZ's in same region 
 
 used while auto scaling where we get msg after scaling
+ 
+subscriber can be Lambda , SQS , HTTP/S , Email , SMS , Email/JSON , SQS
 
-subscriber can be Lambda , SQS , HTTP/S , Email , SMS , Email/JSON
-
-msg is stored in sns topic by publisher
+msg is stored in sns topic by publisher , MSG can be encrypted using KMS , A topic can have multiple subscriptions
 
 diff topic can have diff set of subscribers with varios protocols
 
@@ -23,9 +23,9 @@ topic creator can give publisher access to others also , can be mutltiple publis
 
 creator - > publisher -> msg -> topic -> send to all mentioned set of subscriber's 
 
-publisher can send msg through ssl to subscriber's 
+publisher can send msg through ssl to subscriber's  
 
-sns support 1. amazon messenging 2. apple push notification 3. google cloud messeging 4 . baidu cloud push notifications for android
+sns support 1. amazon messeging 2. apple push notification 3. google cloud messeging 4 . baidu cloud push notifications for android
 
 when publisher publishes the notifiacation sns send identical copies to releted topic subscribers
 

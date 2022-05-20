@@ -28,7 +28,7 @@ S3 Use cases :
 
         1. Media storage like video , audio , images
         2. used as origin store for CDN
-        3. static website hosting
+        3. static website hosting  (if using custom domain , use bucket name same as domain name)
 
 All Buckets are private by default but with presigned url we can access temporarely publically with url , presigned url is created using CLI or SDk
 

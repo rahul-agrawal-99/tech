@@ -4,7 +4,30 @@ It moves data between distributed application components and helps you decouple 
 it provides queues for high-throughput, system-to-system messaging. 
 You can use queues to decouple heavyweight processes and to buffer and batch work. 
 Amazon SQS stores messages until microservices and serverless applications process them.
+in order to use sqs , we need to pull queue using SDK , it is not push based
+messges retention in queue in by default is 4 days , can be set from 60 seconds to max 14 days
+ordered delivery of messages is not guaranteed , for that FIFO queue is used 
+Max 256KB per message allowed , after that it can be extended upto 2 GB using only JAVA and S3
+
+
 
 Use case : queue up transation email like reset , login
 
 it is not real-time . for real-time use cases Kinesis is used
+
+visibility Timeout : period of time after which message is not visible to other services 
+                    if job is done then message is deleted from queue
+                    if not done in timeout period then message is visible to other services
+
+
+Polling : methode to get messages from queue
+
+Short polling :         (by default)
+    - returns message even if queue is empty
+    - used when need message right away
+    - costly due to calling periodically even if queue is empty
+
+
+Long Polling :
+    - if queue is empty then it will wait for message to be added to queue
+    - used with .withWaitTimeSeconds(seconds)

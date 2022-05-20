@@ -19,7 +19,7 @@ There are 3 Event types in CloudTrail to create a trail:
     1. Management Events   :   show information about management operations performed on resources in your AWS account. No additional charges , by default it is enabled.
 
 
-    2. Data Events     :   show information about the resource operations performed on or within a resource. extra charges 
+    2. Data Events     :   show information about the resource operations performed on or within a resource. extra charges  (disabled by default)
                             need to choose the data event type. like S3 , DynamoDB , Lake , Lambda etc.
                             then after that you need to select Log selector template like all data , readonly data , writeonly data  etc.
 
@@ -28,4 +28,4 @@ There are 3 Event types in CloudTrail to create a trail:
 
 Also we can send trails to CloudWatch logs to recieves notification about specific activity
 
-with AWS Athena , you can query your data and analyze it.
+with AWS Athena , you can query your data and analyze data stored in s3
