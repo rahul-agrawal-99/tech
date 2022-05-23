@@ -8,7 +8,8 @@
 
 
 Hypervisor : 
-	A hypervisor, also known as a virtual machine monitor or VMM, is software that creates and runs virtual machines (VMs). A hypervisor allows one host computer to support multiple 	guest VMs by virtually sharing its resources, such as memory and processing
+	A hypervisor, also known as a virtual machine monitor or VMM, is software that creates and runs virtual machines (VMs). 
+	A hypervisor allows one host computer to support multiple 	guest VMs by virtually sharing its resources, such as memory and processing
 
 	There are two main hypervisor types, referred to as “Type 1” (or “bare metal”) and “Type 2” (or “hosted”). 
 
@@ -28,17 +29,21 @@ Hypervisors: (works on/AS OS) (e.g. ESXi(vmware) , Nitro(aws) , Xen(aws) )
 -has limit of creating vm i.e. hardware
 -vm requires OS to be installed on top of it ,also it can't get more resources if needed , bounded to allocated resources at creation
 
+Host OS -> Hypervisor -> VM [OS with pkg , lib , bins]
+
 
 Containers: (works on OS , lightweight ) (e.g. Docker engine)
 
 -Allow applications to run independently of an operating system. 
 -Can run on any operating system—all they need is a container engine to run. 
 -Are extremely portable since in a container, an application has everything it needs to run. 
--containers package up just an app and its related services. This makes them more lightweight and portable than VMs, so they are often used for fast and flexible application development and 	movement.
+-containers package up just an app and its related services. 
+	This makes them more lightweight and portable than VMs, so they are often used for fast and flexible application development and 	movement.
 -no limit until hardware , hardware can be used dynamically  , container directly interacts to os for get resources
 -no os installation as Image contains all the necessory files including OS files to run the container 
 - it has only required os files rather than full os which is in vm so conatiner is lightweight
 
+HOST OS -> Container Runtime  -> conainer [contains pkg , lib , bins to support os]  				    Container Runtime can be Docker deamon , ConaitnerD
 
 
 					---------------------------------------------------------------------------
@@ -82,7 +87,8 @@ Limitations Of Docker ;
 
  // * Docker Hub 
 
-	it is a service provided by Docker for finding and sharing container images with your team. Docker Hub provides the following major features: Repositories: Push and pull container images. Teams & Organizations: Manage access to private repositories of container images
+	it is a service provided by Docker for finding and sharing container images with your team. Docker Hub provides the following major features: Repositories: Push and pull container images. 
+	Teams & Organizations: Manage access to private repositories of container images
 
 
 

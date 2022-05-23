@@ -62,7 +62,7 @@ Basic structure of commands
                 OBJ_PARAMETER  / flags  :
 
 
-                                    -o wide            get detailed info about that obj type
+                                    -o wide            get detailed info about that obj type and also IP if applicable
 
                                     --show-labels            get labels if assigned
 
@@ -113,6 +113,9 @@ Basic structure of commands
 
                                   quota
 
+                                  job   e.g kubectl create job nginxjob --image=nginx -- echo "hello"     OR  
+                                            kubectl create job nginxjob --image=nginx --schedule="*/1 * * * *" -- echo "hello"     CRON Job
+
 
                 OBJ_PARAMETER  / flags  :
 
@@ -122,6 +125,7 @@ Basic structure of commands
                                 --namespace=NAME      -----create in that ns 
 
                                 --hard=<resource-name>=<value>    # only for type quota
+
 
 
 
@@ -446,7 +450,7 @@ kubectl label pods foo bar-
                                                                   |___/ 
                         
                         
-                        ACTION_TYPE    " config "   used to configure settings for kubectl
+                        ACTION_TYPE    " config "   used to configure settings for kubectl        
 
                                             kubectl config set-cluster my-cluster --server=https://
 
@@ -459,37 +463,60 @@ kubectl label pods foo bar-
                         kubectl config view | grep namespace:
 
 
+
+
+                    config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+
+                        config file contains cluster , user and context .
+
+                                cluster = > https endpoints for cluster
+                                user = >  credential to communicate to cluster
+                                context = >   cluster + user
+
+
+                            TOP    
+
+                     (table of processes) command shows a real-time view of running processes in Linux and displays kernel-managed tasks available in Linux
+
+                     kubectl top command doesn’t actually collect any metrics itself. It queries the Metrics API for the metrics and presents them to you
+                            You can check whether the Metrics API is installed by running the following command
+
+                                    kubectl get pods --all-namespaces | grep metrics-server
+
+                    If Not , then install using :
+
+                                kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
+
+                ACTION_TYPE    " top "       get metrics of any object type
+
+                                            kubectl top  OBJ_TYPE   OBJ_PARA    
+
+                                                e.g       kubectl top pods                                 # Get metrics for all pods
+
+                OBJ_TYPE    :
+
+                                  pods
+
+                                  Node
+
+                OBJ_PARA    :
+
+                                     --sort-by                  e.g     kubectl top pods --sort-by cpu
+                                                    
+                                                    kubectl top pods -A --sort-by=cpu | head -4 // it will show with headers, so need head -4.
+
+                    
+
 	
 
 			
 						
 
 
-	5. config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+		
 
-		config file contains cluster , user and context .
-
-				cluster = > https endpoints for cluster
-				user = >  credential to communicate to cluster
-				context = >   cluster + user
-
-
-
-	7. get list of name spaces available
-					---------------------------------------------------------------------------
-					|                		 kubectl get ns				  |
-					---------------------------------------------------------------------------
-
-				Namespace provides an additional qualification to a resource name. This is helpful when multiple teams are using the same cluster and there is a potential of 				name collision. It can be as a virtual wall between multiple clusters.
-
-				Functionality of Namespace
-					Following are some of the important functionalities of a Namespace in Kubernetes −
-
-												Namespaces help pod-to-pod communication using the same namespace.
-
-												Namespaces are virtual clusters that can sit on top of the same physical cluster.
-
-												They provide logical separation between the teams and their environments.
 
 	8. get desciption of pod available
 					---------------------------------------------------------------------------

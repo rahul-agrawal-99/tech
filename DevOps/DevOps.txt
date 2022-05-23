@@ -14,7 +14,7 @@ DevOps Lifecycle :
 Tools used :
 
 plan -> Jira , kanban ,  Wordpres, Atlassso Wiki, Trello, Zendesk
-configure -> chef , puppet , ansibl e.saltstake
+configure -> chef , puppet , ansible , saltstake
 code -> IDE , Git for versioning
 build ->  Meaven , Gradle
 test ->  Selenium, Junit

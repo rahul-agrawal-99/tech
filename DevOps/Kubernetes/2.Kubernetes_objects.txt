@@ -20,7 +20,7 @@ diff types of object available in k8s are :
 
 
 					---------------------------------------------------------------------------
-					|                  Pod					 	        |
+					|                          Pod					                        |
 					---------------------------------------------------------------------------
 
                     it is smalles unit of k8s, it is used to run application on k8s cluster.
@@ -114,6 +114,12 @@ diff types of object available in k8s are :
 					|                                    Services				         	 |
 					---------------------------------------------------------------------------
 
+                    A “service” is defined as the combination of a group of pods, and a policy to access them
+                    A service needs three things: 
+                            a name (mychatapp-service), 
+                            a way to identify the pods in its group (typically a label like irc=forever),  
+                            way to access those pods (port 6667 via TCP)
+                    
                     services are attached to pods , even if pod dies , services remain as it is and can be attched to new pod 
 
                     each service has its own ip address and port number
@@ -139,16 +145,35 @@ diff types of object available in k8s are :
                                                 this static port in defined in .spec.ports.nodePort
                                                 static port should be between 30000 - 32767 , other than that not accepted
                                                 not secure and not efficient , used only for test
+                                                it make the ClusterIP service available from the outside
+                                                It is an open port on every worker node in the cluster that has a pod for that service
+                                                Exposes the Service on each Node's IP at a static port (the NodePort). 
+                                                A ClusterIP Service, to which the NodePort Service routes, is automatically created. 
+                                                You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>.
 
 
-                        3. LoadBalancer :   
-
-                        4. Headless :   
-
-
+                        3. LoadBalancer :    It supports multiple protocols and multiple ports per service
 
                     ClusterIP < Nodeport < LoadBalancer 
 
+                        ExternalName : it creates an internal service with an endpoint pointing to a DNS name.
+
+					---------------------------------------------------------------------------
+					|                                 Headless Service  	 			 |   (used for statefulset) 
+					---------------------------------------------------------------------------
+
+                    Headless Service is a service that does not have a corresponding LoadBalancer and static IP
+                    Setting the clusterIP field in a service spec to None makes the service headless
+
+                    Usually, when you perform a DNS lookup for a service, the DNS server returns a single IP — the service’s cluster IP. 
+                    But if you tell Kubernetes you don’t need a cluster IP for your service, the DNS server will return the pod IPs instead of the single service IP
+
+                    A Headless service is used to identify specific pods by assigning them DNS record
+
+                    Sometimes you don't need load-balancing and a single Service IP. 
+                    In this case, you can create what are termed "headless" Services, by explicitly specifying "None" for the cluster IP (.spec.clusterIP).
+
+                    headless services still provide load balancing across pods but through the DNS round-robin mechanism instead of through the service proxy.
 
                		---------------------------------------------------------------------------
 					|                                         Ingress 	        				 |
@@ -305,6 +330,7 @@ diff types of object available in k8s are :
                     it is abstraction on replica set that is abstraction on pod that is abstraction on container
 
                     A Deployment provides declarative updates for Pods and ReplicaSets.
+                    it changes actual state to desired state at controlled rate
 
                     Naming in deployment :
 
@@ -414,7 +440,16 @@ diff types of object available in k8s are :
                     Namespace-based scoping is applicable only for namespaced objects (e.g. Deployments, Services, etc) and 
                     not for cluster-wide objects (e.g. StorageClass, Nodes, PersistentVolumes, etc)
 
-                    By default namespace is :  default
+                    K8s starts with 4 initial namespaces:
+ 
+                    1. default    :   By default namespace 
+                    2. kube-system    :  system namespace that stores objects created by kubernetes system  , do not use this namespace for your own resources
+                    3. kube-public    : For resources that are publically available
+                    4. kube-node-lease   :  namespace for node lease objects , used to detect node failure by sending heartbeat to kube-apiserver
+
+                    Single NS Objects : ConfigMaps and Secreats , cant be shared across namespaces limited to only one
+                    multiple NS Objects : pods and services cam belong to more than one NS
+                    Cluster-Wide :   Vloumes and Nodes are global objects , cant be bound to a namespace
 
                     using tool kubens we change default namesapce to any names space we want
 
@@ -450,6 +485,18 @@ diff types of object available in k8s are :
                     The resource quota is the total available resources for a particular namespace, while limit range is used to assign limits for containers(Pods) running inside the namespace.
                     ResourceQuota is for limiting the total resource consumption of a namespace
                     LimitRangeis for managing constraints at a pod and container level within the project.
+
+				Namespace provides an additional qualification to a resource name. This is helpful when multiple teams are using the same cluster and there is a potential of 			
+                	name collision. It can be as a virtual wall between multiple clusters.
+
+				Functionality of Namespace
+					Following are some of the important functionalities of a Namespace in Kubernetes −
+
+												Namespaces help pod-to-pod communication using the same namespace.
+
+												Namespaces are virtual clusters that can sit on top of the same physical cluster.
+
+												They provide logical separation between the teams and their environments.
 	
 					---------------------------------------------------------------------------
 					|                            ResourceQuota                  	 	 |
@@ -504,6 +551,8 @@ diff types of object available in k8s are :
 					|                       Storage Class		 			 |
 					---------------------------------------------------------------------------
              
+	
+             
 					---------------------------------------------------------------------------
 					|                              Network policy  	        	 			 |
 					---------------------------------------------------------------------------
@@ -528,7 +577,7 @@ diff types of object available in k8s are :
 
                     performs batch operations
 
-                    like for log opearations we need to terminate pod after successful completion of log operations
+                    like for log opearations we need to terminate pod after successful completion of log operations , Backup database , etc
                     Kubernetes Jobs ensure that one or more pods execute their commands and exit successfully.
 
                     When all the pods have exited without errors, the Job gets completed. When the Job gets deleted, any created pods get deleted as well.
@@ -540,6 +589,12 @@ diff types of object available in k8s are :
                         2. pods are created according to job spec
                         3. containers inside pod perform operation that are mentioned.
                         4. when all containers are done , pod gets terminated, job is completed
+
+                    
+                    CRON Jobs :
+
+                    cron job is a type of job that runs periodically.
+
 
     
      
