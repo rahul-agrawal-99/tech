@@ -1,4 +1,4 @@
-                                       _          _                          _            
+                                       _          _                          _                      https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
                                       | | ___   _| |__   ___ _ __ _ __   ___| |_ ___  ___ 
                                       | |/ / | | | '_ \ / _ \ '__| '_ \ / _ \ __/ _ \/ __|
                                       |   <| |_| | |_) |  __/ |  | | | |  __/ ||  __/\__ \
@@ -18,7 +18,7 @@ Basic structure of commands
 
 *****************************************************************************************************************************************
 										
-                            kubectl     ACTION_TYPE     OBJ_TYPE    OBJ_NAME     OBJ_PARAMETER
+                            kubectl     ACTION_TYPE     OBJ_TYPE    OBJ_NAME     OBJ_PARAMETER/FLAG
 
 *****************************************************************************************************************************************
 
@@ -37,7 +37,7 @@ Basic structure of commands
 
                                   all               
 
-                                  pods
+                                  pods   or   po
 
                                   ns      or     namespace
 
@@ -52,6 +52,8 @@ Basic structure of commands
                                   rs         or        replicaset
 
                                   quota             get resource-quota
+
+                                  persistantvolume    or  pv
 
                         
                         e.g.      kubectl get pods    OR     
@@ -413,6 +415,7 @@ kubectl label pods foo bar-
                                         | .__/  |_|     \___/  /_/\_\  \__, |
                                         |_|                            |___/ 
 
+                ACTION_TYPE    " proxy "        creates proxy server betnween localhost and API server  
 
                      ____                   _              __                                               _ 
                     |  _ \    ___    _ __  | |_           / _|   ___    _ __  __      __   __ _  _ __    __| |
@@ -474,7 +477,7 @@ kubectl label pods foo bar-
                                 context = >   cluster + user
 
 
-                            TOP    
+                           --------- TOP    
 
                      (table of processes) command shows a real-time view of running processes in Linux and displays kernel-managed tasks available in Linux
 
@@ -512,6 +515,17 @@ kubectl label pods foo bar-
 	
 
 			
+                           --------- annotations    
+                           --------- auth    
+                           --------- autoscale    
+                           --------- cp
+                           --------- delete
+                           --------- diff
+                           --------- edit
+                           --------- expose
+                           --------- kustomize
+                           --------- patch
+                           --------- run
 						
 
 

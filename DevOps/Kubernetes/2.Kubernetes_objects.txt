@@ -1,4 +1,4 @@
-                            _              _                                    _                
+                            _              _                                    _                           https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands     
                             | | __  _   _  | |__     ___   _ __   _ __     ___  | |_    ___   ___ 
                             | |/ / | | | | | '_ \   / _ \ | '__| | '_ \   / _ \ | __|  / _ \ / __|
                             |   <  | |_| | | |_) | |  __/ | |    | | | | |  __/ | |_  |  __/ \__ \
@@ -13,10 +13,11 @@
                                             |__/                           
 
 
+
 kubernetes offers following objects/components :
 
 
-diff types of object available in k8s are :
+diff types of object available in k8s are :   (around 50+ Resources/objects available in k8s )
 
 
 					---------------------------------------------------------------------------
@@ -608,7 +609,40 @@ You describe a desired state in a Deployment, and the Deployment Controller chan
 
 Other Objects ;
 
-Custom Resource Definition (CRD) : used for custom controller
+            Custom Resource Definition (CRD) : used for custom controller
+
+            Binding
+
+            Componentstatuses
+
+            endpoints
+
+            events 
+
+            LimitRange
+
+            Podtemplates 
+
+            Resourcequota 
+
+            serviceaccounts
+
+            apiservices
+
+            Tokenreviews
+
+            certificate signing request
+
+            Leases 
+
+            clusterroles
+
+            Roles 
+            
+
+
+
+
 
     
     

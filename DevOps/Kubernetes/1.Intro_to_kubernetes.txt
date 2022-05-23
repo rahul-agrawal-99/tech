@@ -152,6 +152,13 @@ it checks etcd via server and commands           |						/
 						|							   |
 						|							    -------- pod22  -> 	cont1 , cont2 , cont3			
 						SCHEDULER (actions taken here actually)	
+
+						communication from and to API server is done via HTTPs
+						communication between pods is done using gRPC   (Google's Remote procedure Protocol) like	
+								- kubelet to container engine/runtime like docker daemon
+								- kubelet to container storage interface (CSI used to access Volumes in pods)
+							
+
 	
 
 		* Admin sends menifest to Api server then 
@@ -174,9 +181,15 @@ it checks etcd via server and commands           |						/
 
 			# Kubelet Service (sends node status to etcd) 10225 port by default
 
-					This is a small service in each node responsible for relaying information to and from control plane service. It interacts with etcd store to read 					
-					configuration details and wright values. This communicates with the master component to receive commands and work. The kubelet process then assumes 					
-					responsibility for maintaining the state of work and the node server. It manages network rules, port forwarding, etc.
+					This is a small service in each node responsible for relaying information to and from control plane service. 
+					It interacts with etcd store to read configuration details and write values. 
+					it communicates via API sevrer not diretly to etcd
+					This communicates with the master component to receive commands and work. 
+					The kubelet process then assumes responsibility for maintaining the state of work and the node server. 
+					It manages network rules, port forwarding, etc.
+					it also configure container runtime to pull and run image , create namespaces 
+					it uses PodSpec file to determine what image to pull and container to run 
+					it also sends back HTTPs request to API server about container logs and execution requests 
 
 
 			# Kubernetes Proxy Service (each pod has ip to communicate with other pods or external network )
@@ -202,31 +215,9 @@ it checks etcd via server and commands           |						/
 		The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. 
 		You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs
 		kubectl communicated with api-server to perform actions based on commands 
+		it is configured using $HOME/.kube/config    file
 
 
-					////  ***  kind    ***   ///
-		
-		kind lets you run Kubernetes on your local computer. This tool requires that you have Docker installed and configured.
-
-			
-					////  ***   minikube   ***   ///
-
-		Like kind, minikube is a tool that lets you run Kubernetes locally. 
-		minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, 
-		or for daily development work.
-		it has docker container time preinstalled so we dont need to install it but it is only available inside minikube 
-		there will be different docker registry of docker inside minikube and locally installed docker
-
-		use --vm-driver along with start to select hypervisor where minikube requires  , it is deprecated as  --driver
-		--driver='': Driver is one of: virtualbox, vmwarefusion, kvm2, vmware,none, docker, podman, ssh (defaults to auto-detect)
-
-		using : eval $(minikube docker-env)     , we can access docker inside minikube for that opened cli only 
-
-				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image into its docker 
-
-				to pull from local docker registry use :   minikube image load IMG_NAME            
-
-				it will load the image into minikube docker registry from our local docker registry
 
 
 
@@ -297,14 +288,78 @@ Kubernaetes On Cloud
 		ECS (Elastic Container Service)  => control plane costs zero , only pay for workernode ($70 per month per node)
 											Requires creating cluster
  
-		EKS(Elastic Kubernetes Service)	=> control plane costs $144/month , only pay for workernode 
+		EKS(Elastic Kubernetes Service)	=> control plane costs $144/month , only pay for workernode , difficult UI but powerful CLI (EKSCTL)
 											Requires creating cluster
 
 		Farget     => no cluster required , 
 
+	GCP :
+		GKE (google k8s Engine)
+
+	Azure :
+			AKS (Azure kubernetes service)
+
+	IBM  :
+		IBM cloud k8s service  =>  not feature rich but more expensive than other cloud providers
+
+	Oracle container Engine for k8s => cost efficient but limited options
+
+	DOKS (digital ocean) : predictable spending , good UI 
 
 
 Additional terms:
 
 	In-Tree : plugins , components  or functions that are provided by default or resides within main repo
 	Out-tree : plugins , components  or functions that must be installed manually
+
+	gRPC is a high performance, open-source universal RPC(remote procedure call) framework, based on the TCP communication developed by google 
+	mainly used for communicate betn distributed system
+	used by installing gRPC library 
+	k8s uses for pod communication 
+
+
+
+							////  ***  K3s   ***   ///  
+
+			it is lightweight k8s distribution designed to run production level k8s workload for low resourced and remotely located Iot Devices and edge devices  
+			it uses hosts scheduling mechanism instead of kubelet to run containers , it is bare metal
+			k3d(minikube Alternative) run docker container  , requires docker installed
+
+
+
+
+					////  ***  microK8s   ***   ///  
+
+	        (can be used in self-hosted production use case)
+			k8s distribution created by canonical (company behind ubuntu OS) and installed using snap
+			restarts if crashes
+
+
+
+
+					////  ***  kind    ***   ///  (kubernetes in docker)  only for development
+		
+		kind lets you run Kubernetes on your local computer. This tool requires that you have Docker installed and configured.
+		uses docker containers as node
+
+			
+
+
+					////  ***   minikube   ***   ///    only for development
+
+		Like kind, minikube is a tool that lets you run Kubernetes locally as a virtual machine
+		minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, 
+		or for daily development work.
+		it has docker container time preinstalled so we dont need to install it but it is only available inside minikube 
+		there will be different docker registry of docker inside minikube and locally installed docker
+
+		use --vm-driver along with start to select hypervisor where minikube requires  , it is deprecated as  --driver
+		--driver='': Driver is one of: virtualbox, vmwarefusion, kvm2, vmware,none, docker, podman, ssh (defaults to auto-detect)
+
+		using : eval $(minikube docker-env)     , we can access docker inside minikube for that opened cli only 
+
+				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image into its docker 
+
+				to pull from local docker registry use :   minikube image load IMG_NAME            
+
+				it will load the image into minikube docker registry from our local docker registry
