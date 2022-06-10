@@ -5,6 +5,9 @@
                                                     |_| |_|  \___| |_____| |_|  |_|
                                                                         
 
+Package manager : collection of software tools that automates process of installing , upgrading , configuring and removing computer programs for a computer
+
+HELM : can be stated as IAC to manage infrastructure in the cluster 
 
         About Helm : 
 
@@ -33,6 +36,8 @@
                 Chart 
 
                     They are simply combined yaml manifest into single package that can be installed on Kubernetes cluster.
+
+                    contains resource defination necessary to run an application , tool or service inside k8s cluster
 
 
 
@@ -81,7 +86,7 @@
                    [NAME]
                     ├── charts
                     ├── Chart.yaml    => we can edit this file to change the values that to be applied on the chart
-                    ├── templates
+                    ├── templates       => with values.yaml will generate valid manifest file for k8s
                     │   ├── deployment.yaml
                     │   ├── _helpers.tpl
                     │   ├── hpa.yaml
@@ -91,7 +96,7 @@
                     │   ├── service.yaml
                     │   └── tests
                     │       └── test-connection.yaml
-                    └── values.yaml
+                    └── values.yaml          =>  default configuration values for this chart
 
             helm install [NAME] REPO_NAME/[PKG_NAME]        =>  This command installs a chart archive/release
 

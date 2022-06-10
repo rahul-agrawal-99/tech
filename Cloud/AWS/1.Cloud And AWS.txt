@@ -20,7 +20,7 @@ Public Cloud :
 
     Advatages : Scalability , Lower capital 
 
-    Best For : stratups , indivisuals 
+    Best For : startups , indivisuals 
 
 
 Private Cloud(On - premises) :
@@ -48,7 +48,8 @@ Cross-Cloud :
 
     Anthos is GCP's Control plane for compute across multiple providers 
 
-Vertical scaling (or scaling up/down) is upgrading or downgrading the hardware, for example, upgrading the size of an instance from t2.micro to t2.medium. Vertical scaling is commonly used for databases.
+Vertical scaling (or scaling up/down) is upgrading or downgrading the hardware, for example, upgrading the size of an instance from t2.micro to t2.medium. 
+            Vertical scaling is commonly used for databases.
 
 Horizontal scaling (or scaling in/out) is increasing or decreasing the number of instances used by your application or system. For example, increasing the number of EC2 instances from 2 to 4. Horizontal scaling is commonly used for web applications
 
@@ -90,7 +91,7 @@ CSP (Cloud Service Provider) :
     A company that provides multiple cloud services
     that services chained together to form architecture.
     this services are accessible via API (like shell , management console etc)) 
-    servies are billed according to the usage like per second , per hour etc.
+    services are billed according to the usage like per second , per hour etc.
     srvices has built in monitering system
     it offers IaaS (Infrastructure as a Service)
     Also offers IAC (Infrastructure as a Code) for Automation
@@ -112,6 +113,7 @@ Why AWS :
     AWS is CSP(Cloud Service Provider) launched in 2006
     in 2010 , all of amazon.com shifted to AWS
     CEO of AWS is Adam Selipsky (Former CTO at Tablue)
+    The AWS Cloud spans 84 Availability Zones within 26 geographic regions around the world
 
     using API we can interact aws services , we can use this api using management console , aws cli or aws SDK
     AWS SDK is available in most of programming languages like python ,c++ , ruby , java , javascript , php , node.js , GO etc. 

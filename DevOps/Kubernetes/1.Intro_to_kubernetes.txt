@@ -55,7 +55,7 @@ Kubernetes comparison with its top compatitor docker swarm :
 	it has gui but swarm does not have
 	it is complex and harder than swarm but it has more features than swarm
 	data sharabilty is only within pod in case of kubernetes but in swarm it is sharable throughout all containers
-	swarm only supports only while k8s supports  Docker, containerd, CRI-O, and any implementation of the Kubernetes CRI 
+	swarm only supports Docker only while k8s supports  Docker, containerd, CRI-O, and any implementation of the Kubernetes CRI 
 	it has support of auto scaling in both direction but swarm does not have
 	k8s has its own monitering tool but swarm needs 3rd party tool to perform this
 
@@ -86,10 +86,10 @@ Architecture :
 	
 			# Controller Manager
 					This component is responsible for most of the collectors that regulates the state of cluster and performs a task.
-					In general, it can be considered asa daemon which runs in nonterminating loop and 
+					In general, it can be considered as a daemon which runs in non-terminating loop and 
 							is responsible for collecting and sending information to API server. 
 
-					It works toward getting theshared state of cluster and then make changes to bring the "current status" of
+					It works toward getting the shared state of cluster and then make changes to bring the "current status" of
 					  the server to "desired state".
 
 					The controller manager runs different kind of controllers to handle nodes, endpoints, etc.
@@ -106,6 +106,8 @@ Architecture :
 					it is used to store cluster data so that in case if one of the node or even master fails it can be recovered.
 					in EKS . every EKS cluster has its own etcd cluster , so it is not shared among nodes
 					as etcd is open source , it is used by many other projects also like coreOs container , uber M3 app
+
+					  - mariaDB can be used to backup resources of k8s like etcd
 			
 			# Scheduler
 					This is one of the key components of Kubernetes master. 
@@ -163,8 +165,8 @@ it checks etcd via server and commands           |						/
 
 		* Admin sends menifest to Api server then 
 		control manager check actual and desired state with help of etcd and 
-		commands scheduler to perform necessory action to get in desired state , menifest scripts written in JSON OR Yaml contains
-		scheduler samrtly decides which pod to run on which node and which container to run on which pod based on the workloads on each cluster and node
+		commands scheduler to perform necessory action to get in desired state
+		scheduler smartly decides which pod to run on which node and which container to run on which pod based on the workloads on each cluster and node
 		but we can also decide manually to on which node pod will be created 
 		by getting commnds from scheduler , kubelet on nodes perform actions to create pod based on image provided by scheduler itself
 		Replication is done by Control manager by checking the desired and actual state of node and if any of pod fails ,new pod get scheduled on node
@@ -207,7 +209,7 @@ it checks etcd via server and commands           |						/
 
 
 
-//////    Kubernaetes services 
+//////    Kubernetes services 
 
 
 					////  ***  kubectl    ***   ///
@@ -251,6 +253,13 @@ it checks etcd via server and commands           |						/
 		It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well. 
 		
 		It manages pods on node, volumes, secrets, creating new containers’ health checkup, etc.
+
+		it is designed to load balance traffic to pods 
+
+		it can run in 2 modes :
+			1. iptable   : suitable for simple and less services 
+			2. ipvs      :  suites 1000+ services , future replacement of iptable
+	
 
 
 
@@ -317,6 +326,51 @@ Additional terms:
 	used by installing gRPC library 
 	k8s uses for pod communication 
 
+	management layer : allows to extend control plane to multiple platform 
+			e.g.  Weave K8s platform , Rafay  , Vmware Tanzu , RadHat Openshift (Paas for k8s)
+
+	Container Runtime :  (interface + runtime)
+		kubelet wants to process pod specs, it needs a container runtime to create the actual containers. 
+		The runtime is then responsible for managing the container lifecycle and communicating with the operating system kernel.
+
+	CRI (Conatiner runtime interface) : allows to run diff. container runtimes like Docker, CRI-O , containerd
+	CRI enables Kubernetes users to easily make use of multiple container runtimes, and enables developers of container runtimes to easily integrate them with the Kubernetes ecosystem. 
+	Prior to the introduction of the CRI, rkt and Docker were directly integrated into the source code of the kubelet
+
+		ContainerD : industry standerd container runtime with robust and portable features donated to CNCF by Docker
+
+	Open Container Initiative (OCI) is a Linux Foundation project to design open standards for containers.
+	it is industry standerd container image format and runtime to make sure that all conatainer runtime could run image produced by any build tool
+
+	Open Container initiative (OCI) Runtime : 
+			it is low level interface for container runtime , e.g. runC is used by ContainerD and CRI-O
+			it has 2 types of runtime :
+				Native : e.g. runC , one kernal for all containers
+				Virtualized :  e.g. kata   , one per container linux kernal
+
+		RunC is low level container runtime that creates and run containers  ,  used alogside a ContainerD or CRI-O
+
+	
+	Container storage interface (CSI) : standerdize how orchestration toll like k8s access to various storage providers like AWS EBS , AZure disk
+
+	Service Mesh : service - to - service communication for microservice architecture  (e.g. NATS , gRPC , REST , SOAP)
+					on each pod proxy container is installed , an application must pass through proxy before leaving engress
+					proxy installation on pod is done by service mesh control plane
+
+				e.g. Istio , uses Envoy , not CNCF project
+
+	Container Network Interface (CNI) : CNI plugin is responsible for inserting a network interface into the container network namespace 
+							(e.g., one end of a virtual ethernet (veth) pair) and making any necessary changes on the host (e.g., attaching the other end of the veth into a bridge). 
+							It then assigns an IP address to the interface and sets up the routes consistent with the IP Address Management section 
+									by invoking the appropriate IP Address Management (IPAM) plugin.
+
+					 container/pod initially has no network interface. The container runtime calls the CNI plugin with verbs such as ADD, DEL, CHECK, etc. 
+					 ADD creates a new network interface for the container, and details of what is to be added are passed to CNI via JSON payload.
+
+	 network namespaces : logical isolation of network , heavily used in pod to pod communication , every pod has its own namespace 
+	 								virtual Ethernet is used to peer/bridge connection between pod and node and further to another node or pod
+									 it allows using same private ip in distinct network namespaces
+
 
 
 							////  ***  K3s   ***   ///  
@@ -363,3 +417,24 @@ Additional terms:
 				to pull from local docker registry use :   minikube image load IMG_NAME            
 
 				it will load the image into minikube docker registry from our local docker registry
+
+
+
+		C-Group (controls groups) : allows to group processes to apply different kinds of limitations like resource limiting , prioritize cpu utilization
+									Goal is to provide unified interface to manage whole os level virtualization 
+
+		CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. Like Kubernetes, the CoreDNS project is hosted by the CNCF.
+		You can use CoreDNS instead of kube-dns in your cluster by replacing kube-dns in an existing deployment, or by using tools like kubeadm that will deploy and upgrade the cluster for you
+		kube-dns is defaultly used with k8s , to use CORE-DNS we need to first install it manually
+		CoreDNS has plugins to support many of functionalities with other services
+
+		Rook :  Open-Source,  Cloud-Native Storage for Kubernetes 
+				Rook turns distributed storage systems into self-managing, self-scaling, self-healing storage services. 
+				It automates the tasks of a storage administrator: 
+						deployment, bootstrapping, configuration, provisioning, scaling, upgrading, migration, disaster recovery, monitoring, and resource management.
+				Rook uses the power of the Kubernetes platform to deliver its services via a Kubernetes Operator for each storage provider.
+
+		MinIO 
+				it offers high-performance, S3 compatible object storage.
+				Native to Kubernetes, MinIO is the only object storage suite available on
+				every public cloud, every Kubernetes distribution, the private cloud and the edge

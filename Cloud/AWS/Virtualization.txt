@@ -6,7 +6,7 @@ Firmware refers to software that has been permanently installed in a machine, de
 Software is most often meant to describe a program or piece of data that is meant to be viewed, changed or otherwise interacted with most often by the user.  Firmware is a term for a piece of software that is stored on a hardware device in order to make it run properly.
 Firmware is low-level operations, whereas the OS is high-level interfaces. Firmware is used for a single purpose, but the OS is used for general purposes, which allows any kind of software to run on multiple types of hardware
 
-Vmaware names its hypervisor as VMware ESXi (elastic sky) (formerly ESX)  an enterprise-class, type-1 , it is tool from a suite of vmware known as vsphere
+Vmware names its hypervisor as VMware ESXi (elastic sky) (formerly ESX)  an enterprise-class, type-1 , it is tool from a suite of vmware known as vsphere
 
 microsoft uses hyperV
 

@@ -1,4 +1,6 @@
-                            _              _                                    _                           https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands     
+https://kubernetes.io/docs/
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands  
+                             _              _                                    _                             
                             | | __  _   _  | |__     ___   _ __   _ __     ___  | |_    ___   ___ 
                             | |/ / | | | | | '_ \   / _ \ | '__| | '_ \   / _ \ | __|  / _ \ / __|
                             |   <  | |_| | | |_) | |  __/ | |    | | | | |  __/ | |_  |  __/ \__ \
@@ -31,7 +33,7 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                     pod has its own ip address but containers inside pods not have their own ip address
 
-                    evrytime pod gets created it will get new ip address only
+                    evrytime pod gets created it will get new ip address only , dns name of every container of every pod is stored at ( /etc/resolv.conf   of any linux)
 
                     if a single container inside pod fails then whole pod is discarded and new pod is creared as that pod cant be repaired or reconstructed, 
                     this is disadvatage of multi conatainer pod .
@@ -55,7 +57,22 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                             Never: Do not restart Container; Pod phase stays Running
                                 So pod is not restarted or the other container is not restarted , 
                                 only the exited container is restarted based on the restartPolicy
+                    
 
+                    probe is used to detect state of container , if it is not responding then pod is restarted
+
+                    Liveness Probe :   kubelet uses this when to restart container
+                            usecase :  liveness probes could catch a deadlock, where an application is running, but unable to make progress. 
+                                        Restarting a container in such a state can help to make the application more available despite bugs.
+
+                    Readiness Probe : kubelet uses readiness probes to know when a container is ready to start accepting traffic. 
+                            usecase :  readiness probes could be used to detect a container that is not ready to accept traffic. 
+                                       When a Pod is not ready, it is removed from Service load balancers.
+                    
+                    Startup Probe : kubelet uses startup probes to know when a container application has started. 
+                                    If such a probe is configured, it disables liveness and readiness checks until it succeeds, 
+                                            making sure those probes don't interfere with the application startup.
+                                    avoids pods getting killed by the kubelet before they are up and running
 
 
 
@@ -68,7 +85,8 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                     If a Pod's init container fails, the kubelet repeatedly restarts that init container until it succeeds.
                     if init succeeds then only app container will be started
 
-                    To specify an init container for a Pod, add the initContainers field into the Pod specification, as an array of container items (similar to the app containers field and its contents). 
+                    To specify an init container for a Pod, add the initContainers field into the Pod specification, 
+                        as an array of container items (similar to the app containers field and its contents). 
 
                     init containers do not support lifecycle, livenessProbe, readinessProbe, or startupProbe because they must run to completion before the Pod can be ready.
 
@@ -122,25 +140,35 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                             way to access those pods (port 6667 via TCP)
                     
                     services are attached to pods , even if pod dies , services remain as it is and can be attched to new pod 
+                        it is done by using static ip and DNS name for set of pods
 
                     each service has its own ip address and port number
+
+                    service creates static ip and then uses iptable which are installed on node to NAT and Load balancing to other pods
+
+                    | --------------  POD1 ----------------|
+
+                    pod1-endpoint  - NNS1 - eth0 >-  v-eth 0 \
+                                                     --- LB -- ipTable -- eth0 - > rootNNS         (network namesapce)
+                    pod2-endpoint  - NNS2 - eth0  >- v-eth 1 /
 
                     so that they are used in crusial container application like database so that even the db pod get terminated , 
                     data and connection to db by other services will never get lost
 
-                    there are 2 types of services available in k8s:
+                    there are 2 types traffic policies of services available in k8s:
 
-                            1. Internal services : 
+                            1. Internal traffic policies : 
 
                                         used in pods that not need to expose to world like database , only require to be used by other pods
 
-                            2. External services :
+                            2. External traffic policies :
 
                                         used in pods that need to be exposed to world like web server 
 
                     there are 3 types available in service :
 
                         1. ClusterIP   :    Default , accessible only within cluster (cluster can contains multiple nodes)
+                                            randomly forward traffic to any node pod set with target port
 
                         2. NodePort    :     can be accessible static port on each node , 
                                                 this static port in defined in .spec.ports.nodePort
@@ -154,10 +182,17 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
 
                         3. LoadBalancer :    It supports multiple protocols and multiple ports per service
+                                            Exposes the Service externally using a cloud provider's load balancer. 
+                                            NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
+
+                                            external load balancer handles routing and traffic distribution logic
+
 
                     ClusterIP < Nodeport < LoadBalancer 
 
-                        ExternalName : it creates an internal service with an endpoint pointing to a DNS name.
+                        ExternalName : it creates an internal service with an endpoint pointing to a DNS name. e.g. aws RDS
+
+                                same as clutser ip but instead of returning static ip address it returns CNAME record
 
 					---------------------------------------------------------------------------
 					|                                 Headless Service  	 			 |   (used for statefulset) 
@@ -176,57 +211,62 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                     headless services still provide load balancing across pods but through the DNS round-robin mechanism instead of through the service proxy.
 
+                    
+			        ---------------------------------------------------------------------------
+					|                      StatefulSets     			             	 |
+					---------------------------------------------------------------------------
+
+                    there will be data inconsistancy if 2 or more pods performing same operation at same/different time cauing data loss/error 
+                    like transaction control in database
+
+                    so that statefulsets are used in stateful operations like database 
+
+                    because of that stateful sets are used to manage stateful pods not the deployments
+
+                    it also manages replication of pods just like deployment
+
+                    it sures that read and write in this pods are synchronized
+
+                    it is difficult than deployments 
+
+                    Unlike a Deployment, a StatefulSet maintains a sticky identity for each of their Pods. 
+                    These pods are created from the same spec, but are not interchangeable: 
+                                    each has a persistent identifier that it maintains across any rescheduling.
+
+					---------------------------------------------------------------------------
+					|                            DaemonSets				            	 |
+					---------------------------------------------------------------------------
+
+                    A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. 
+                    As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
+
+                    Daemonset is another controller that manages pods like Deployments, ReplicaSets, and StatefulSets. 
+                    It was created for one particular purpose: ensuring that the pods it manages to run on all the cluster nodes. 
+                    As soon as a node joins the cluster, the DaemonSet ensures that it has the necessary pods running on it. 
+                    When the node leaves the cluster, those pods are garbage collected.
+
+                    By default, a DaemonSet schedules its pods on all the cluster nodes
+
+                    Also DaemonSets allow you to select which nodes you want to run the pods on. 
+                    With nodeSelector, you can select nodes by their labels
+
+                    it is not possible in AWS EKS so we need to use sidecar instead of DaemonSets
+
+                 
+
                		---------------------------------------------------------------------------
-					|                                         Ingress 	        				 |
+					|                                         Ingress 	        				 |  (internet to k8s pod)
 					---------------------------------------------------------------------------
 
 
                     it is type of External service that is used to expose services to the world but using a secure protocol like https and with domain name
 
+                    traffic routing is controlled by rules defined on ingress resource
+                    to use ingress , we need ingress controller 
+
                     if request comes to the domain name , it will be routed to the service by ingress
 
                     it is used in real world applications not the LoadBalancer
-
-
-
-           			 ---------------------------------------------------------------------------
-					|                               configmap               				 |
-					---------------------------------------------------------------------------
-
-                    In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. 
-                    In Kubernetes, we can use ConfigMaps to achieve the same functionality.
-		            A ConfigMap is a Kubernetes API object that can be used to store data as key-value pairs. Kubernetes pods can use the created ConfigMaps as a:
-
-                                    Configuration file
-                                    Environment variable
-                                    Command-line argument
-
-		            ConfigMaps provides the ability to make applications portable by decoupling environment-specific configurations from the containers.
-
-                    * Importantly, ConfigMaps are not suitable for storing confidential data. They do not provide any kind of encryption, and all the data in them are
-                            visible to anyone who has access to the file. (Kubernetes provides secrets that can be used to store sensitive information.)
-
-
-
-
-
-                    ---------------------------------------------------------------------------
-					|                                 secreats			        	   	 |
-					---------------------------------------------------------------------------
-
-                    Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
-                    Such information might otherwise be put in a Pod specification or in a container image. 
-                    Using a Secret means that you don't need to include confidential data in your application code.
-
-                    Because Secrets can be created independently of the Pods that use them, 
-                    there is less risk of the Secret (and its data) being exposed during the workflow of creating, 
-                    viewing, and editing Pods. Kubernetes, and applications that run in your cluster, can also take additional precautions with Secrets, 
-                    such as avoiding writing confidential data to nonvolatile storage.
-
-                    Secrets are similar to ConfigMaps but are specifically intended to hold confidential data.
-                    it is stored in etcd with base64 encoding , now we can encrypt it using KMS 
-                        so that only using application specific keys we can access the data 
-
 
 
                     ---------------------------------------------------------------------------
@@ -249,10 +289,14 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
 
                             Persistent Volumes  :  A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by 
-                                                   an administrator or dynamically provisioned using Storage Classes. 
+                                                        an administrator or dynamically provisioned using Storage Classes. 
                                                    PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. 
+                                                   it is similar to node in cluster , it does not reside in within node or pod
 
-                                            e.g. hostpath  , here both pod and host can write and read data
+                                                   name of a PersistentVolume object must be a valid DNS subdomain name.
+
+                                            e.g. hostpath  , here both pod and host can write and read data 
+                                                        hostPath volume mounts a file or directory from the host node's filesystem into your Pod
 
                                             apiVersion: v1
                                             kind: Pod
@@ -270,6 +314,11 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                                             - name: testvolume
                                                 hostPath:
                                                 path: /tmp/data   # at this location of host machine 
+
+                                            mounting PV directly to pod is not allowed as it is aganinst k8s design priciple that describes tight coupling between 2 resources not allowed
+                                            it could caude tight coupling below the pod and underlying storage 
+                                            
+                                            so that PVC is used instead of PV to ensure decoupling
 
                             Projected Volumes   :  A projected volume maps several existing volume sources into the same directory.
                                                     Currently, the following types of volume sources can be projected:
@@ -297,6 +346,151 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                                                 mountPath: "/tmp/data"
                                          - name: xchange
                                             emptyDir: {}
+                            
+                            Volume snapshots :  Archiving volume configuration and its data for rollbacks or backups
+
+                            other types of volume supported :
+                                secrets
+                                configmap
+                                nfs
+                                EBS
+                                PersistentVolumeClaim
+
+
+					---------------------------------------------------------------------------
+					|                                     Storage Class		 			 |
+					---------------------------------------------------------------------------
+
+
+                    it is way of defining class of storage that is backed by provider/provisioner like AWS , GCP , Azure etc.
+                    Different classes might map to quality-of-service levels, or to backup policies, or to arbitrary policies determined by the cluster administrators
+
+                    Each StorageClass contains the fields provisioner, parameters, and reclaimPolicy, 
+                            which are used when a PersistentVolume belonging to the class needs to be dynamically provisioned.
+
+                    PersistentVolumes that are dynamically created by a StorageClass will have the reclaim policy specified in the reclaimPolicy field of the class, 
+                            which can be either Delete or Retain. If no reclaimPolicy is specified when a StorageClass object is created, it will default to Delete.
+
+                    PersistentVolumes that are created manually and managed via a StorageClass will have whatever reclaim policy they were assigned at creation.
+
+                        e.g.  for aws ebs
+
+                                        apiVersion: storage.k8s.io/v1
+                                        kind: StorageClass
+                                        metadata:
+                                            name: standard
+                                        provisioner: kubernetes.io/aws-ebs    # whose storage
+                                        parameters:                             # what type of storage
+                                            type: gp2
+                                        reclaimPolicy: Retain            # retain or delete storage after pod goes down , delete is default
+                                        allowVolumeExpansion: true    # Directly editing the size of a PV can prevent an automatic resize of that volume as master assumes no resize is necessary
+                                        mountOptions:
+                                            - debug
+                                        volumeBindingMode: Immediate
+
+
+					---------------------------------------------------------------------------
+					|                  Persistent Volume Claim		(PVC)	 	 |
+					---------------------------------------------------------------------------
+
+
+                    it is used to decouple PV from pods . it just allows pods to access storage class using PV.
+
+                                    pod -> PVC ------ bind  ----> PV -------> storage class
+
+                    PVC asks for type of storage and if a PV matches criteria , that PV will be claimed and bound .
+
+                    it should be in same namespace as a pod is .  
+
+                    PVC can request for specific size of storage and access mode like ReadOnlyOnce or ReadWrite
+
+                    PVs are resources in the cluster. PVCs are requests for those resources and also act as claim checks to the resource. 
+                    The interaction between PVs and PVCs follows this lifecycle:
+
+                        Provisioning :
+                                        Static
+                                            A cluster administrator creates a number of PVs
+                                        Dynamic
+                                            When none of the static PVs the administrator created match a user's PersistentVolumeClaim, 
+                                            the cluster may try to dynamically provision a volume specially for the PVC.
+
+                        Binding  :  
+                                    A control loop in the master watches for new PVCs, finds a matching PV (if possible), and binds them together. 
+                                    If a PV was dynamically provisioned for a new PVC, the loop will always bind that PV to the PVC. 
+                                    Otherwise, the user will always get at least what they asked for, but the volume may be in excess of what was requested. 
+                                    Once bound, PersistentVolumeClaim binds are exclusive, regardless of how they were bound. 
+
+                        Using
+                                    Pods use claims as volumes. 
+                                    The cluster inspects the claim to find the bound volume and mounts that volume for a Pod. 
+                                    For volumes that support multiple access modes, the user specifies which mode is desired when using their claim as a volume in a Pod.
+
+                                    Once a user has a claim and that claim is bound, the bound PV belongs to the user for as long as they need it. 
+                                    Users schedule Pods and access their claimed PVs by including a persistentVolumeClaim section in a Pod's volumes
+
+                            If a user deletes a PVC in active use by a Pod, the PVC is not removed immediately. 
+                            PVC removal is postponed until the PVC is no longer actively used by any Pods. 
+                            Also, if an admin deletes a PV that is bound to a PVC, the PV is not removed immediately. PV removal is postponed until the PV is no longer bound to a PVC.
+
+                            You can see that a PVC is protected when the PVC's status is Terminating and the Finalizers
+
+                        Reclaiming
+
+                                    When a user is done with their volume, they can delete the PVC objects from the API that allows reclamation of the resource. 
+                                    The reclaim policy for a PersistentVolume tells the cluster what to do with the volume after it has been released of its claim. 
+                                    Currently, volumes can either be Retained, Recycled, or Deleted
+
+                                    Retain
+                                            The Retain reclaim policy allows for manual reclamation of the resource. 
+                                            When the PersistentVolumeClaim is deleted, the PersistentVolume still exists and the volume is considered "released". 
+                                            But it is not yet available for another claim because the previous claimant's data remains on the volume
+
+                                    Delete
+                                            For volume plugins that support the Delete reclaim policy, deletion removes both the PersistentVolume object from Kubernetes, 
+                                                as well as the associated storage asset in the external infrastructure, such as an AWS EBS, GCE PD, Azure Disk, or Cinder volume
+
+           			 ---------------------------------------------------------------------------
+					|                               configmap               				 |
+					---------------------------------------------------------------------------
+
+                    In programming, we use env files or separate configuration files to store settings, configurations, or variables that are required to execute the program. 
+                    In Kubernetes, we can use ConfigMaps to achieve the same functionality.
+		            A ConfigMap is a Kubernetes API object that can be used to store data as key-value pairs. Kubernetes pods can use the created ConfigMaps as a:
+
+                                    Configuration file
+                                    Environment variable
+                                    Command-line argument
+
+		            ConfigMaps provides the ability to make applications portable by decoupling environment-specific configurations from the containers.
+
+                    * Importantly, ConfigMaps are not suitable for storing confidential data. They do not provide any kind of encryption, and all the data in them are
+                            visible to anyone who has access to the file. (Kubernetes provides secrets that can be used to store sensitive information.)
+
+
+
+
+
+                    ---------------------------------------------------------------------------
+					|                                 secrets			        	   	 |
+					---------------------------------------------------------------------------
+
+                    Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
+                    Such information might otherwise be put in a Pod specification or in a container image. 
+                    Using a Secret means that you don't need to include confidential data in your application code.
+
+                    Because Secrets can be created independently of the Pods that use them, 
+                    there is less risk of the Secret (and its data) being exposed during the workflow of creating, 
+                    viewing, and editing Pods. Kubernetes, and applications that run in your cluster, can also take additional precautions with Secrets, 
+                    such as avoiding writing confidential data to nonvolatile storage.
+
+                    Secrets are similar to ConfigMaps but are specifically intended to hold confidential data.
+                    it is stored in etcd with base64 encoding , now we can encrypt it using KMS 
+                        so that only using application specific keys we can access the data 
+
+                    by default , secrets are unencrypted in etcd store
+
+
+
 
 
 
@@ -392,44 +586,19 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                     4. insufficient Permissions
                     5. Limit Ranges : when node reaches its limit 
 
-					---------------------------------------------------------------------------
-					|                      StatefulSets     				 |
-					---------------------------------------------------------------------------
 
-                    there will be data inconsistancy if 2 or more pods performing same operation at same/different time cauing data loss/error 
-                    like transaction control in database
+                    stratergies for deployment : (mentioned in manifest at spec.stratergy.type)
 
-                    so that satefulsets are used in stateful operations like database 
+                        1. Recreate  => when all old pods is terminated , it will be created with new once , downtime can happen , rollback not possible to old exact infra
+    default strategy    2. RollingUpdate => replace one or more pods with new one ,  , no downtime until bug in new enviroment , slow 
+                        3. canary  => add new pod and route some traffic , if no bugs occures , terminate old enviroment and shift to new one
+                        4. blue / green   => deploy new env(green) on entire infrastructure , swap traffic and if no bugs then terminate old enviroment(blue) and shift to new one
+                        5. A/B testing => similar to A/B but instead of swap all users it splits traffic between two enviroments 
+                        
 
-                    because of that stateful sets are used to manage stateful pods not the deployments
+                        only Recreate and RollingUpdate are supported by deployment
 
-                    it also manages replication of pods just like deployment
-
-                    it sures that read and write in this pods are synchronized
-
-                    it is difficult than deployments 
-
-                    Unlike a Deployment, a StatefulSet maintains a sticky identity for each of their Pods. 
-                    These pods are created from the same spec, but are not interchangeable: 
-                                    each has a persistent identifier that it maintains across any rescheduling.
-
-					---------------------------------------------------------------------------
-					|                            DaemonSets					 |
-					---------------------------------------------------------------------------
-
-                    A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. 
-                    As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
-
-                    Daemonset is another controller that manages pods like Deployments, ReplicaSets, and StatefulSets. It was created for one particular purpose: ensuring that the pods it manages to run on all the cluster nodes. As soon as a node joins the cluster, the DaemonSet ensures that it has the necessary pods running on it. When the node leaves the cluster, those pods are garbage collected.
-
-                    By default, a DaemonSet schedules its pods on all the cluster nodes
-
-                    Also DaemonSets allow you to select which nodes you want to run the pods on. 
-                    With nodeSelector, you can select nodes by their labels
-
-                    it is not possible in AWS EKS so we need to use sidecar instead of DaemonSets
-
-                 
+		
 
 
 					---------------------------------------------------------------------------
@@ -533,24 +702,17 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                     LimitRange validations occurs only at Pod Admission stage, not on Running Pods.
 
-                    If any container in that Pod does not specify its own CPU request and limit, the control plane assigns the default CPU request and limit to that container. i.e. which is mentioned in LimitRange Object
+                    If any container in that Pod does not specify its own CPU request and limit, the control plane assigns the default CPU request and limit to that container. 
+                            i.e. which is mentioned in LimitRange Object
 
-                    When creating a LimitRange object, you can specify limits on huge-pages or GPUs as well. However, when both default and defaultRequest are specified on these resources, the two values must be the same.
+                    When creating a LimitRange object, you can specify limits on huge-pages or GPUs as well. 
+                    However, when both default and defaultRequest are specified on these resources, the two values must be the same.
 
                     
 
 
-					---------------------------------------------------------------------------
-					|                  Persistent Volume Claim		(PVC)	 	 |
-					---------------------------------------------------------------------------
-
-
-                    it should be in same namespace as a pod is .  
 
 	
-					---------------------------------------------------------------------------
-					|                       Storage Class		 			 |
-					---------------------------------------------------------------------------
              
 	
              
@@ -561,6 +723,8 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                     it is used to restrict network access to a pod or whole namespace
 
                     with this , we can set policies so that only allowed namespaces traffic can come
+
+                    selectors are used resources with matching lables for network policy to be applied on 
 
                     to use this , we need network policy agents like Antrea 
              
@@ -597,7 +761,26 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                     cron job is a type of job that runs periodically.
 
 
-    
+					---------------------------------------------------------------------------
+					|              RBAC(role based access control) API               		 |
+					---------------------------------------------------------------------------
+
+                    Role-based access control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within your organization.
+
+                    uses the rbac.authorization.k8s.io API group to drive authorization decisions, allowing you to dynamically configure policies through the Kubernetes API.
+
+                    has 4 kinds of objects : 1. Role 2. RoleBinding 3. ClusterRole 4. ClusterRoleBinding
+
+                    Role is set of permissions for a namesapce , when you create a Role, you have to specify the namespace it belongs in.
+
+                    cluster Role is set of permissions across all namespaces , it  is a non-namespaced resource
+
+                    binding means linkng permission to subject/identity
+
+                    role binding grants the permissions defined in a role to a user or set of users. 
+                    It holds a list of subjects (users, groups, or service accounts), and a reference to the role being granted.
+
+                 
      
     DeploymentController (Manages Pods)
 	
@@ -635,8 +818,7 @@ Other Objects ;
 
             Leases 
 
-            clusterroles
-
+            
             Roles 
             
 

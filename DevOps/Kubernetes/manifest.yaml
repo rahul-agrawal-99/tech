@@ -77,6 +77,66 @@ spec:
       command: ['bin/bash', '-c', 'echo The app is running! && sleep 100']
  
 
+#     ----  Using Liveness probes with file ----
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600
+    livenessProbe:      # it checks /tmp/healthy file , if not found , it will restart the pod , check in every 5 sec
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+
+#     ----  Using Liveness probes with http request---- 
+#                                               also gPRC endpoint can be used as probe 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
+
+#     ----  Using startup probes ----
+
+      startupProbe:
+        httpGet:
+          path: /healthz
+          port: liveness-port
+        failureThreshold: 30          # will have a maximum of 5 minutes (30 * 10 = 300s) to finish its startup
+        periodSeconds: 10
+
 # ---------------                 Replicaset                      ------------------------------------
 
 ---
@@ -141,6 +201,14 @@ spec:
     matchLabels:
       app: nginx
   replicas: 2 # tells deployment to run 2 pods matching the template
+  strategy:      # strategy is used to control how the deployment is scaled
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 1   # how many pods to add at a time , default value is 25% of total
+    #   maxUnavailable: 1  # N pods can be unavailable at a time  , default value is 25% of total
+    type: Recreate
+
+
   template:
     metadata:
       labels:
@@ -158,13 +226,14 @@ spec:
 
 # ---------------               Services                     ------------------------------------
 
+#                default service type is ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
 spec:
-  selector:
+  selector:         # if selector not defined , need to create endpoint for service manually uisng subnets and ports
     app: nginx-app
   # type: LoadBalancer      # if service needs external ip
   ports:
@@ -172,6 +241,147 @@ spec:
       port: 80         #    listining  on 80 from usrs
       targetPort: 8080       # directing request to port 8080 of the pods having opend 8080
 
+
+# ---------------               stateful set  (reqiures headless service is best practise)               ------------------------------------
+
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: www-disk
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+  zone: us-central1-a
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  labels:
+    app: web
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: web
+
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+    app: web
+  serviceName: web-svc
+  replicas: 2
+  template:
+    metadata:
+    labels:
+      app: web
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: web
+        image: httpd:2.4
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+        - name: www
+          mountPath: /var/www/html
+    volumeClaimTemplates:
+    - metadata:
+      name: www
+      annotations:
+        volume.beta.kubernetes.io/storage-class: www-disk
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+
+# ---------------               Service  with target port  as name                    ------------------------------------
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app.kubernetes.io/name: proxy
+spec:
+  containers:
+  - name: nginx
+    image: nginx:stable
+    ports:
+      - containerPort: 80
+        name: http-web-svc
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: name-of-service-port
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
+
+
+
+# ---------------               Service with nodeport                 ------------------------------------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+    app: MyApp
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30007
+
+
+# ---------------               Service with loadbalancer                 ------------------------------------
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+  clusterIP: 10.0.171.239
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.0.2.127
 
 
 # ---------------                NameSpace                     ------------------------------------
@@ -351,3 +561,152 @@ spec:
          restartPolicy: OnFailure
 
 #  above line will run every 15 sec and new pod will be created for every 15 sec , after completing the pod will be terminated and deleted
+
+# ---------------         Persisistant volume PV                    ------------------------------------
+
+# Kubernetes currently supports the following plugins:
+
+          # awsElasticBlockStore - AWS Elastic Block Store (EBS)
+          # azureDisk - Azure Disk
+          # azureFile - Azure File
+          # cephfs - CephFS volume
+          # csi - Container Storage Interface (CSI)
+          # fc - Fibre Channel (FC) storage
+          # gcePersistentDisk - GCE Persistent Disk
+          # glusterfs - Glusterfs volume
+          # hostPath - HostPath volume (for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead)
+          # iscsi - iSCSI (SCSI over IP) storage
+          # local - local storage devices mounted on nodes.
+          # nfs - Network File System (NFS) storage
+          # portworxVolume - Portworx volume
+          # rbd - Rados Block Device (RBD) volume
+          # vsphereVolume - vSphere VMDK volume
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0003
+spec:
+  capacity:         # only resource that can be set or requested. Future attributes may include IOPS, throughput, etc.
+    storage: 5Gi
+  volumeMode: Filesystem    # Filesystem(default) or Block , volume with volumeMode: Filesystem is mounted into Pods into a directory
+                            # Block to use a volume as a raw block device. Such volume is presented into a Pod as a block device, without any filesystem on it
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow        # name of the storage class that is created already
+  mountOptions:                # different options for mounting the volume for different filesystems , If a mount option is invalid, the mount fails
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /tmp
+    server: 172.17.0.2
+
+
+# ---------------            Config MAP                ------------------------------------
+
+---
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: example-configmap 
+data:
+  # Configuration values can be set as key-value properties
+  database: mongodb
+  database_uri: mongodb://localhost:27017
+  
+  # Or set as complete file contents (even JSON!)
+  keys: | 
+    image.public.key=771 
+    rsa.public.key=42
+
+
+# attach a config map to a pod
+
+---
+kind: Pod 
+apiVersion: v1 
+metadata:
+  name: pod-env-var 
+spec:
+  containers:
+    - name: env-var-configmap
+      image: nginx:1.7.9 
+      envFrom:
+        - configMapRef:
+            name: example-configmap
+
+# ---------------            Secret                ------------------------------------
+
+---
+apiVersion: v1
+kind: Secret
+data:
+  username: admin
+  password: MWYyZDFlMmU2N2Rm
+metadata:
+  name: mysecret
+  namespace: default
+  resourceVersion: "164619"
+type: Opaque
+
+
+---   # attaching to pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"              # value can be accessed as cat /etc/foo/username and cat /etc/foo/password as mysecret have username and password only
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret
+      defaultMode: 0400     # read only mode
+
+
+
+
+# ---------------          Network policy                  ------------------------------------
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 172.17.0.0/16
+            except:
+              - 172.17.1.0/24
+        - namespaceSelector:
+            matchLabels:
+              project: myproject
+        - podSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 6379
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.0.0.0/24
+      ports:
+        - protocol: TCP
+          port: 5978

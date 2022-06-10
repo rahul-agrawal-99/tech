@@ -41,7 +41,7 @@ Basic structure of commands
 
                                   ns      or     namespace
 
-                                  Services
+                                  Services             e.g.  kubectl get svc kube-dns -n kube-system
 
                                   deploy    or      deployment
 
@@ -401,13 +401,37 @@ kubectl label pods foo bar-
 
             ------------   horizontal pod autoscale ----------------------------
 
-            kubectl autoscale OBJ_TYPE OBJ_NAME --cpu-percent=20 --min=1 --max=10        # based on cpu utilization
+                Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster.
 
 
-            kubectl autoscale deployment mydeploy --cpu-percent=20 --min=1 --max=10
+                ACTION_TYPE    " autoscale "        
 
-                    # here if replicas set to e.g. 5 and cpu utilization is less than desired 
-                        then replicas will be reduced to min = 1
+                                            kubctl   autoscale    OBJ_TYPE   OBJ_NAME    FLAGS  
+
+                                          
+
+                OBJ_TYPE    :
+
+                                  deployment     e.g. kubectl autoscale deployment foo --min=2 --max=10   ,  Auto scale a deployment "foo", with the number of pods between 2 and 10
+                                  
+                                  replica set   
+                                  
+                                  stateful set
+                                  
+                                  replication controller   e.g kubectl autoscale rc foo --max=5 --cpu-percent=80      ,  number of pods between 1 and 5, target CPU utilization at 80%
+
+
+                OBJ_PARAMETER  / flags  :
+
+
+                                --cpu-percent           target average CPU utilization , if avg CPU utilization exceeds set value , scale up
+
+                                -f             use a file to apply
+
+                                --min=MIN       minimum number of pods
+
+                                --max=MAX       maximum number of pods
+
 
                                          _ __    _ __    ___   __  __  _   _ 
                                         | '_ \  | '__|  / _ \  \ \/ / | | | |
@@ -510,22 +534,162 @@ kubectl label pods foo bar-
                                                     
                                                     kubectl top pods -A --sort-by=cpu | head -4 // it will show with headers, so need head -4.
 
+ 
                     
+                           --------- expose
 
+
+                           expose is used to quickly create k8s service for deploment
+
+                           can be used also declaratively
+
+
+                ACTION_TYPE    " expose "       
+
+                                            kubectl expose OBJ_TYPE   OBJ_PARA    
+
+                                                e.g       kubectl expose deploy myd --type=NodePort \ --name=mys --port=80 --targetport=80 --nodeport=30001   
+                                                    
+                                                                            # expose a deployment named myd to a NodePort service named mys with mentioned specs
+
+                OBJ_TYPE    :
+
+                                  deployment
+
+
+                                  service
+
+
+                                  replica set 
+
+
+                                  replication controller 
+
+
+                                  pod               e.g. kubectl expose pod valid-pod --port=444 --name=frontend
+
+                OBJ_PARA    :
+
+                                    --type                 Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
+
+                                    -f               e.g.  kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000
 	
 
 			
                            --------- annotations    
+
+                           All Kubernetes objects support the ability to store additional data with the object as annotations. 
+                           Annotations are key/value pairs that can be larger than labels and include arbitrary string values such as structured JSON.
+
+                           Attempting to set an annotation that already exists will fail unless --overwrite is set. 
+                           If --resource-version is specified and does not match the current resource version on the server the command will fail.
+
+                          
+                ACTION_TYPE    " annotate "       
+
+                                            kubectl annotate   OBJ_TYPE    OBJ_NAME    KEY=VALUE   OBJ_PARA    
+
+                                                e.g       kubectl annotate pods mypod description='my frontend running nginx'
+
+                                                                # annotate pod named mypod with description as value
+
+                OBJ_TYPE    :
+
+            
+                                  pod               e.g. kubectl annotate pods --all description='my frontend running nginx'
+
+                OBJ_PARA    :
+ 
+                                --all             Select all resources, in the namespace of the specified resource types    
+
+                                -f              files identifying the resource to update the annotation
+                                                            e.g.  kubectl annotate -f pod.json description='my frontend'
+                                                                        annotate all pods created by this file
+
+                                --overwrite           If true, allow annotations to be overwritten, otherwise reject annotation updates 
+
+
+
+
+
+
                            --------- auth    
-                           --------- autoscale    
+
+                                Inspect authorization
+
+
                            --------- cp
-                           --------- delete
+
+                                Copy files and directories to and from containers
+
+                                kubectl cp <file-spec-src> <file-spec-dest>
+
+
                            --------- diff
-                           --------- edit
-                           --------- expose
-                           --------- kustomize
+
+                                Diff configurations specified by file name or stdin between the current online configuration, and the configuration as it would be if applied.
+
+                                The output is always YAML.
+
+                                kubectl diff -f FILENAME
+
                            --------- patch
+
+                                Update fields of a resource using strategic merge patch, a JSON merge patch, or a JSON patch.
+
+                                JSON and YAML formats are accepted
+
+
                            --------- run
+
+                                    Create and run a particular image in a pod.
+
+                                    kubectl run NAME --image=image         # launch pod with NAME and image as image
+
+                                    Flags :
+
+                                        --image                         image to run
+
+                                        --port                          port to expose
+
+                                        --env                            set env    e.g.  --env="DNS_DOMAIN=cluster"
+
+                                        --label                             set label  e.g.  --label="app=myapp"
+
+                                        -it                           Keep stdin open on the container in the pod, even if nothing is attached
+
+                                        busybox                   interactively debug service (it combines many common UNIX utilities into small file)
+
+                                        sh                    run a shell inside the container
+
+
+
+                           --------- kustomize
+
+                            more flexible when writing k8s configuration files by allowing to override patch configuration , Alternative to HELM
+
+                            built in with kubectl
+
+
+
+                           --------- rollout 
+
+                    In order to rollout back to previous specific version we use :
+
+                            kubectl rollout status deployment <deployment-name>   # get status 
+
+                    rollback to previous version :
+                    
+                            kubctl rollout undo deployment <deployment-name> --to-revision=<revision-number>          -- get rivision number using history commnd
+
+                    To see the rollout history of a deployment we use :
+
+                            kubectl rollout history deployment <deployment-name>
+
+
+
+                           --------- edit
+                           --------- set
 						
 
 
