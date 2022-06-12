@@ -1,4 +1,4 @@
-                                       _          _                          _                      https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+                                       _          _                          _               https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
                                       | | ___   _| |__   ___ _ __ _ __   ___| |_ ___  ___ 
                                       | |/ / | | | '_ \ / _ \ '__| '_ \ / _ \ __/ _ \/ __|
                                       |   <| |_| | |_) |  __/ |  | | | |  __/ ||  __/\__ \
@@ -399,9 +399,15 @@ kubectl label pods foo bar-
                                 --image=IMG_NAME            ------ image should be in registry of minikube docker
 
 
-            ------------   horizontal pod autoscale ----------------------------
+                                        _              _____           ____                   _            
+                                       / \     _   _  |_   _|   ___   / ___|    ___    __ _  | |       ___ 
+                                      / _ \   | | | |   | |    / _ \  \___ \   / __|  / _` | | |      / _ \
+                                     / ___ \  | |_| |   | |   | (_) |  ___) | | (__  | (_| | | |___  |  __/
+                                    /_/   \_\  \__,_|   |_|    \___/  |____/   \___|  \__,_| |_____|  \___|
+                                        
 
-                Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster.
+                Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster. 
+                HPA (Horizontal Pod Autoscaler) is a Kubernetes component that allows you to automatically scale a resource to a desired number of pods.
 
 
                 ACTION_TYPE    " autoscale "        
@@ -449,7 +455,7 @@ kubectl label pods foo bar-
                                                                                                 
 
 
-                ACTION_TYPE    " port-forward "        for testing pod 
+                ACTION_TYPE    " port-forward "        for testing pod  , without any service running , expose pod to world
             
 
                                     kubectl port-forward <obj-name> <locahost-port>:<pod-port>
@@ -465,6 +471,10 @@ kubectl label pods foo bar-
                                   deploy                  
 
                                   replicaset
+
+                OBJ_PARAMETER  :
+
+                                --address 0.0.0.0                    --  go to specifically 0.0.0.0:<pod-port>   
 
 
 
@@ -501,7 +511,14 @@ kubectl label pods foo bar-
                                 context = >   cluster + user
 
 
-                           --------- TOP    
+                                                 _____                 
+                                                |_   _|   ___    _ __  
+                                                  | |    / _ \  | '_ \ 
+                                                  | |   | (_) | | |_) |
+                                                  |_|    \___/  | .__/ 
+                                                                |_|    
+                                             
+
 
                      (table of processes) command shows a real-time view of running processes in Linux and displays kernel-managed tasks available in Linux
 
@@ -536,7 +553,13 @@ kubectl label pods foo bar-
 
  
                     
-                           --------- expose
+                     _____          ____            ____         
+                    | ____| __  __ |  _ \    ___   / ___|    ___ 
+                    |  _|   \ \/ / | |_) |  / _ \  \___ \   / _ \
+                    | |___   >  <  |  __/  | (_) |  ___) | |  __/
+                    |_____| /_/\_\ |_|      \___/  |____/   \___|
+                                             
+
 
 
                            expose is used to quickly create k8s service for deploment
@@ -576,7 +599,13 @@ kubectl label pods foo bar-
 	
 
 			
-                           --------- annotations    
+                            _                              _____           _____        
+                           / \     _ __    _ __     ___   |_   _|   __ _  |_   _|   ___ 
+                          / _ \   | '_ \  | '_ \   / _ \    | |    / _` |   | |    / _ \
+                         / ___ \  | | | | | | | | | (_) |   | |   | (_| |   | |   |  __/
+                        /_/   \_\ |_| |_| |_| |_|  \___/    |_|    \__,_|   |_|    \___|
+                                                                                        
+  
 
                            All Kubernetes objects support the ability to store additional data with the object as annotations. 
                            Annotations are key/value pairs that can be larger than labels and include arbitrary string values such as structured JSON.
@@ -613,19 +642,34 @@ kubectl label pods foo bar-
 
 
 
-                           --------- auth    
+                                             _              _____   _   _ 
+                                            / \     _   _  |_   _| | | | |
+                                           / _ \   | | | |   | |   | |_| |
+                                          / ___ \  | |_| |   | |   |  _  |
+                                         /_/   \_\  \__,_|   |_|   |_| |_|
+                                                        
 
                                 Inspect authorization
 
 
-                           --------- cp
+                                                      ____   ____  
+                                                     / ___| |  _ \ 
+                                                    | |     | |_) |
+                                                    | |___  |  __/ 
+                                                     \____| |_|    
+                                                                
 
                                 Copy files and directories to and from containers
 
                                 kubectl cp <file-spec-src> <file-spec-dest>
 
 
-                           --------- diff
+                                             ____    _   _____   _____ 
+                                            |  _ \  (_) |  ___| |  ___|
+                                            | | | | | | | |_    | |_   
+                                            | |_| | | | |  _|   |  _|  
+                                            |____/  |_| |_|     |_|    
+                                                                    
 
                                 Diff configurations specified by file name or stdin between the current online configuration, and the configuration as it would be if applied.
 
@@ -633,14 +677,24 @@ kubectl label pods foo bar-
 
                                 kubectl diff -f FILENAME
 
-                           --------- patch
+                                         ____            _____          _   _ 
+                                        |  _ \    __ _  |_   _|   ___  | | | |
+                                        | |_) |  / _` |   | |    / __| | |_| |
+                                        |  __/  | (_| |   | |   | (__  |  _  |
+                                        |_|      \__,_|   |_|    \___| |_| |_|
+                                                        
 
                                 Update fields of a resource using strategic merge patch, a JSON merge patch, or a JSON patch.
 
                                 JSON and YAML formats are accepted
 
 
-                           --------- run
+                                         ____    _   _   _   _ 
+                                        |  _ \  | | | | | \ | |
+                                        | |_) | | | | | |  \| |
+                                        |  _ <  | |_| | | |\  |
+                                        |_| \_\  \___/  |_| \_|
+                                                            
 
                                     Create and run a particular image in a pod.
 
@@ -663,16 +717,25 @@ kubectl label pods foo bar-
                                         sh                    run a shell inside the container
 
 
-
-                           --------- kustomize
+                                             _  __                _____           __  __   _         _____ 
+                                            | |/ /  _   _   ___  |_   _|   ___   |  \/  | (_)  ____ | ____|
+                                            | ' /  | | | | / __|   | |    / _ \  | |\/| | | | |_  / |  _|  
+                                            | . \  | |_| | \__ \   | |   | (_) | | |  | | | |  / /  | |___ 
+                                            |_|\_\  \__,_| |___/   |_|    \___/  |_|  |_| |_| /___| |_____|
+                                                        
 
                             more flexible when writing k8s configuration files by allowing to override patch configuration , Alternative to HELM
 
                             built in with kubectl
 
 
+                                         ____            _       _                       _____ 
+                                        |  _ \    ___   | |     | |       ___    _   _  |_   _|
+                                        | |_) |  / _ \  | |     | |      / _ \  | | | |   | |  
+                                        |  _ <  | (_) | | |___  | |___  | (_) | | |_| |   | |  
+                                        |_| \_\  \___/  |_____| |_____|  \___/   \__,_|   |_|  
+                                                                                            
 
-                           --------- rollout 
 
                     In order to rollout back to previous specific version we use :
 
@@ -687,10 +750,22 @@ kubectl label pods foo bar-
                             kubectl rollout history deployment <deployment-name>
 
 
+                                             _____   ____    _   _____ 
+                                            | ____| |  _ \  (_) |_   _|
+                                            |  _|   | | | | | |   | |  
+                                            | |___  | |_| | | |   | |  
+                                            |_____| |____/  |_|   |_|  
+                                            
 
-                           --------- edit
-                           --------- set
-						
+
+
+                                         ____           _____ 
+                                        / ___|    ___  |_   _|
+                                        \___ \   / _ \   | |  
+                                         ___) | |  __/   | |  
+                                        |____/   \___|   |_|  
+                                            
+                                                                
 
 
 		

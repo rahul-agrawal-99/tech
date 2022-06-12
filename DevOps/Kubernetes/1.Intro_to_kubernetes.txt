@@ -388,6 +388,10 @@ Additional terms:
 			k8s distribution created by canonical (company behind ubuntu OS) and installed using snap
 			restarts if crashes
 
+			trick : use              microk8s > ~/.kube/config 
+
+										to use kubectl dirctly instead of microk8s kubectl
+
 
 
 
@@ -438,3 +442,14 @@ Additional terms:
 				it offers high-performance, S3 compatible object storage.
 				Native to Kubernetes, MinIO is the only object storage suite available on
 				every public cloud, every Kubernetes distribution, the private cloud and the edge
+
+
+calico
+linkerd
+inaccel
+Istio
+keda
+kubeflow
+metallb
+openebs
+prometheus
