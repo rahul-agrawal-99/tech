@@ -34,6 +34,32 @@ spec:
       image: ubuntu
   imagePullPolicy: never     # use local docker registry only , if image not found , dont dowmload from server
 
+# ---------------                 Pod    with host dir mounted                   ------------------------------------
+# e.g. host dir : /opt/dev/project1
+# kube image location: /var/logs
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: k8s.gcr.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /var/logs
+      name: test-volume
+  volumes:
+  - name: test-volume
+    hostPath:
+      # directory location on host
+      path: /opt/dev/project1
+      # this field is optional
+      type: Directory
+
+
+
 #     ----  Using resource quota ----
 ---
 apiVersion: v1
@@ -242,6 +268,24 @@ spec:
       targetPort: 8080       # directing request to port 8080 of the pods having opend 8080
 
 
+# ---------------               Endpoint if selector not in Service                     ------------------------------------
+
+---
+  kind: "Endpoints"
+  apiVersion: "v1"
+  metadata:
+    name: nginx-service         # name of the service and endpoint should be same  
+  subsets: 
+    -
+      addresses:
+        -
+          ip: "10.10.50.53"          #The IP Address of the external web server , i.e pods ip address 
+          ip: "10.10.50.54"          # if multiple pod , then specify one by one
+      ports:
+        -
+          port: 80 
+          name: nginx
+
 # ---------------               stateful set  (reqiures headless service is best practise)               ------------------------------------
 
 ---
@@ -355,7 +399,7 @@ spec:
   ports:
       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
     - port: 80
-      targetPort: 80
+      targetPort: 80      # port of pod that need to be exposed to world
       # Optional field
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
       nodePort: 30007

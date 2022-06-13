@@ -211,7 +211,36 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                     headless services still provide load balancing across pods but through the DNS round-robin mechanism instead of through the service proxy.
 
+
+					---------------------------------------------------------------------------
+					|                                    Endpoints				         	 |
+					---------------------------------------------------------------------------
+
+                    it is way to link service to pod or set of pods
+
+                    An endpoint is an resource that gets IP addresses of one or more pods dynamically assigned to it, along with a port.
+
+                    An endpoint resource is referenced by a kubernetes service, 
+                        so that the service has a record of the internal IPs of pods in order to be able to communicate with them.
+
+                    We need endpoints as an abstraction layer because the 'service' in kubernetes acts as part of the orchestration to ensure distribution of 
+                        traffic to pods (including only sending traffic to healthy pods). 
+
+                    For example if a pod dies, a replacement pod will be generated, with a new IP address. 
+                    Conceptually, the dead pod IP will be removed from the endpoint object, and the IP of the newly created pod will be added, 
+                        so that the service is updated and 'knows' which pods to connect to.
+
+                        Service  --  Endpoint1  ------  pod1
+                                |      | 
+                                |      |------------ pod2
+                                |
+                                |--  Endpoint2   ---------- pod3
+
                     
+                    If you do not specify a label selector in your service - 
+                        Kubernetes can’t create the list of endpoints because he doesn’t know which pods should be included and proxied by the service.
+
+
 			        ---------------------------------------------------------------------------
 					|                      StatefulSets     			             	 |
 					---------------------------------------------------------------------------
@@ -798,7 +827,7 @@ Other Objects ;
 
             Componentstatuses
 
-            endpoints
+            
 
             events 
 

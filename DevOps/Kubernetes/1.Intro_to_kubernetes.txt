@@ -1,6 +1,6 @@
-******************************************************************************************************************************************************************************************
+************************************************************************************************************************
 										About Kubernetes
-******************************************************************************************************************************************************************************************
+************************************************************************************************************************
 
 
 * imperative means use cli every time to execute , declarative means make file and then execute it every time 
@@ -18,7 +18,7 @@ CNCF (Cloud native Computing Foundation):
 
 K8s , Prometheus , ETCD, ConaitnerD ,HELM  are some of the projects by CNCF
 
-simply container management/orchestration tool , also known as k8s , Container orchestration automates the deployment, management, scaling, and networking of containers.
+simply container management/orchestration tool ,also known as k8s ,Container orchestration automates the deployment,management, scaling, and networking of containers.
 orchestration means clustering of any no of containers running on any network , it can works on also hybrid cloud also
 Kubernetes was originally developed and designed by engineers at Google. it was developed in Golang , it supports menifest scripts in JSON and Yaml
 

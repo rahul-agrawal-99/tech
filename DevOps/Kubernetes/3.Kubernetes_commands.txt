@@ -380,15 +380,8 @@ kubectl label pods foo bar-
 
                 OBJ_TYPE    :
 
-                                  pods
-
-                                  ns 
-
-                                  Services
 
                                   deploy                 =>  
-
-                                  nodes 
 
                                   replicationcontroller
 
@@ -396,7 +389,6 @@ kubectl label pods foo bar-
                 OBJ_PARAMETER  / flags  :
 
 
-                                --image=IMG_NAME            ------ image should be in registry of minikube docker
 
 
                                         _              _____           ____                   _            
@@ -687,6 +679,28 @@ kubectl label pods foo bar-
                                 Update fields of a resource using strategic merge patch, a JSON merge patch, or a JSON patch.
 
                                 JSON and YAML formats are accepted
+
+
+
+                                kubectl patch (-f FILENAME | TYPE NAME) -p PATCH_STRING
+
+                                Flags :
+
+                                    -f           kubectl patch -f FILENAME -p PATCH_STRING
+                                                            e.g. kubectl patch -f pod.yaml -p '{"spec":{"containers":[{"name":"nginx","image":"nginx:1.7.9"}]}}'
+
+                                OBJ_TYPE :
+
+                                        pods        e.g.   kubectl patch pods mypod -p '{"spec":{"containers":[{"name":"nginx","image":"nginx:1.7.9"}]}}'
+
+                                        deploy      e.g.   kubectl patch deploy mydeploy -p '{"spec":{"template":{"spec":{"containers":[{"image":"nginx:1.7.9"}]}}}}'
+
+                                        node      e.g.  kubectl patch node mynode -p '{"spec":{"unschedulable":true}}'   # node name is mynode
+
+                                                Marking a node as unschedulable prevents the scheduler from placing new pods onto that Node 
+                                                but does not affect existing Pods on the Node. 
+                                                This is useful as a preparatory step before a node reboot or other maintenance.
+                            
 
 
                                          ____    _   _   _   _ 

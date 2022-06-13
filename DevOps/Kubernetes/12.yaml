@@ -1,9 +1,12 @@
+
+---
+apiVersion: v1
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-   name: mydeployments
+   name: nginx
 spec:
-   replicas: 1
+   replicas: 2
    selector:      # tells the controller which pods to watch/belong to
     matchLabels:
      name: deployment
@@ -18,3 +21,67 @@ spec:
           image: nginx
           ports:
           - containerPort: 80
+          env:
+          - name: MY_POD_ID  
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name   
+          # command: [ "bin/bash", "-c"]
+          # args: 
+          # - while true; do
+          #     echo "<html> <head><title>POd</title></head><body><h1>Pod Id :</h1><h2>  $MY_POD_ID </h2> </body></html>" > /usr/share/nginx/html/index.html
+          #     sleep 100000;
+          #   done;
+          
+          # imagePullPolicy: never
+          # command: [ "sh", "-c"]
+          # args: ["cd /usr/share/nginx/html/" ,  'echo "<html> <head><title>POd</title></head><body><h1>Pod Id :</h1><h2>  $MY_POD_ID </h2> </body></html>" >> index.html']
+          # args:
+          # - while true; do
+          #     cd /usr/share/nginx/html/
+          #     echo "<html> <head><title>POd</title></head><body><h1>Pod Id :</h1><h2>  $MY_POD_ID </h2> </body></html>" > index.html
+          #     sleep 1000;
+          #   done;
+
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: nginx-service
+# spec:
+#   selector:       
+#     name: deployment
+#   ports:
+#     - protocol: TCP
+#       port: 8080         #    listining  on 80 from usrs
+#       targetPort: 80       # directing request to port 8080 of the pods having opend 8080
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+spec:
+  selector:
+    name: deployment
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: my-service
+# spec:
+#   type: NodePort
+#   selector:
+#     name: nginx
+#   ports:
+#       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+#     - port: 80
+#       targetPort: 80
+#       # Optional field
+#       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+#       nodePort: 30007
+
