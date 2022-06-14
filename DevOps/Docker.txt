@@ -172,6 +172,8 @@ Container Lifecycle
 					---------------------------------------------------------------------------
 
 				docker image prune -a       ----it will delete all images without atleast 1 container associated
+
+				docker rmi $(docker images --filter "dangling=true" -q --no-trunc)         ---- delete images with more than 1 unneccessary image occurence
 		
 
 

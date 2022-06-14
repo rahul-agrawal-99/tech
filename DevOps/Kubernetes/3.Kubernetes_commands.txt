@@ -55,6 +55,8 @@ Basic structure of commands
 
                                   persistantvolume    or  pv
 
+                                  HorizontalPodAutoscaler  or  hpa
+
                         
                         e.g.      kubectl get pods    OR     
                         
@@ -115,8 +117,10 @@ Basic structure of commands
 
                                   quota
 
-                                  job   e.g kubectl create job nginxjob --image=nginx -- echo "hello"     OR  
-                                            kubectl create job nginxjob --image=nginx --schedule="*/1 * * * *" -- echo "hello"     CRON Job
+                                  job   e.g kubectl create job nginxjob --image=busybox -- echo "hello"     OR  
+                                            kubectl create cronjob nginxjob --image=busybox --schedule="*/1 * * * *" -- echo "hello"     CRON Job
+
+                                                                            */1 * * * *  =>   every 1 minute
 
 
                 OBJ_PARAMETER  / flags  :
@@ -140,17 +144,17 @@ Basic structure of commands
                                                                             
 
 
-                ACTION_TYPE    " edit "       edit created configuration imperatively
+                ACTION_TYPE    " edit "       edit created configuration imperatively , 
+                                            we get yaml implementation of object that we can edit it and then save it back to kubernetes
 
                                             kubctl  edit    OBJ_TYPE   OBJ_NAME     
 
-                                                e.g       kubectl label node node12 hardware=t2.medium
 
                 OBJ_TYPE    :
 
-                                  deploy                 =>   kubectl efit deployment nginxdeploy 
+                                  deploy                 =>   kubectl edit deployment nginxdeploy 
 
-
+ 
                                                          _                 
                                                         | | ___   __ _ ___ 
                                                         | |/ _ \ / _` / __|
@@ -323,7 +327,7 @@ kubectl label pods foo bar-
                                   rs         or        replicaset
 
                         
-                        e.g.      kubectl delete pods podname    OR     
+                        e.g.      kubectl delete pods podname    OR       
                         
                                
 
@@ -331,6 +335,8 @@ kubectl label pods foo bar-
                 OBJ_PARAMETER  / flags  :
 
                         -f  delete all the objects created by the yaml/json file           e.g.  kuebctl delete -f mymanifest.yaml
+
+                        -l       e.g     kubectl delete pod -l key=value           ---- delete all the pods having lable as key and it value is value
 
 
                                                                             _         
@@ -371,7 +377,7 @@ kubectl label pods foo bar-
 
                 ACTION_TYPE    " scale "        scale the rs manually 
 
-                                            kubctl  create     OBJ_TYPE   OBJ_NAME     
+                                            kubctl  scale     OBJ_TYPE   OBJ_NAME     
 
                                                 e.g       kubectl scale --replicas=3 rs/foo                                 # Scale a replicaset named 'foo' to 3
                                             kubectl scale --replicas=3 -f foo.yaml                            # Scale a resource specified in "foo.yaml" to 3
@@ -400,6 +406,7 @@ kubectl label pods foo bar-
 
                 Creates an autoscaler that automatically chooses and sets the number of pods that run in a Kubernetes cluster. 
                 HPA (Horizontal Pod Autoscaler) is a Kubernetes component that allows you to automatically scale a resource to a desired number of pods.
+                in manifest , HorizontalPodAutoscaler is used instead of autoscale
 
 
                 ACTION_TYPE    " autoscale "        
@@ -478,10 +485,12 @@ kubectl label pods foo bar-
                                 \___|  \___/  |_| |_| |_|   |_|  \__, |
                                                                   |___/ 
                         
-                        
                         ACTION_TYPE    " config "   used to configure settings for kubectl        
 
                                             kubectl config set-cluster my-cluster --server=https://
+
+                    config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+
 
                     set default namespace 
 
@@ -491,16 +500,30 @@ kubectl label pods foo bar-
                         
                         kubectl config view | grep namespace:
 
+                    all the cluster that are configured
+
+                            kubectl config get-contexts
+                    
+                    current cluster config is locating
+                            
+                            kubectl config current-context          # in our case minikube
 
 
+                        
+			A context element in a kubeconfig file is used to group access parameters under a convenient name. 
+            Each context has three parameters: cluster, namespace, and user. 			
+            By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster
 
-                    config file is located in        ==>     ${HOME_DIR}/${USER}/.kube/config
+
 
                         config file contains cluster , user and context .
 
                                 cluster = > https endpoints for cluster
                                 user = >  credential to communicate to cluster
                                 context = >   cluster + user
+
+
+
 
 
                                                  _____                 
@@ -563,7 +586,7 @@ kubectl label pods foo bar-
 
                                             kubectl expose OBJ_TYPE   OBJ_PARA    
 
-                                                e.g       kubectl expose deploy myd --type=NodePort \ --name=mys --port=80 --targetport=80 --nodeport=30001   
+                                                e.g       kubectl expose deploy nginx --type=NodePort --name=mys --port=8080 --target-port=80  
                                                     
                                                                             # expose a deployment named myd to a NodePort service named mys with mentioned specs
 
@@ -587,7 +610,11 @@ kubectl label pods foo bar-
 
                                     --type                 Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Default is 'ClusterIP'.
 
-                                    -f               e.g.  kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000
+                                    -f               e.g.  kubectl expose -f nginx-controller.yaml --port=80 --target-port=80
+
+                                    --port=P         Port of service to expose. 
+
+                                    --target-port=P         Port in the container to expose.
 	
 
 			
@@ -716,9 +743,11 @@ kubectl label pods foo bar-
 
                                     Flags :
 
-                                        --image                         image to run
+                                        --image                         image to run , e.g.   kubectl run nginx --image=nginx
 
-                                        --port                          port to expose
+                                        -f                             file containing the pod definition
+
+                                        --port                          port to expose , e.g.   kubectl run nginx --image=nginx --port=80
 
                                         --env                            set env    e.g.  --env="DNS_DOMAIN=cluster"
 
@@ -727,8 +756,23 @@ kubectl label pods foo bar-
                                         -it                           Keep stdin open on the container in the pod, even if nothing is attached
 
                                         busybox                   interactively debug service (it combines many common UNIX utilities into small file)
+                                                                e.g.   kubectl run -i -t busybox --image=busybox --restart=Never
+                                                                 OR     kubectl run -it --rm --restart=Never busybox --image=gcr.io/google-containers/busybox sh
 
                                         sh                    run a shell inside the container
+
+                                        --rm                          remove the container when the pod is deleted
+
+                                        --dry-run                     Dry run; print the corresponding API objects without creating them
+                                                                        Must be "none", "server", or "client". 
+                                                                        If client strategy, only print the object that would be sent, withoutsending it. 
+                                                                        If server strategy, submit server-side request without persisting the resource
+                                                                         e.g.   kubectl run nginx --image=nginx --dry-run=Client
+                                        
+                                        --overrides                   Overrides the kubectl binary used to run the container
+                                                                e.g.   kubectl run nginx --image=nginx--overrides='{ "apiVersion": "v1"}'
+                                         
+
 
 
                                              _  __                _____           __  __   _         _____ 
@@ -782,109 +826,9 @@ kubectl label pods foo bar-
                                                                 
 
 
-		
+
+kubectl api-resources
+kubectl cluster-info
 
 
-	8. get desciption of pod available
-					---------------------------------------------------------------------------
-					|     		kubectl describe pod POD_NAME -n NS_NAME		  | if NS_NAME is not mentioned then it search in all the availble ns
-					---------------------------------------------------------------------------
-												
-
-
-
-	10. delete a pod from specific namespace
-					---------------------------------------------------------------------------
-					|         kubectl delete pod POD_NAME -n NS_NAME		 	 |    --- use -n only if 2 pods in diff ns have same name
-					---------------------------------------------------------------------------
-
-
-				delete pod using lable :
-
-						kubectl delete pod -l key=value           ---- delete all the pods having lable as key and it value is value
-
-
-	12. assign label to a pod or any other resource
-
-					---------------------------------------------------------------------------
-					|           	kubectl lable Resource_TYPE Resource_NAME KEY=VALUE  		|
-					---------------------------------------------------------------------------
-
-					e.g.  kubectl lable pods mypod1 name=lable1
-
-
-	
-
-	2. get context by using
-
-					---------------------------------------------------------------------------
-					|                			 kubectl config current-context				  |     list a current cluster config is locating
-					---------------------------------------------------------------------------
-			A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. 			By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster
-
-
-			use =>  kubectl config get-contexts  --- list all the cluster that are configured to master
-
-
-
-
-
-
-					***************************************************************************************************
-									Kubernetes Deployment commands																	***************************************************************************************************
-
-					Deployment is getting cluster from actual state to desired state at controlled rate
-
-	1. build yaml file containg info to get in desired state known as manifest
-
-		required details for manifest :
-
-				apiVersion - Which version of the Kubernetes API you're using to create this object
-				kind - What kind of object you want to create
-				metadata - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
-				spec - What state you desire for the object
-
-		it will create deployment(metadata -> name) and replica set named as mentioned in metadata -> name ,  like =>  name-rs_id-hash  
-
-		Replica Set ensures how many replica of pod should be running. It can be considered as a replacement of replication controller. The key difference between the replica set 		and the replication controller is, the replication controller only supports equality-based selector whereas the replica set supports set-based selector.
-		However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features
-			You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. You can define 			Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
-
-
-	2. apply yml file
-					---------------------------------------------------------------------------
-					|                kubectl apply -f /PATH_TO_FILE/FILENAME.yml 		  |
-					---------------------------------------------------------------------------
-
-	3. get list of replica sets available
-					---------------------------------------------------------------------------
-					|                		 kubectl get rs				  |   use --watch to see rs in real time , i.e. creating and deleting
-					--------------------------------------------------------------------------- 
-
-
-	4. get list of deployment
-					---------------------------------------------------------------------------
-					|                		 kubectl get deploy			  |  (kubectl delete deploy NAME)  to delete 
-					--------------------------------------------------------------------------- 
-
-	5. get desciption of deployment
-					---------------------------------------------------------------------------
-					|               kubectl describe deployments DEPLOY_NAME		  |   
-					--------------------------------------------------------------------------- 
-	6. get desciption of rs
-					---------------------------------------------------------------------------
-					|		 kubectl describe rs/RS_NAME  				|   
-					--------------------------------------------------------------------------- 
-
-                                                                                                
-				deploy pod on only on specific node using node selector
-
-
-					then in yml file of manifest mention as
-
-							spec:
-								nodeSelector:
-									hardware = t2.medium       # create pod on only instance/node having lable as key=hardware and value = t2.medium
-							
-						# if no node having this lable , then pod will not be deployed it will be in pending state
 

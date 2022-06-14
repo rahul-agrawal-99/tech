@@ -248,6 +248,41 @@ spec:
 
 
 
+# ---------------               HPA (autoscaler)                     ------------------------------------
+
+#  using HPA to scale the deployment
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache     # name , not imp
+spec:
+  scaleTargetRef:   # target group to scale , here it is deployment
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache          # same as deployment name 
+  minReplicas: 1             # minimum number of pods
+  maxReplicas: 10          # maximum number of pods
+  metrics:                  # conditions to scale
+  - type: Resource            # what to scale
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50       # if cpu utilization is 50% , it will scale up
+status:
+  observedGeneration: 1
+  lastScaleTime: <some-time>
+  currentReplicas: 1
+  desiredReplicas: 1
+  currentMetrics:
+  - type: Resource
+    resource:
+      name: cpu
+      current:
+        averageUtilization: 0
+        averageValue: 0
 
 
 # ---------------               Services                     ------------------------------------
@@ -418,14 +453,50 @@ spec:
     app: MyApp
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 9376
-  clusterIP: 10.0.171.239
+      port: 8080
+      targetPort: 80  # on pod
+  # clusterIP: 10.0.171.239
   type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 192.0.2.127
+
+
+# ---------------               Service with ExternalName             ------------------------------------
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: prod
+spec:
+  type: ExternalName
+  externalName: my.database.example.com
+
+
+# ---------------                ingress                     ------------------------------------
+
+#  enable ingress controller addon
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example   # If the ingressClassName is omitted, a default Ingress class should be defined using kind : IngressClass
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:                # backend can be Service  OR Resource
+          service:
+            name: mys                # same as service name in service or any lable metadata
+            port:
+              number: 80
+
+
+
 
 
 # ---------------                NameSpace                     ------------------------------------

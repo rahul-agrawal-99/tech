@@ -6,3 +6,9 @@ eval $(minikube docker-env)
 minikube service SERVICE_NAME             if type= nodeport , we can access web server of pod from outside
 
 minikube image load <image name>
+
+minikube addons enable ingress                    if we want to use ingress
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/aws/deploy.yaml
+
+

@@ -57,17 +57,17 @@ spec:
 #       targetPort: 80       # directing request to port 8080 of the pods having opend 8080
 
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: example-service
-spec:
-  selector:
-    name: deployment
-  ports:
-    - port: 80
-      targetPort: 80
-  type: LoadBalancer
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: example-service
+# spec:
+#   selector:
+#     name: deployment
+#   ports:
+#     - port: 80
+#       targetPort: 80
+#   type: LoadBalancer
 
 # apiVersion: v1
 # kind: Service
@@ -85,3 +85,22 @@ spec:
 #       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
 #       nodePort: 30007
 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: public   # If the ingressClassName is omitted, a default Ingress class should be defined using kind : IngressClass
+  rules:
+  - http:
+      paths:
+      - path: /mypath
+        pathType: Prefix
+        backend:                # backend can be Service  OR Resource
+          service:
+            name: mys2                # same as service name in service or any lable metadata
+            port:
+              number: 8080

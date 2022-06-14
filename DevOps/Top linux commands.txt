@@ -371,6 +371,16 @@ e.g.
 
 	use =>   wget url 
 
+		or 
+
+			curl ip:port
+
+5] check available space in disk
+	df -h
+			e.g. df -h                    # -h for human readable
+			Filesystem      Size Used Avail Use% Mounted on
+			/dev/sda1      1.0T  1.0T  1.0T  0% /
+
 
 	
 

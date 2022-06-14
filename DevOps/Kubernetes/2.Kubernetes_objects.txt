@@ -194,6 +194,8 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                                 same as clutser ip but instead of returning static ip address it returns CNAME record
 
+                                only External Name service does not have cluster IP , but it has a DNS name as external IP
+
 					---------------------------------------------------------------------------
 					|                                 Headless Service  	 			 |   (used for statefulset) 
 					---------------------------------------------------------------------------
@@ -284,19 +286,26 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                  
 
                		---------------------------------------------------------------------------
-					|                                         Ingress 	        				 |  (internet to k8s pod)
+					|                                         Ingress 	        			 |  (internet to k8s pod) , alternative to service
 					---------------------------------------------------------------------------
 
 
                     it is type of External service that is used to expose services to the world but using a secure protocol like https and with domain name
 
                     traffic routing is controlled by rules defined on ingress resource
-                    to use ingress , we need ingress controller 
+                    In order for the Ingress resource to work, the cluster must have an ingress controller running. 
+                    Ingress controllers are not started automatically with a cluster
+                    it is not comes by default , we need to make to use in Ingress
 
                     if request comes to the domain name , it will be routed to the service by ingress
 
+                    The name of an Ingress object must be a valid DNS subdomain name
+
                     it is used in real world applications not the LoadBalancer
 
+                    client_request  --->  ingress LB  ---> Ingress ---> routing rule ---> service ---> pod
+
+                                                            | ---------  Cluster component  -------------|
 
                     ---------------------------------------------------------------------------
 					|                           Volume      				 				 |
@@ -524,7 +533,7 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
 
 			    	---------------------------------------------------------------------------
-					|                            ReplicationController		     			 |
+					|                            ReplicationController		     			 |   deprecated , use ReplicaSet instead
 					---------------------------------------------------------------------------
 
                     Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. 
