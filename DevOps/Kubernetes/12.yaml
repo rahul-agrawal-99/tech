@@ -4,9 +4,9 @@ apiVersion: v1
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-   name: nginx
+   name: flask
 spec:
-   replicas: 2
+   replicas: 10
    selector:      # tells the controller which pods to watch/belong to
     matchLabels:
      name: deployment
@@ -18,14 +18,19 @@ spec:
      spec:
       containers:
         - name: c00
-          image: nginx
+          image: flask
           ports:
           - containerPort: 80
           env:
-          - name: MY_POD_ID  
+          - name: NAME  
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name   
+          command: ["/bin/python3"]
+          args: ["-c", "python3 /app/dbms_project_private/app.py"]
+          # command: [ "bin/bash", "-c" , "python3 /app/dbms_project_private/app.py"]
+          # args: 
+          # - python3 /app/dbms_project_private/app.py
           # command: [ "bin/bash", "-c"]
           # args: 
           # - while true; do
@@ -56,18 +61,18 @@ spec:
 #       port: 8080         #    listining  on 80 from usrs
 #       targetPort: 80       # directing request to port 8080 of the pods having opend 8080
 
-
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: example-service
-# spec:
-#   selector:
-#     name: deployment
-#   ports:
-#     - port: 80
-#       targetPort: 80
-#   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicelb
+spec:
+  selector:
+    name: deployment
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
 
 # apiVersion: v1
 # kind: Service
@@ -85,22 +90,22 @@ spec:
 #       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
 #       nodePort: 30007
 
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: public   # If the ingressClassName is omitted, a default Ingress class should be defined using kind : IngressClass
-  rules:
-  - http:
-      paths:
-      - path: /mypath
-        pathType: Prefix
-        backend:                # backend can be Service  OR Resource
-          service:
-            name: mys2                # same as service name in service or any lable metadata
-            port:
-              number: 8080
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: public   # If the ingressClassName is omitted, a default Ingress class should be defined using kind : IngressClass
+#   rules:
+#   - http:
+#       paths:
+#       - path: /mypath
+#         pathType: Prefix
+#         backend:                # backend can be Service  OR Resource
+#           service:
+#             name: mys2                # same as service name in service or any lable metadata
+#             port:
+#               number: 8080
