@@ -12,3 +12,18 @@ minikube addons enable ingress                    if we want to use ingress
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/aws/deploy.yaml
 
 
+
+
+-----------------   setup network policies on minikube cluster with cilium ---------------------
+
+minikube start --network-plugin=cni --enable-default-cni
+
+kubectl create -f https://raw.githubusercontent.com/cilium/cilium/1.5.6/examples/kubernetes/1.15/cilium-minikube.yaml
+
+# check that cilium pod is ok:
+kubectl get pods -n kube-system -l k8s-app=cilium
+
+-----------------   setup network policies on minikube cluster with calico ---------------------
+
+
+minikube start  --cni calico

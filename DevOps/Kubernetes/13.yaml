@@ -1,25 +1,120 @@
+#  attaching secreat and configmap to pod
+
+#     configmap as volume
+#     secret as enviroment variable  or volume
+
+
+
+---   # secret as a volume
 apiVersion: v1
-kind: Pod
-apiVersion: v1
-kind: Pod
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: myapp-pod
-  labels:
-    app: myapp
+   name: nginx
 spec:
-  containers:
-    - name: test-container
-      image: ubuntu
-      env:
-        - name: MY_POD_ID  
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name   
-        - name: MY_POD_SERVICE_ACCOUNT
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.serviceAccountName
-  restartPolicy: Never
+   replicas: 2
+   selector:      # tells the controller which pods to watch/belong to
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: testpod1
+       labels:
+         name: deployment
+     spec:
+      containers:
+        - name: env-var-configmap
+          image: nginx:1.7.9 
+          env:
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: password
+          volumeMounts:
+            - name: configmap-volume
+              mountPath: /config
+              readOnly: true
+            - name: secret-volume
+              mountPath: /secret
+              readOnly: true
+      volumes:
+      - name: configmap-volume
+        configMap:
+          name: example-configmap
+      - name: secret-volume
+        secret:
+          secretName: mysecret
+
+---
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: example-configmap 
+data:
+  name : "rahul"
+  age : "23"
+  hobbies : |
+    firsthobby=cricket
+    secondhobby=football
 
 
- 
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+stringData:
+  username: admin
+  password: adminrahulpass
+type: Opaque
+
+
+
+
+
+# ---       # secret as a enviroment variable
+# apiVersion: v1
+# kind: Deployment
+# apiVersion: apps/v1
+# metadata:
+#    name: nginx
+# spec:
+#    replicas: 2
+#    selector:      # tells the controller which pods to watch/belong to
+#     matchLabels:
+#      name: deployment
+#    template:
+#      metadata:
+#        name: testpod1
+#        labels:
+#          name: deployment
+#      spec:
+#       containers:
+#         - name: env-var-configmap
+#           image: nginx:1.7.9 
+#           env:
+#             - name: username
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: mysecret
+#                   key: username
+#             - name: password
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: mysecret
+#                   key: password
+#           volumeMounts:
+#             - name: configmap-volume
+#               mountPath: /config
+#               readOnly: true
+#       volumes:
+#       - name: configmap-volume
+#         configMap:
+#           name: example-configmap

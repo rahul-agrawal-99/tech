@@ -1,11 +1,69 @@
-kind: Service                             # Defines to create Service type Object
+#  persistant volume and persistent volume claim
+
+
+
+
+
+
+---
 apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: demoservice
+  name: pv
 spec:
-  ports:
-    - port: 80                               # Containers port exposed
-      targetPort: 80                     # Pods port
-  selector:
-    name: deployment                    # Apply this service to any pods which has the specific label
-  type: NodePort                     # Specifies the service type i.e ClusterIP or NodePort
+  storageClassName: standard
+  capacity:         # only resource that can be set or requested. Future attributes may include IOPS, throughput, etc.
+    storage: 3Gi
+  volumeMode: Filesystem    # Filesystem(default) or Block , volume with volumeMode: Filesystem is mounted into Pods into a directory                    
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    name: pvc
+  hostPath:
+    path: "/home/rahul/Desktop"
+ 
+
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc
+spec:
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi  # claim only 1Gi of storage out of 3Gi
+  accessModes:
+    - ReadWriteOnce
+
+
+---   # secret as a volume
+apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: nginx-pv
+spec:
+   replicas: 2
+   selector:      # tells the controller which pods to watch/belong to
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: testpod1
+       labels:
+         name: deployment
+     spec:
+      containers:
+        - name: nginx
+          image: nginx
+          volumeMounts:
+            - name: my-pv
+              mountPath: /hostvol
+
+      volumes:
+      - name: my-pv
+        persistentVolumeClaim:
+          claimName: pvc

@@ -428,7 +428,8 @@ Additional terms:
 									Goal is to provide unified interface to manage whole os level virtualization 
 
 		CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. Like Kubernetes, the CoreDNS project is hosted by the CNCF.
-		You can use CoreDNS instead of kube-dns in your cluster by replacing kube-dns in an existing deployment, or by using tools like kubeadm that will deploy and upgrade the cluster for you
+		You can use CoreDNS instead of kube-dns in your cluster by replacing kube-dns in an existing deployment, 
+				or by using tools like kubeadm that will deploy and upgrade the cluster for you
 		kube-dns is defaultly used with k8s , to use CORE-DNS we need to first install it manually
 		CoreDNS has plugins to support many of functionalities with other services
 
@@ -447,9 +448,42 @@ Additional terms:
 calico
 linkerd
 inaccel
-Istio
+
 keda
 kubeflow
 metallb
 openebs
 prometheus
+
+
+Cilium: API-aware networking and security for containers. 
+		Cilium is an open source software for providing, securing and observing network connectivity between container workloads 
+				- cloud native, and fueled by the revolutionary Kernel technology eBPF
+		Open source software for providing and transparently securing network connectivity 
+				and loadbalancing between application workloads such as application containers or processes 
+
+eBPF is a revolutionary technology with origins in the Linux kernel that can run sandboxed programs in an operating system kernel. 
+It is used to safely and efficiently extend the capabilities of the kernel without requiring to change kernel source code or load kernel modules.
+
+Istio: Open platform to connect, manage, and secure microservices, by Google, IBM, and Lyft. 
+		Istio is an open platform for providing a uniform way to integrate microservices, 
+			manage traffic flow across microservices, enforce policies and aggregate telemetry data. 
+		Istio's control plane provides an abstraction layer over the underlying cluster management platform, such as Kubernetes, Mesos, etc.
+
+Cilium can be classified as a tool in the "Security" category, while Istio is grouped under "Microservices Tools".
+
+
+Antrea is a Kubernetes-native project that implements the Container Network Interface (CNI) and Kubernetes NetworkPolicy 
+	thereby providing network connectivity and security for pod workloads. 
+Antrea extends the benefit of programmable networks from Open vSwitch (OVS) to Kubernetes.
+it is used for Enable pod networking and enforce network policies for Kubernetes clusters
+
+
+Calico is an open source networking and network security solution for containers, virtual machines, and native host-based workloads. 
+Calico supports a broad range of platforms including Kubernetes, OpenShift, Mirantis Kubernetes Engine (MKE), OpenStack, and bare metal services.
+Calico gives you a choice of dataplanes, including 
+		1. pure Linux eBPF dataplane       2.  a standard Linux networking dataplane   3.  Windows HNS dataplane. 
+Whether you prefer cutting edge features of eBPF, or the familiarity of the standard primitives 
+	that existing system administrators already know, Calico has you covered.
+Whichever choice is right for you, you’ll get the same, easy to use, base networking, network policy and IP address management capabilities, 
+	that have made Calico the most trusted networking and network policy solution for mission-critical cloud-native applications.

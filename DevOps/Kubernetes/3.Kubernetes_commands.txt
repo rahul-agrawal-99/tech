@@ -57,6 +57,11 @@ Basic structure of commands
 
                                   HorizontalPodAutoscaler  or  hpa
 
+                                  secret               e.g. kubectl get secret secretname -o jsonpath='{.data}'   # view plain text data of  secret 
+                                                                                                                 # it will be plain but encrypted
+
+                                  storageclass       or  sc
+ 
                         
                         e.g.      kubectl get pods    OR     
                         
