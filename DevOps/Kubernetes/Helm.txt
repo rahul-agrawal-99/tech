@@ -18,6 +18,10 @@ HELM : can be stated as IAC to manage infrastructure in the cluster
             A single chart might be used to deploy something simple, like a memcached pod, or something complex, like a full web app stack with HTTP servers, databases, caches, and so on.
             it is written/designed in Go .
 
+            Helm is made of two components: 
+                the CLI binary named helm that allows you to perform communication with a remote component named tiller  
+                tiller lives inside your Kubernetes cluster that is responsible to perform patches and changes to resources you ask to manage
+
             Helm 3 has a client-only(single-service) architecture with the client still called helm .
             only one executable is rewsponcible for implementing helm .
             in-cluster-Tiller(server) is now removed which is in helm2 , also it was risky to use 
@@ -99,6 +103,7 @@ HELM : can be stated as IAC to manage infrastructure in the cluster
                     └── values.yaml          =>  default configuration values for this chart
 
             helm install [NAME] REPO_NAME/[PKG_NAME]        =>  This command installs a chart archive/release
+                                                                creates deploy named as NAME-PKG_NAME
 
             helm install --dry-run [NAME] REPO_NAME/[PKG_NAME]        =>  we can see installation steps 
                                                                         without actually installing the chart ,simulate an install
@@ -115,6 +120,7 @@ HELM : can be stated as IAC to manage infrastructure in the cluster
                                         e.g. helm install myapp . 
 
                     Get is used to view details  After installing.
+  
             
             helm get values [NAME]           =>  get the user defined values (using --set or file )of the chart after applying it
             

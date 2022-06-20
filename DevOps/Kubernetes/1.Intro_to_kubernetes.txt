@@ -5,12 +5,13 @@
 
 * imperative means use cli every time to execute , declarative means make file and then execute it every time 
 
-Cloud Native : architectural approach conatains workload that is poratable , modular and isolate between differnent cloud providers and cloud deployment models
+Cloud Native : architectural approach conatains workload that is poratable ,
+				 modular and isolate between differnent cloud providers and cloud deployment models
 
 k8s is based on cloud native
 
 The Linux Foundation :
-			formed in 2000's by merger between Open source development labs and Free student groups to support linux's growth and commerercial adoption 
+	formed in 2000's by merger between Open source development labs and Free student groups to support linux's growth and commerercial adoption 
 
 CNCF (Cloud native Computing Foundation):
 			formed in 2015 as a linux Foundation project to help advance container technology ,it operates independently from parent orgaization 
@@ -18,9 +19,11 @@ CNCF (Cloud native Computing Foundation):
 
 K8s , Prometheus , ETCD, ConaitnerD ,HELM  are some of the projects by CNCF
 
-simply container management/orchestration tool ,also known as k8s ,Container orchestration automates the deployment,management, scaling, and networking of containers.
+simply container management/orchestration tool ,also known as k8s ,
+	Container orchestration automates the deployment,management, scaling, and networking of containers.
 orchestration means clustering of any no of containers running on any network , it can works on also hybrid cloud also
-Kubernetes was originally developed and designed by engineers at Google. it was developed in Golang , it supports menifest scripts in JSON and Yaml
+Kubernetes was originally developed and designed by engineers at Google. it was developed in Golang , 
+	it supports menifest scripts in JSON and Yaml
 
 container orchestration to automate and manage tasks such as:
 
@@ -64,7 +67,8 @@ Architecture :
 
 	it has master- node architecture inside a cluter , there can be more than 1 master in this architecture
 	, containers communicates with pods , diff pods can have diff types of container services running in it , 
-	like in 1 pod 20 docker containers are running but in 2 nd pod from same cluster can have 30 OpenVZ or containerd conatiners running at same time 
+	like in 1 pod 20 docker containers are running but in 2 nd pod from same cluster can have 30 OpenVZ or 
+			containerd conatiners running at same time 
 	containers run microservice 
 
 
@@ -164,13 +168,13 @@ it checks etcd via server and commands           |						/
 	
 
 		* Admin sends menifest to Api server then 
-		control manager check actual and desired state with help of etcd and 
-		commands scheduler to perform necessory action to get in desired state
-		scheduler smartly decides which pod to run on which node and which container to run on which pod based on the workloads on each cluster and node
-		but we can also decide manually to on which node pod will be created 
-		by getting commnds from scheduler , kubelet on nodes perform actions to create pod based on image provided by scheduler itself
-		Replication is done by Control manager by checking the desired and actual state of node and if any of pod fails ,new pod get scheduled on node
-		etcd contains status of every node which is deliverd by kubelet from each nodes
+	control manager check actual and desired state with help of etcd and 
+	commands scheduler to perform necessory action to get in desired state
+	scheduler smartly decides which pod to run on which node and which container to run on which pod based on the workloads on each cluster & node
+	but we can also decide manually to on which node pod will be created 
+	by getting commnds from scheduler , kubelet on nodes perform actions to create pod based on image provided by scheduler itself
+	Replication is done by Control manager by checking the desired and actual state of node and if any of pod fails ,new pod get scheduled on node
+	etcd contains status of every node which is deliverd by kubelet from each nodes
 
 		in case of 2 master structuer , api-server is getting load balanced and etcd is being shared by both master
 	
@@ -334,7 +338,8 @@ Additional terms:
 		The runtime is then responsible for managing the container lifecycle and communicating with the operating system kernel.
 
 	CRI (Conatiner runtime interface) : allows to run diff. container runtimes like Docker, CRI-O , containerd
-	CRI enables Kubernetes users to easily make use of multiple container runtimes, and enables developers of container runtimes to easily integrate them with the Kubernetes ecosystem. 
+	CRI enables Kubernetes users to easily make use of multiple container runtimes, and 
+			enables developers of container runtimes to easily integrate them with the Kubernetes ecosystem. 
 	Prior to the introduction of the CRI, rkt and Docker were directly integrated into the source code of the kubelet
 
 		ContainerD : industry standerd container runtime with robust and portable features donated to CNCF by Docker
@@ -360,12 +365,13 @@ Additional terms:
 				e.g. Istio , uses Envoy , not CNCF project
 
 	Container Network Interface (CNI) : CNI plugin is responsible for inserting a network interface into the container network namespace 
-							(e.g., one end of a virtual ethernet (veth) pair) and making any necessary changes on the host (e.g., attaching the other end of the veth into a bridge). 
-							It then assigns an IP address to the interface and sets up the routes consistent with the IP Address Management section 
-									by invoking the appropriate IP Address Management (IPAM) plugin.
+							(e.g., one end of a virtual ethernet (veth) pair) 
+								and making any necessary changes on the host (e.g., attaching the other end of the veth into a bridge). 
+						It then assigns an IP address to the interface and sets up the routes consistent with the IP Address Management section 
+								by invoking the appropriate IP Address Management (IPAM) plugin.
 
-					 container/pod initially has no network interface. The container runtime calls the CNI plugin with verbs such as ADD, DEL, CHECK, etc. 
-					 ADD creates a new network interface for the container, and details of what is to be added are passed to CNI via JSON payload.
+			container/pod initially has no network interface. The container runtime calls the CNI plugin with verbs such as ADD, DEL, CHECK, etc. 
+			ADD creates a new network interface for the container, and details of what is to be added are passed to CNI via JSON payload.
 
 	 network namespaces : logical isolation of network , heavily used in pod to pod communication , every pod has its own namespace 
 	 								virtual Ethernet is used to peer/bridge connection between pod and node and further to another node or pod
@@ -405,16 +411,16 @@ Additional terms:
 
 					////  ***   minikube   ***   ///    only for development
 
-		Like kind, minikube is a tool that lets you run Kubernetes locally as a virtual machine
-		minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, 
-		or for daily development work.
-		it has docker container time preinstalled so we dont need to install it but it is only available inside minikube 
+	Like kind, minikube is a tool that lets you run Kubernetes locally as a virtual machine
+	minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) 
+			so that you can try out Kubernetes, or for daily development work.
+	it has docker container time preinstalled so we dont need to install it but it is only available inside minikube 
 		there will be different docker registry of docker inside minikube and locally installed docker
 
-		use --vm-driver along with start to select hypervisor where minikube requires  , it is deprecated as  --driver
-		--driver='': Driver is one of: virtualbox, vmwarefusion, kvm2, vmware,none, docker, podman, ssh (defaults to auto-detect)
+	use --vm-driver along with start to select hypervisor where minikube requires  , it is deprecated as  --driver
+	--driver='': Driver is one of: virtualbox, vmwarefusion, kvm2, vmware,none, docker, podman, ssh (defaults to auto-detect)
 
-		using : eval $(minikube docker-env)     , we can access docker inside minikube for that opened cli only 
+	using : eval $(minikube docker-env)     , we can access docker inside minikube for that opened cli only 
 
 				set imagePullPolicy to Never ,otherwise Kubernetes will try to download the image into its docker 
 
@@ -424,10 +430,12 @@ Additional terms:
 
 
 
-		C-Group (controls groups) : allows to group processes to apply different kinds of limitations like resource limiting , prioritize cpu utilization
+		C-Group (controls groups) : allows to group processes to apply different kinds of limitations like 
+											resource limiting , prioritize cpu utilization
 									Goal is to provide unified interface to manage whole os level virtualization 
 
-		CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. Like Kubernetes, the CoreDNS project is hosted by the CNCF.
+		CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. 
+		Like Kubernetes, the CoreDNS project is hosted by the CNCF.
 		You can use CoreDNS instead of kube-dns in your cluster by replacing kube-dns in an existing deployment, 
 				or by using tools like kubeadm that will deploy and upgrade the cluster for you
 		kube-dns is defaultly used with k8s , to use CORE-DNS we need to first install it manually
@@ -445,8 +453,31 @@ Additional terms:
 				every public cloud, every Kubernetes distribution, the private cloud and the edge
 
 
-calico
-linkerd
+Knative :  Knative is an Open-Source Enterprise-level solution to build Serverless and Event Driven Applications
+           also known as Serverless Containers in Kubernetes environments.
+		   Knative allows you to create serverless environments using containers , same as OpenFaaS
+		   The Knative architecture consists of the Building, Eventing, and Serving components.
+
+
+OpenFaas :   OpenFaaS brings Functions As A Service (FaaS) to Kubernetes
+			OpenFaas ( Function as a Service) is a framework for building serverless functions on the top of containers(with docker and kubernetes). 
+			With the help of OpenFaas, 
+				it is easy to turn anything into a serverless function that runs on Linux or windows through Docker or Kubernetes.
+			OpenFaaS® makes it easy for developers to deploy event-driven functions and microservices 
+					to Kubernetes without repetitive, boiler-plate coding.
+		OpenFaaS architecture is based on a cloud-native standard and includes the following components: 
+				API Gateway 
+				Function Watchdog
+				container orchestrators like Kubernetes, Docker Swarm
+				Prometheus
+				Docker 
+		
+		process begins with the installation of Docker and ends with the Gateway API.
+
+
+ 
+
+
 inaccel
 
 keda
@@ -487,3 +518,7 @@ Whether you prefer cutting edge features of eBPF, or the familiarity of the stan
 	that existing system administrators already know, Calico has you covered.
 Whichever choice is right for you, you’ll get the same, easy to use, base networking, network policy and IP address management capabilities, 
 	that have made Calico the most trusted networking and network policy solution for mission-critical cloud-native applications.
+
+
+Linker-D :
+		fast and light service mesh for Kubernetes , alternatiev to istio
