@@ -483,9 +483,15 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                                             When the PersistentVolumeClaim is deleted, the PersistentVolume still exists and the volume is considered "released". 
                                             But it is not yet available for another claim because the previous claimant's data remains on the volume
 
-                                    Delete
+                                    Delete    (default)
                                             For volume plugins that support the Delete reclaim policy, deletion removes both the PersistentVolume object from Kubernetes, 
                                                 as well as the associated storage asset in the external infrastructure, such as an AWS EBS, GCE PD, Azure Disk, or Cinder volume
+
+                        resource Request :
+
+                                    A PVC is a request for a resource. we can request for specific size of storage and access mode like ReadOnlyOnce or ReadWrite
+
+                                    NOTE : once claimed , claim can be increased only , not decreased 
 
            			 ---------------------------------------------------------------------------
 					|                               configmap               				 |
@@ -526,6 +532,25 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
                         so that only using application specific keys we can access the data 
 
                     by default , secrets are unencrypted in etcd store
+
+                    When creating a Secret, you can specify its type using the type field of the Secret
+                    The Secret type is used to facilitate programmatic handling of the Secret data.
+
+                    Kubernetes provides several built-in types for some common usage scenarios
+
+                    Built-in Type 	                                     Usage
+
+                    Opaque 	                                            arbitrary user-defined data
+                    kubernetes.io/service-account-token 	            ServiceAccount token
+                    kubernetes.io/dockercfg 	                        serialized ~/.dockercfg file
+                    kubernetes.io/dockerconfigjson 	                    serialized ~/.docker/config.json file
+                    kubernetes.io/basic-auth 	                        credentials for basic authentication
+                    kubernetes.io/ssh-auth 	                            credentials for SSH authentication
+                    kubernetes.io/tls 	                                data for a TLS client or server
+                    bootstrap.kubernetes.io/token 	                    bootstrap token data
+
+                    
+                    default type is opaque
 
 
 
@@ -755,7 +780,7 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 	
              
 					---------------------------------------------------------------------------
-					|                              Network policy  	        	 			 |
+					|                              Network policy  	        	 			 |   requires network policy manager to be installed on the cluster to control actually
 					---------------------------------------------------------------------------
 
                     it is used to restrict network access to a pod or whole namespace
@@ -764,7 +789,7 @@ diff types of object available in k8s are :   (around 50+ Resources/objects avai
 
                     selectors are used resources with matching lables for network policy to be applied on 
 
-                    to use this , we need network policy agents like Antrea 
+                    to use this , we need network policy agents like Antrea , cilium
              
 	
 					---------------------------------------------------------------------------

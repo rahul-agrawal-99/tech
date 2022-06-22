@@ -709,15 +709,33 @@ spec:
                             # Block to use a volume as a raw block device. Such volume is presented into a Pod as a block device, without any filesystem on it
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Recycle            # Recycle(default) or ratain
   storageClassName: slow        # name of the storage class that is created already
   mountOptions:                # different options for mounting the volume for different filesystems , If a mount option is invalid, the mount fails
     - hard
     - nfsvers=4.1
-  nfs:
+  nfs:       # only for nfs volume , eaiter nfs or hostPath
     path: /tmp
     server: 172.17.0.2
+  hostPath:
+    path: /tmp       # path of the host file that is mounted into the pod
 
+
+# ---------------         Persisistant volume claim PVC                    ------------------------------------
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc
+spec:
+  storageClassName: standard       # name of the storage class that is created already , same as PV
+  resources:
+    requests:
+      storage: 1Gi  # claim only 1Gi of storage space
+  accessModes:
+    - ReadWriteOnce
 
 # ---------------            Config MAP                ------------------------------------
 
@@ -732,7 +750,7 @@ data:
   database_uri: mongodb://localhost:27017
   
   # Or set as complete file contents (even JSON!)
-  keys: | 
+  keys: |        # accessesed as 
     image.public.key=771 
     rsa.public.key=42
 
@@ -752,12 +770,41 @@ spec:
         - configMapRef:
             name: example-configmap
 
+
+# attach a config map as a volume to pod
+#  if did this method , then it will craete dir at "mountPath" and copy the contents of the config map to that dir
+#  in that path , we can get file named as same as the key in the volume section , and in that file it contains tect as key and value
+#  in our case , it will have file named as keys at /config and it will have text as :
+#  image.public.key=771
+#  rsa.public.key=42 
+#  also if data is kust single values i.e. KEY = VALUE , then it will create a file named as key and it will have value as value
+---
+kind: Pod 
+apiVersion: v1 
+metadata:
+  name: pod-env-var 
+spec:
+  containers:
+    - name: env-var-configmap
+      image: nginx:1.7.9 
+      volumemounts:
+        - name: configmap-volume
+          mountPath: /config
+          readOnly: true
+  volumes:
+    - name: configmap-volume
+      configMap:
+        name: example-configmap
+      items:
+        - key: keys  # name of file that will be created in the volume of pod
+          path: keys   # name of property in the config map
+
 # ---------------            Secret                ------------------------------------
 
 ---
 apiVersion: v1
 kind: Secret
-data:
+stringData:
   username: admin
   password: MWYyZDFlMmU2N2Rm
 metadata:
@@ -797,31 +844,31 @@ metadata:
   name: test-network-policy
   namespace: default
 spec:
-  podSelector:
+  podSelector:          # select pods that match this selector so that network policy can apply to them
     matchLabels:
       role: db
-  policyTypes:
+  policyTypes:   # policy types that are allowed , if specified , then compulsory to specify the type 
     - Ingress
-    - Egress
-  ingress:
-    - from:
-        - ipBlock:
-            cidr: 172.17.0.0/16
-            except:
-              - 172.17.1.0/24
-        - namespaceSelector:
-            matchLabels:
+    # - Egress 
+  ingress:            # network coming from outside to pod or pod in specific namespace
+    - from:      # 3 options to choose from
+        # - ipBlock:                      # allows traffic to specify a block of IPs
+        #     cidr: 172.17.0.0/16
+        #     except:
+        #       - 172.17.1.0/24
+        - namespaceSelector:         # allow traffic from specific namespace
+            matchLabels:  # any pod in a namespace with the label "project=myproject"
               project: myproject
-        - podSelector:
-            matchLabels:
-              role: frontend
+        # - podSelector:                 # allow traffic from specific pod
+        #     matchLabels:
+        #       role: frontend
       ports:
         - protocol: TCP
           port: 6379
-  egress:
-    - to:
-        - ipBlock:
-            cidr: 10.0.0.0/24
-      ports:
-        - protocol: TCP
-          port: 5978
+  # egress:
+  #   - to:
+  #       - ipBlock:
+  #           cidr: 10.0.0.0/24
+  #     ports:
+  #       - protocol: TCP
+  #         port: 5978

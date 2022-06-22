@@ -200,6 +200,26 @@ create / edit file = nano filename -- it will get in editor mode use ctrl+ <key>
 	To add multiple user in group 
 		gpasswd -M username1,user2,user3 groupname  -- user and group should be created before executing this 
 
+3] modify User  (can be done only with root access)
+
+	usermod -a -G groupname username           -- to add user in group
+
+	usermod -c "COMMENT" USERNAME            -- to change user comment
+
+	usermod -d /home/DIRNAME USERNAME		 -- to change user home directory
+
+	usermod -g groupname USERNAME			 -- to change user group
+
+	usermod -e 2020-05-29 USERNAME						 -- to change user expiry date
+
+	usermod -l NEWUSERNAME OLDUSERNAME			 -- to change user login name
+
+	usermod -L USERNAME											 -- to lock user account
+
+	usermod -U USERNAME											 -- to unlock user account
+
+	usermod -p password user				 -- to change user password
+
 *******************************************************************************************************************************************************************************************
 										Permission/Access releted Commands
 *******************************************************************************************************************************************************************************************

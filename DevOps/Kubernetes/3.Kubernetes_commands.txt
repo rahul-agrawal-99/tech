@@ -57,6 +57,11 @@ Basic structure of commands
 
                                   HorizontalPodAutoscaler  or  hpa
 
+                                  secret               e.g. kubectl get secret secretname -o jsonpath='{.data}'   # view plain text data of  secret 
+                                                                                                                 # it will be plain but encrypted
+
+                                  storageclass       or  sc
+ 
                         
                         e.g.      kubectl get pods    OR     
                         
@@ -338,7 +343,7 @@ kubectl label pods foo bar-
 
                         -l       e.g     kubectl delete pod -l key=value           ---- delete all the pods having lable as key and it value is value
 
-
+                        --all     e.g     kubectl delete all --all                  ---- delete all the resources of namespace default
                                                                             _         
                                                      __ _   _ __    _ __   | |  _   _ 
                                                     / _` | | '_ \  | '_ \  | | | | | |
