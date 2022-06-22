@@ -1,0 +1,29 @@
+
+
+------------------    Aptitute Techniques       ------------------------
+
+
+
+
+1.   Year  
+
+    1 year = 52 weeks + 1 day  = 365 days
+
+    probability of getting monday in year = 2/7  =  as 1 extra day colud be the monday so that it is 1 + 1 / 7 = 2/7
+
+
+2. 10 balls problem :
+
+    place 10 balls in a row of 4 balls each with total line as 4  
+
+        soln : 
+
+                    0                       0
+                                0            
+                          0                 0
+                                                        0
+                                            0            
+                                0           
+                        0                   
+                                            
+                                            0            

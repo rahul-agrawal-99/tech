@@ -315,7 +315,7 @@ spec:
       addresses:
         -
           ip: "10.10.50.53"          #The IP Address of the external web server , i.e pods ip address 
-          ip: "10.10.50.54"          # if multiple pod , then specify one by one
+          # ip: "11.10.50.84"          # if multiple pod , then specify one by one
       ports:
         -
           port: 80 
@@ -461,7 +461,7 @@ spec:
 
 # ---------------               Service with ExternalName             ------------------------------------
 
-
+---
 apiVersion: v1
 kind: Service
 metadata:

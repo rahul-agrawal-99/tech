@@ -1,6 +1,14 @@
 Devops is a methodology which means automation at each and every stage
 it is successor of agile(it is only for development)
 
+DEVOPS  is practice of streamline the development process through better collaboration , standerdization and automation
+
+3 concepts that based the Devops methodology :
+
+        1. standeradiztion :  software should run in every environment irrespective of  hardware
+        2. Automation : less human intervention as possible 
+        3. Improvement   : there shouold be always improvement in product 
+
 Agile = build short , build often 
 
 
@@ -111,6 +119,22 @@ All DevOps operations are based on the continuity with complete automation of th
 It is clear from the discussion that continuity is the critical factor in the DevOps in removing steps that often distract the development, take it longer to detect issues and produce a better version of the product after several months. With DevOps, we can make any software product more efficient and increase the overall count of interested customers in your product.
 
 
+
+Devops practices :
+
+1. Everything as Code :   every process should be in code , no imperative
+
+2. automate Everything
+
+3. CI / CD 
+
+4. Always releasable application :  in case of a version failed , there should be always another version to replicate
+
+5. Continuous Monitering : moniter every process 
+
+6. Rapid feedback :  feedback to dev team instantly
+
+7. Delivery Pipeline :  pipeline the processes in order to bring integration automation
 
 
 
