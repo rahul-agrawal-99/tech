@@ -1,5 +1,205 @@
 
 
+Aptitute Topics :
+
+    1. permutations and combinations    (  0!  = 1  )   (for making interger from digits , remember to exclude possibilities where 0 is present at max place like 
+                                                            for 3 digit int => 012  , 021 considered as 2 digits cause 0 is at max position)
+
+          permutation is a mathematical technique that determines the number of possible arrangements in a set when the order of the arrangements matters 
+                -- set contains elements/arrangements   i.e.    A,B,C  and B,A,C   treated as different arrangements
+                -- order is important i.e.  A,B,C  and C,B,A  are treated as different arrangements
+
+            e.g permutation of 2 shirt and 2 pants  is  2*2 = 4  arrangements
+            e.g permutation of [A,B,C,D] is 4*4 = 16  arrangements 
+            e.g. choose any 2 distinct colors from set of 7 colors =>  7 (for 1st color) * 6 (for 2nd color) = 42 arrangements 
+                                                                                        cause 2 colors can ouccure as  r, b ANd b,r are different arrangements
+                                but in case of combinations it will be  42/2 = 21 arrangements   2 cause there need to be 2 colors
+
+                                
+
+                     Formula :  permutation  :  n P r =   n! / (n-r)!       --> n is no. of elements in set and r is no. of elements in each arrangement
+                                                                arranging n element such that r elements are in each arrangement
+
+                Special formula :    nPr = n . ((n-1)P(r-1))  = n.(n-1) . ((n-2)P(r-2))
+
+
+                CASE : select r things out N totally different things 
+
+                        total_combinations = N! / (N-r)!  
+
+                CASE : select r things out of N such that if m things are identical in N then 
+
+                                    total_combinations = N! / m!*(N-r)!        --- 1/2 due to only 2 things are identical out of n
+
+                                        e.g.  form a 3 letter word from A,B,B, 
+
+                                                total_combinations = 3! / 2!*(3-3)!  = 6/2 = 3     as B is occured 2 times 
+
+                                but if m things , p things , q things are identical in N then     e.g.   A,A,B,B,C,C,C,D 
+
+                                                total_combinations  =  N! / m!p!q!                   =  7! / 2!2!3!           --- for all things in combinations i.e.  r = N                                     
+
+
+                                        e.g.   from 4 similar apples , 5 similar orange , 3 similar mangoes , how many ways we can arrange them
+
+                                                ans :  12! / 3!4!5!     --- total_possible! / similar!   here all fruits having its identical
+ 
+                CASE : condition is given that 2 or more different or similar things from N should be together 
+
+                        then consider that things as a single entity and adjust n and r accordingly 
+
+                        e.g.  from ABCD , how many ways to assign all such that A , B always together 
+
+                                here r =4 , but considering AB , c, D  [r=3 , n=3] => 3! = 6 possible ways 
+
+                                    but for BA , C ,D =  3! = 6
+
+                                    total_possible = 6 +6 = 12
+
+                        e.g.  from ABCD , how many ways to assign all such that A , B  ,C always together 
+
+                            then total_possible is out of (A,B,C) , D   => 2! for (A,B,C) and D  and 3! for for A,B,C = 3! * 2! = 12
+
+                CASE : condition is given that 2 or more different or similar things from N should not be together 
+
+                 total_possible_without_together = total_possible_with_all -  total_possible_with_together
+
+                        e.g.  from ABCD , how many ways to assign all such that A , B always not together 
+
+                        total_possible_with_all =  4! = 24
+
+                        total_possible_with_together =  12  --from above case
+
+                        total_possible_without_together  = total_possible_with_all - total_possible_with_together  =  24 - 12 = 12
+
+                CASE : condition is given that m things are always occure in r from total N different things
+
+                    e.g. out of 1 to 7 , 2 and 3 are always occure in integer of length 4 then 
+ 
+                            total_possible = (2,3 fixed) -> 4P2  *  (out of other ) -> 5P2  =   12 * 20 = 240  possible ways 
+
+                    e.g. out of 1 to 7 , possible ways to form interger of length 4 such that adjecent numbers are not similar
+
+                        total_possible =  7 (any of 1to7)  -> a  *  6 (other than a) ->  *  6 (other than b) -> *  6 (other than c) -> d  = 7 * 6 * 6 * 6 = 1512  possible ways
+
+                        in no adjecent similar case , use : n*(n-1)^(r-1)          for above n = 7 and r = 4 
+
+        A combination is a mathematical technique that determines the number of possible arrangements in a collection of items where the order of the selection does not matter
+        --- order is not important i.e.  A,B,C  and C,B,A  are treated as same combination
+        -- set contains only unique elements/arrangements , can not be repeated with value misplaced for e.g. A,B,C  and B,A,C   is not possible
+
+            Formula :  combination :  n C r = n! / (n-r)! * r!
+                                                    selecting r elements from n elements is called combination
+                                    
+                    Special formula :  nC0 + nC1 + nC2 + -----  + nCn = 2^n            r is in range 0 to n then only
+                                       nC0 + nC2 + nC4 + -----  + nCr = 2^(n-1)         r is always positive i.e range(0,n,2) start, end , step
+                                       nC1 + nC3 + nC5 + -----  + nCr = 2^(n-1)         r is always negetive   i.e range(1,n,2) start, end , step
+
+
+                        CAse : selecting 0 or more things out of N different things 
+
+                                e.g. selecting at most 2 out of n then 
+
+                                total_combinations =  nC0 + nC1 + nC2   
+                                        
+                        CAse : selecting 0 or more r and s things from total M and N different values respectively
+
+                                    e.g. select atleast 1 boy and 1 girl in team of 4 from 4 boys and 3 girls 
+ 
+                                    3 possible ways :  1B 3G  =  4C1 . 3C3  = 4 * 1 = 4
+                                                       2B 2G   =  4C2 . 3C2  = 6*3 = 18
+                                                       3B 1G   =   4C3 . 3C1  = 4 * 3 = 12
+
+                                        then total_combinations = 4 + 18 +12 = 34
+ 
+
+                        CAse : selecting "r" things out of N "Identical" things 
+
+                                e.g. selecting any 2 chocolate out of n chocolate then    -- as every chocolate is Identical
+
+                                total_combinations =  1             as every combination will be identical to each other so only 1 unique combination can be formed
+                                                                            but in case of permutation it will be different cause order matters there
+
+                        CAse : selecting 0 or more things out of N "Identical" things 
+
+                            e.g. select at least 2 chocolate  from 5 chocolates       --  all chocolates are identical
+
+                            total_combinations  =   1  +  1  +  1  + 1   = 4     1 for every unique combination i.e. for 2 chocolates , for 3 chocolates  ,for 4 chocolates,for 5 chocolates
+
+
+
+                        CASE : select every possible combinations from N different things 
+
+                            e.g. find out total possible combinations for 9 books that are different
+
+                                total_combinations =  nC1 + nC2 + -----  + nC9  = 2^n  - nC0 = 512 - 1 = 511   as nC0 should not be considered as it is not combination when no book is there
+
+                e.g. form 4 digit odd no. from range(0,5) - > 0,1,2,3,4,5 , such that none of digit gets repeated
+
+                    for 1's place => only 1,3,5 are possible so : 3
+                    for 1000's place =>  n-2 options are available , 1 due to 0 and another 1 due to 1 digit alresy used to make odd so : 4
+                    for 100's place => n-2 options are available , 1 due to 1's place and another 1000's place : 4 
+                    for 10's place => n-3 options are available , 1 due to 1's place and another 1000's place and 1 for 100's place : 3
+
+                    total_possible = 4*4*3*3 = 144  possible ways
+
+
+
+
+            permutation with Repetition allowed 
+
+                    e.g. how many ways 5 letters can be posted in 3 post box such that any number of letters can be posted in all of post boxes 
+
+                            total_possible = 3^5       --as 1 letter has 3 possible boxes then 5 would have 3*3*3*3*3 
+
+                                    remember that 1 letter can be posted in any 1 of 3 post boxes but 1 post box can have any no. of letter so 
+                                            consider post box as fixed then  total_possible = fixed^r    -- r no. of things 
+
+            Circular permutation
+
+                    e.g. in a Circular table having n chairs then total_possible_permutation = (N-1)!
+
+                    e.g. ABCDE seated in Circular way then total_possible_permutation = 5-1 ! = 4! = 24
+                    
+                    e.g. ABCDE seated in Circular way such that A B are always together then total_possible_permutation = for(C,E,D,AB) * for(A,B) = (4-1)! * 2! = 12 
+
+
+
+
+2.  n*n  grid  :
+
+    total square of n*n grid is   : summ(n^2)        where n = 1 to n           -- every parallelogram is also a square and rectangle 
+
+        for chess , 8*8 , total squares can be formed in chess are : summ(n^2) = 1+4+9+16+25+36+49+64 = 204
+
+                                1 : 8*8 sq. unit , 4 : 7*7 sq. unit , 9 : 6*6 sq. unit , 16 : 5*5 sq. unit , 25 : 4*4 sq. unit , 36 : 3*3 sq. unit , 49 : 2*2 sq. unit , 64 : 1*1 sq. unit
+
+    total rectangle of n*n grid is   : summ(n^3)        where n = 1 to n
+
+
+for n*m grid :
+
+    total rectangle in n*m grid is   :    (n+1)C2 * (m+1)C2 
+
+    total squares in n*m grid is   :    n*(n+1)(3m-n+1)/6     where always n > m  i.e. for 3*4  then n=4 and m=3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------    Aptitute Techniques       ------------------------
 
 
@@ -9,7 +209,7 @@
 
     1 year = 52 weeks + 1 day  = 365 days
 
-    probability of getting monday in year = 2/7  =  as 1 extra day colud be the monday so that it is 1 + 1 / 7 = 2/7
+    probability of getting monday in year = 2/7  =  as 1 extra day colud be the monday so that it is 1 + 1 / 7 = 2/7 
 
 
 2. 10 balls problem :
