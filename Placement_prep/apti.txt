@@ -1,5 +1,6 @@
 
 
+
 Aptitute Topics :
 
     1. permutations and combinations    (  0!  = 1  )   (for making interger from digits , remember to exclude possibilities where 0 is present at max place like 
