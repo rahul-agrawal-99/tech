@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  strategy:      # strategy is used to control how the deployment is scaled
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 1   # how many pods to add at a time , default value is 25% of total
+    #   maxUnavailable: 1  # N pods can be unavailable at a time  , default value is 25% of total
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: myapp
+        image: myapp
+        ports:
+        - containerPort: 5000
