@@ -1,10 +1,101 @@
 Quetions
+* always tell that its first interview
+
+
 
 1. Tell me about yourself?
+
+        hello good morning all , 
+         I am Your Name.
+        I live in pune since childhood
+        I have done my 10th and 12 from Chanvan highschool and Jr clg , 
+        currently I am pursuing Degree in computer science and engg. from the MMCOE pune. 
+        i have aggragate CGPA of 9.28 as of 1st sem final year
+
+        I have a keen interest in python/bakend tools/cloud/devops/ML, as well as I have done project on it
+        some of my interesting projects are Document image analysis , online grocery shop with database , 
+                crypto trend analysis and prediction and for that i have also won 1st prize at intitute level competition
+        also I have done internship at atomic loops as position of Data analytics electron where 
+          i have worked on Djnago with REST , AWS , Terraform , Docker , jenkins , automated deployments 
+          i was part of team for development of thai educational app for students like quora and brainly , did REST , OCR processing 
+          also i was part of another project where i was responcible for making IAC for AWS with Terraform , nginx and jenkins configuration
+        I have did certification on python , AWS cloud architect , SQL , ML from recoginzed institutes
+
+        talking about my ablilities, I am a quick learner and I am always ready to learn new things.
+        Some of my friends consider me a Good Leader with problem solving ability.
+        also I am a team player and I love to work in a team. also i am project leader for my BE project
+          I have done most of project in team even though i can fo it alone.but with team i feel more confident and innovative 
+
+        In my leisure time , I love to read  books especially inspirational  (art of happiness dalai lama , wings of fire ) and crime thriller
+          i love to travel specially trecking , i want to exploer as many as places in india and also around world
+            also in my free time , i love documenting technologies, i have also published some blogs 
+            i made all my documenting public so that others can also refer to and suggest for improvements
+        Thank you, that's all about myself.
+
+
 2. What is your greatest weakness and how do you plan to overcome it?
+-> I don't have much patience when working with a team — I am incredibly self-sufficient, 
+    so it's difficult when I need to rely on others to complete my work.
+  also sometimes adding more functionalities that doesn't have any special use in the project caused me to spend more time on it
+    but it doesn't overall affect the project and the timeliness cause I did most of this in my free time 
+
+
+
 3. What is your greatest strength?
+-> hardworking - team player - quick learner , commander at scout and guide , project leader 
+     
+
+
+
+11. What is your career goal for nect 5,10 years?
+    5 years mid term : 
+                        My first priority is to join your company.... 
+                        And in  5 years I would like to see myself as a more  experience, skillful and knowledgeable person in your company... 
+                        so that i can be mature about decison making and can be a good leader for my team and also organisation
+                        And also encouraging my junior to do best
+                        also make good corparte reletions with clients and other team members  
+
+    10 years long term :  placed in reputed firm with good package and good experience and 
+                         good position in the company
+
+
+
+16. Why we should hire you?
+-> since i am frasher and i have some key abilitie like quick learnwe , team management , 
+    problem solving ,
+     i am sure that i can be a good asset to your company
+    and i can learn a lot from your company and also i can contribute to your company
+    i have researched about company and its goal and vision and i am sure that i can deliver everything that you are looking for a candidate
+
+
+Why do you want to work for this company?
+->  as i am fresher , i want to apply my theroetical knowledge in real world 
+ as far as i know , your company works in some KEY areas where i think i can contribute my work and also learn a lot from your company
+    and i am sure that i can deliver everything that you are looking for a candidate as i have done some projects and certifications on it 
+    i have researched about company and its goal and vision and i am sure that i can deliver everything that you are looking for a candidate
+    thats why i want to work for this company
+
+
+
+Quetions for HR 
+
+1. what work i can expect after joining the company
+2. whem will be result out for this interview
+
+
+
+
+
+
+17. what was your project , explain difficulties and how you overcome them?
 4. What is your greatest achievement?
 5. What is your most challenging experience or moment in your life?
 6. What is your biggest regret?
 7. What is your biggest fear?
 8. What is your Hobbies and how you pursue them?
+9. Are you willing to relocate?
+10. What is your salary expectation?
+12. are you introvert or extrovert?
+13. Tell me something about your family ?
+14. tell me something that is not in your resume?
+15. How you are problem solver and why ?
