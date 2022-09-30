@@ -236,7 +236,7 @@ upstream is from where you clone the repository, and downstream is any project t
 
 
 
-# chech remote repo status
+# check remote repo status
 
 	git remote -v
 

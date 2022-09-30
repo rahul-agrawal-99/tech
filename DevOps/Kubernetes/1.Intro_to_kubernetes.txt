@@ -5,7 +5,7 @@
 
 * imperative means use cli every time to execute , declarative means make file and then execute it every time 
 
-Cloud Native : architectural approach conatains workload that is poratable ,
+Cloud Native : architectural approach conatains workload that is portable ,
 				 modular and isolate between differnent cloud providers and cloud deployment models
 
 k8s is based on cloud native
