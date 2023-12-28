@@ -1,0 +1,93 @@
+
+# Nginx Commands:
+
+# Nginx Commands and Explanations
+
+# Check Nginx Configuration Syntax
+nginx -t
+# This command checks the syntax of the Nginx configuration files. It is useful for validating the configuration before restarting Nginx.
+
+# Reload Nginx Configuration
+nginx -s reload
+# This command reloads the Nginx configuration without stopping the server. It is used to apply changes to the configuration.
+
+# Stop Nginx
+nginx -s stop
+# This command stops the Nginx server. It sends a signal to the master process to gracefully shut down.
+
+# Start Nginx
+nginx
+# This command starts the Nginx server. It is used when starting Nginx for the first time or after it has been stopped.
+
+# Restart Nginx
+nginx -s restart
+# This command restarts the Nginx server. It is equivalent to stopping and then starting Nginx.
+
+# Show Nginx Version
+nginx -v
+# This command displays the version of Nginx installed on the system.
+
+# Show Nginx Help
+nginx -h
+# This command shows the help message, providing information on available command-line options.
+
+# Test Configuration and Print Information
+nginx -T
+# This command tests the Nginx configuration and prints detailed information about the configuration, including directives and included files.
+
+# Show Running Nginx Processes
+ps aux | grep nginx
+# This command shows the list of running Nginx processes. It is useful for checking if Nginx is running and identifying process IDs.
+
+# Show Nginx Process ID
+cat /var/run/nginx.pid
+# This command displays the process ID (PID) of the Nginx master process. The PID file location may vary depending on the system.
+
+# Forcefully Stop Nginx
+pkill -f nginx
+# This command forcefully stops Nginx by killing all Nginx processes. Use with caution, as it may interrupt active connections.
+
+# View Nginx Access Logs
+tail -f /var/log/nginx/access.log
+# This command displays the latest entries in the Nginx access log in real-time. Adjust the log file path based on your configuration.
+
+# View Nginx Error Logs
+tail -f /var/log/nginx/error.log
+# This command displays the latest entries in the Nginx error log in real-time. Adjust the log file path based on your configuration.
+
+# Show Nginx Modules
+nginx -V
+# This command shows the Nginx version and compilation information, including configured modules.
+
+# Test TCP Connectivity to Nginx
+telnet localhost 80
+# This command tests TCP connectivity to the Nginx server on port 80. Useful for checking if Nginx is accepting connections.
+
+# Show Nginx Listening Ports
+netstat -tuln | grep nginx
+# This command shows the list of ports on which Nginx is listening. Helpful for verifying Nginx's network configuration.
+
+# Show Nginx Worker Processes
+nginx -s quit && ps aux | grep nginx
+# This command gracefully stops Nginx, and then displays the list of running Nginx worker processes.
+
+# Disable Nginx Service (Systemd)
+systemctl disable nginx
+# This command disables the automatic startup of the Nginx service on system boot.
+
+# Enable Nginx Service (Systemd)
+systemctl enable nginx
+# This command enables the automatic startup of the Nginx service on system boot.
+
+# Restart Nginx Service (Systemd)
+systemctl restart nginx
+# This command restarts the Nginx service using the systemd manager.
+
+# View Nginx Service Status (Systemd)
+systemctl status nginx
+# This command shows the status of the Nginx service, including whether it is running or stopped.
+
+
+
+
+

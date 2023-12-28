@@ -1,0 +1,41 @@
+NGINX : 
+
+
+History:
+Nginx, pronounced as "engine-x," is a popular open-source web server, reverse proxy server, and load balancer. 
+It was created by Igor Sysoev and first released in 2004. Igor developed Nginx to address the C10k problem, which refers to efficiently handling a large number (in the order of 10,000) of concurrent connections. 
+Nginx quickly gained popularity due to its performance, scalability, and efficiency in handling high loads.
+
+----------------------------------------------------------------------------------------------------------------
+
+Purpose and Need:
+
+High Performance: low resource usage. It uses an asynchronous, event-driven architecture to efficiently handle a large number of simultaneous connections with minimal system resources.
+
+Reverse Proxy: sitting between clients and application servers. It helps improve security, scalability, and performance by handling tasks like SSL termination, load balancing, and caching.
+
+Load Balancing: Nginx can distribute incoming traffic across multiple servers, ensuring that no single server becomes a bottleneck.
+
+Web Server: Nginx can serve static content directly, acting as a web server. It efficiently handles requests for static files, freeing up application servers to focus on dynamic content generation.
+
+SSL Termination: Nginx can handle SSL/TLS termination, offloading the SSL processing from the backend servers. This improves efficiency and simplifies the deployment of SSL certificates.
+
+----------------------------------------------------------------------------------------------------------------
+
+
+Apache http vs Nginx:
+
+
+Nginx competes with other web servers and reverse proxy solutions. Here's a brief comparison with Apache, one of its primary competitors:
+
+Performance: Nginx is often praised for its superior performance and efficiency, especially in scenarios with a high number of concurrent connections. Its event-driven architecture contributes to low resource usage and fast response times.
+
+Concurrency: Nginx is designed to handle a large number of concurrent connections more efficiently than traditional web servers like Apache. This makes it well-suited for modern web applications with high traffic.
+
+Configuration: Nginx uses a declarative configuration syntax that is considered more straightforward and easier to understand for many users. Apache, on the other hand, uses a more complex configuration format.
+
+Module System: Both Nginx and Apache support modular architectures, allowing users to extend functionality through modules. However, the specifics of module development and the available modules differ between the two.
+
+Use Cases: While Apache has been a traditional choice for many web applications, Nginx has gained popularity, especially in scenarios requiring high concurrency, low latency, and efficient handling of static content.
+
+Ultimately, the choice between Nginx and its competitors depends on the specific requirements of the project, performance considerations, and the preferences of the development and operations teams. Each server has its strengths and weaknesses, and the optimal solution may vary based on the use case.
