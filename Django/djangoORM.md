@@ -1,8 +1,38 @@
-## Links
+## [Django ORM](#django-ORM)
 
-### [Django ORM](#django-ORM)
+### [# Models](#models)
 
-#### [Models](#models)
+#### [Model Parameters](#model-parameters)
+
+#### [Model Relationships](#model-relationships)
+
+##### [One to One](#one-to-one)
+
+##### [One to Many](#one-to-many)
+
+##### [Many to Many](#many-to-many)
+
+##### [Many To Many Via Through](#many-to-many-via-through)
+
+##### [on_delete methods](#on_delete-methods)
+
+### [# QuerySets](#querysets)
+
+#### [Filtering](#filtering)
+
+#### [Query modifiers](#query-modifiers)
+
+#### [Field selection](#field-selection)
+
+#### [Aggregation](#aggregation)
+
+#### [Slicing](#slicing)
+
+#### [Prefetch](#prefetch)
+
+#### [Bulk Operations](#bulk-operations)
+
+#### [Annotate](#annotate)
 
 # Django ORM
 
